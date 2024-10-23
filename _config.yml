@@ -1,14 +1,15 @@
 title: My Jekyll Site
 description: SAIL Research Group
 url: https://sail-research.github.io
-baseurl: ""  # Leave blank if you are deploying to the root domain
+baseurl: "/sail-research"  # Change this to your repository name if deploying on GitHub Pages
 markdown: kramdown
 
-# Build settings
-permalink: pretty
-theme: minima  # Change this to your preferred theme
+include:
+  - _pages
+# # Plugins (if needed)
+# plugins:
+#   - jekyll-feed
+#   - jekyll-seo-tag
 
-# Plugins (if needed)
-plugins:
-  - jekyll-feed
-  - jekyll-seo-tag
+# Optional: Specify the theme if you're using one
+# theme: minima  # Uncomment if using a theme
