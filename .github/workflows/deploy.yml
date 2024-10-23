@@ -47,6 +47,12 @@ jobs:
         run: |
           bundle exec jekyll build
 
+      # list all files in the _site directory
+
+      - name: List all files in the _site directory
+        run: |
+          ls -R _site
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
