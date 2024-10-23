@@ -1,6 +1,6 @@
 # Security and Artificial Intelligence Lab Website (SAIL) @ VinUniversity
 
-This is the website of our academic research group at VinUniversity.
+This is the website of our academic research group at [VinUniversity]().
 
 The template is based on [Allan Lab Website](https://github.com/mpa139/allanlab).
 
