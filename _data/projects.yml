@@ -2,7 +2,3 @@
   venue: NeurIPS 2023
   url: https://proceedings.neurips.cc/paper_files/paper/2023/hash/d0c6bc641a56bebee9d985b937307367-Abstract-Conference.html
   github: https://github.com/sail-research/iba
-- name: MasaCtrl
-  venue: ICCV 2023
-  url: https://openaccess.thecvf.com/content/ICCV2023/papers/Cao_MasaCtrl_Tuning-Free_Mutual_Self-Attention_Control_for_Consistent_Image_Synthesis_and_ICCV_2023_paper.pdf
-  github: https://github.com/TencentARC/MasaCtrl
