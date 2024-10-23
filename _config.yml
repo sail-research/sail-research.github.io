@@ -1,7 +1,7 @@
 title: My Jekyll Site
 description: SAIL Research Group
 url: "https://sail-research.github.io"  # the base hostname & protocol for your site
-baseurl: "/sail-research.github.io"  # the subpath of your site, e.g. /blog
+baseurl: ""  # the subpath of your site, e.g. /blog
 markdown: kramdown
 
 include:
