@@ -6,4 +6,4 @@ _site
 .firebase
 
 test.ipynb
-projects/
+# projects/

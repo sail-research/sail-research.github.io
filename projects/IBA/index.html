@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="IBA: Towards Irreversible Backdoor Attacks in Federated Learning">
+  <meta name="keywords" content="Federated Learning, Backdoor Attacks, Security, Privacy, Machine Learning">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IBA: Towards Irreversible Backdoor Attacks in Federated Learning</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script> -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="./static/js/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+
+<body>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-2 publication-title">IBA: Towards <span style="text-decoration: underline">I</span>rreversible <span style="text-decoration: underline">B</span>ackdoor <span style="text-decoration: underline">A</span>ttacks in
+            Federated Learning</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="#">Dung Thuy Nguyen</a><sup>1,2*</sup>,</span>
+            <span class="author-block">
+              <a href="https://mtuann.github.io/">Tuan Nguyen</a><sup>2,3</sup>,</span>
+            <span class="author-block">
+              <a href="#">Tuan Anh Tran</a><sup>4</sup>,</span>
+            <span class="author-block">
+              <a href="#">Khoa D Doan</a><sup>2,3</sup>,
+            </span>
+            <span class="author-block">
+              <a href="#">Kok-Seng Wong</a><sup>2,3&#9993</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Department of Computer Science, Vanderbilt University, Nashville, TN 37212, USA</span>
+            <span class="author-block"><sup>2</sup>VinUni-Illinois Smart Health Center, VinUniversity, Hanoi, Vietnam</span>
+            <span class="author-block"><sup>3</sup>College of Engineering & Computer Science, VinUniversity, Hanoi, Vietnam</span>
+            <span class="author-block"><sup>4</sup>VinAI Research, Hanoi, Vietnam</span> <br>
+            <span class="author-block"><sup>*</sup>Work done while DTN was at VinUniversity.</span>
+          </div>
+
+          <div class="column has-text-centered">
+              <span class="link-block">
+                <a href="https://openreview.net/forum?id=cemEOP8YoC"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>OpenReview</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+
+              <span class="link-block">
+                <a href="https://github.com/sail-research/iba"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Github</span>
+                  </a>
+              </span>
+              
+              <!-- Video Link. -->
+              <span class="link-block">
+                <a href="https://neurips.cc/virtual/2023/poster/71079"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span>
+              
+              <!-- Paper Link. -->
+              <span class="link-block
+              ">
+                <a href="https://proceedings.neurips.cc/paper_files/paper/2023/file/d0c6bc641a56bebee9d985b937307367-Paper-Conference.pdf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="./IBA-Grad.png" alt="teaser" width="100%">
+      <h2 class="subtitle has-text-centered">
+        IBA, a novel backdoor attack framework in FL, offers a more effective, stealthy, and durable approach to backdoor attacks in FL.
+      </h2>
+    </div>
+  </div>
+</section>
+
+<!-- 
+<section class="hero is-light is-small">
+  <div class="hero-body">
+
+    <div class="container"> 
+      <h2 class="title is-6", style="text-align: center;"> IBA Attack</h2>
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-steve">
+          <img src="static/assets/results/dog_sitting_running.png">
+        </div>
+        <div class="item item-chair-tp">
+          <img src="static/assets/results/duck_flying_standing.png">
+        </div>
+        <div class="item item-chair-tp">
+          <img src="static/assets/results/old_man_sideview.png">
+        </div>
+        <div class="item">
+          <img src="static/assets/results/cat_sitting_walking.png">
+        </div>
+        <div class="item item-shiba">
+          <img src="static/assets/results/goose_standing_sitting.png">
+        </div>
+        <div class="item item-fullbody">
+          <img src="static/assets/results/orange_an_two.png">
+        </div>
+        <div class="item item-blueshirt">
+          <img src="static/assets/results/man_from_behind.png">
+        </div>
+        <div class="item item-mask">
+          <img src="static/assets/results/orange_an_two_2.png">
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</section> -->
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Federated learning (FL) is a distributed learning approach that enables machine
+            learning models to be trained on decentralized data without compromising end
+            devices' personal, potentially sensitive data. However, the distributed nature and
+            uninvestigated data intuitively introduce new security vulnerabilities, including
+            backdoor attacks. In this scenario, an adversary implants backdoor functionality
+            into the global model during training, which can be activated to cause the desired
+            misbehaviors for any input with a specific adversarial pattern. Despite having
+            remarkable success in triggering and distorting model behavior, prior backdoor
+            attacks in FL often hold impractical assumptions, limited imperceptibility, and
+            durability. Specifically, the adversary needs to control a sufficiently large fraction
+            of clients or know the data distribution of other honest clients. In many cases, the
+            trigger inserted is often visually apparent, and the backdoor effect is quickly diluted
+            if the adversary is removed from the training process. To address these limitations,
+            we propose a novel backdoor attack framework in FL, the Irreversible Backdoor
+            Attack (IBA), that jointly learns the optimal and visually stealthy trigger and then
+            gradually implants the backdoor into a global model. This approach allows the
+            adversary to execute a backdoor attack that can evade both human and machine
+            inspections. Additionally, we enhance the efficiency and durability of the proposed
+            attack by selectively poisoning the model's parameters that are least likely updated
+            by the main task's learning process and constraining the poisoned model update to
+            the vicinity of the global model. Finally, we evaluate the proposed attack framework
+            on several benchmark datasets, including MNIST, CIFAR-10, and Tiny ImageNet,
+            and achieved high success rates while simultaneously bypassing existing backdoor
+            defenses and achieving a more durable backdoor effect compared to other backdoor
+            attacks. Overall, IBA offers a more effective, stealthy, and durable approach to
+            backdoor attacks in FL.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+  </div>
+</section>
+
+
+<!-- Methods section -->
+<Section>
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Methods</h2>
+      
+      <div class="column is-full-width">
+        
+        <div class="content has-text-justified">
+          <img src="./IBA.png">
+          <p>
+            Irreversible Backdoor Attack Scheme. IBA includes two training phases: (1) Trigger Generating Function and (2) Backdoor Injection. In the first phase, the trigger generation model Gξ is updated to generate adversarial noise. This noise is combined with the original image x to create a backdoor sample to fool the local model wt i . In the second phase, the local model fwk is updated to perform indifferently on clean sample x but distorts its prediction on the backdoor image Tξ (x) to the target class yT , then this poisoned model is sent to the aggregator. Model poisoning technique is leveraged to enhance the stealthiness and durability of the attack.
+          </p>
+          
+        </div>
+      </div>
+  </div>
+</Section>
+<!-- Methods section -->
+
+
+<!-- Results -->
+<section class="section">
+  <div class="container is-max-desktop">
+  <h2 class="title is-3 has-text-centered"> Results </h2>
+      
+      <!-- IBA under different strategies -->
+      <div class="column is-full-width">
+        <h2 class="title is-4">IBA under different strategies</h2>
+        <img src="IBA-Table-MA-BA.png" width="100%">
+        <p>
+          <center>Effectiveness of IBA under different strategies in fixed-frequency attacks setting (f = 10)</center>
+        </p>
+      </div>
+
+      <!-- IBA against mainstream defenses -->
+      <div class="column is-full-width">
+        <h2 class="title is-4">IBA against mainstream defenses</h2>
+        <img src="IBA-MA-BA-Defense.png" width="100%">
+        <p>
+          <center>Effectiveness of stand-alone IBA against mainstream defenses for FL on CIFAR-10 dataset.</center>
+        </p>
+      </div>
+
+
+      <!-- IBA with partial model poisoning attacks -->
+      <div class="column is-full-width">
+        <h2 class="title is-4">IBA with partial model poisoning attacks</h2>
+        <img src="IBA-Defenses-Partial.png" width="100%">
+        <p>
+          <center>The improved stealthiness of IBA when combined with partial model poisoning attacks under various defenses for the CIFAR-10 dataset. The attack is conducted from round 0 with fixedfrequency attacks of 10.</center>
+        </p>
+      </div>
+
+      <!-- IBA and DBA Durability -->
+      <div class="column is-full-width">
+        <h2 class="title is-4">IBA and DBA Durability</h2>
+        <img src="IBA-Durability.png" width="100%">
+        <p>
+          <center>Durability comparison of IBA and DBA with MNIST and CIFAR10 datasets. The adversary is removed from rounds 200 and 400 training, respectively.</center>
+        </p>
+      </div>      
+
+      <!-- IBA and Patched-BA under GradCam -->
+      <div class="column is-full-width">
+        <h2 class="title is-4">IBA and Patched-BA under GradCam</h2>
+        <img src="IBA-Grad.png" width="100%">
+        <p>
+          <center>Performance under GradCam heat maps of two attack schemes: IBA and Patched-BA with MNIST and CIFAR-10 datasets. The first two rows in each image represent the benign samples, and the last two rows represent the backdoored ones.</center>
+        </p>
+      </div>      
+
+  </div>
+
+    <!-- Concurrent Work. -->
+    <!-- <div class="container is-max-desktop">
+      <div class="column is-full-width">
+        <h2 class="title is-4">Related Links</h2>
+        <p>
+        [1] <a href="https://github.com/TencentARC/T2I-AdapterT2I-Adapter">Learning Adapters to Dig out More Controllable Ability for Text-to-Image Diffusion Models</a>
+        </p>
+        <p>
+        [2] <a href="https://github.com/google/prompt-to-prompt">Prompt-to-Prompt Image Editing with Cross-Attention Control</a>
+        </p>
+        <p>
+        [3] <a href="https://github.com/ermongroup/SDEdit">SDEdit: Guided Image Synthesis and Editing with Stochastic Differential Equations</a>
+        </p>
+        <p>
+        [4] <a href="https://github.com/MichalGeyer/plug-and-play">Plug-and-Play Diffusion Features for Text-Driven Image-to-Image Translation</a>
+        </p>
+      </div>
+    </div> -->
+
+  </div>
+</section>
+<!-- Results -->
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@InProceedings{nguyen2023iba,
+      title={{IBA}: Towards Irreversible Backdoor Attacks in Federated Learning},
+      author={Dung Thuy Nguyen and Tuan Minh Nguyen and Anh Tuan Tran and Khoa D Doan and KOK-SENG WONG},
+      booktitle={Thirty-seventh Conference on Neural Information Processing Systems},
+      year={2023},
+      url={https://openreview.net/forum?id=cemEOP8YoC}
+    }</code></pre>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <!-- <div class="content has-text-centered">
+      <a class="icon-link"
+         href="./static/videos/nerfies_paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div> -->
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is modified from the <a href="https://nerfies.github.io/">Nerfies</a>, which is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            This means you are free to borrow the <a
+              href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
+            we just ask that you link back to this page in the footer.
+            Please remember to remove the analytics code included in the header of the website which
+            you do not want on your website.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
