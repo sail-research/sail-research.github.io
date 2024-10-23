@@ -6,6 +6,7 @@ markdown: kramdown
 
 include:
   - _pages
+  - projects/
 # # Plugins (if needed)
 # plugins:
 #   - jekyll-feed

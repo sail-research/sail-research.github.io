@@ -1,0 +1,31 @@
+---
+layout: default
+---
+
+<div class="project">
+  <h1>{{ page.title }}</h1>
+  <div class="project-content">
+    {{ content }}
+  </div>
+  <a href="{{ site.url }}{{ site.baseurl }}/projects/">Back to Projects</a>
+</div>
+
+<style>
+  .project {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  .project h1 {
+    text-align: center;
+    color: #333;
+  }
+  .project-content {
+    margin-top: 20px;
+    font-size: 1.1em;
+    line-height: 1.5;
+  }
+</style>
