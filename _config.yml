@@ -1,6 +1,6 @@
 title: My Jekyll Site
 description: SAIL Research Group
-url: https://sail-research.github.io
+url: ""
 baseurl: "/sail-research"  # Change this to your repository name if deploying on GitHub Pages
 markdown: kramdown
 
