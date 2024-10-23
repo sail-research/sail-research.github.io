@@ -49,6 +49,10 @@ jobs:
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
+        with:
+          name: github-pages
+          path: ./_site  # Default output directory for Jekyll
+        
 
   # Deployment job
   deploy:
