@@ -43,7 +43,7 @@ jobs:
           bundle exec jekyll build
 
       - name: Upload the built site
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-pages-artifact@v1
         with:
           name: github-pages
           path: ./_site  # Default output directory for Jekyll
