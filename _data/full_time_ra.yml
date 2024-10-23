@@ -1,0 +1,41 @@
+- name: La Duc Chinh
+  photo: chinh.ld.jpg
+  info: Research Assistant
+  email: chinh.ld@vinuni.edu.vn
+  number_educ: 2
+  education1: M.Eng in Machine Learning and Computer Vision, ANU, Australia
+  education2: B.Eng in Control and Automation Engineering, HUST, Vietnam
+
+- name: Hoang Cao Duy
+  photo: duy.hc.jpeg
+  info: Research Assistant
+  email: duy.hc@vinuni.edu.vn
+  number_educ: 2
+  education1: B.Sc., Computer Science, Frankfurt University of Applied Sciences
+  education2: B.Sc., Computer Science, Vietnamese-German University
+
+- name: Nguyen Hung Quang
+  photo: quang.nh.jpg
+  info: Research Assistant
+  email: quang.nh@vinuni.edu.vn
+  number_educ: 1
+  education1: B.Sc., Computer Science, VNU University of Engineering and Technology, Hanoi, Vietnam
+
+- name: Nguyen Ngoc Hieu
+  photo: hieu.nn.jpeg
+  info: Research Assistant
+  email: hieu.nn@vinuni.edu.vn
+  number_educ: 1
+  education1: B.Sc., Computer Science, VNU University of Engineering and Technology, Hanoi, Vietnam
+
+- name: Nguyen Minh Phuc
+  photo: phuc.nm.jpg
+  info: Research Assistant
+  email: phuc.nm@vinuni.edu.vn
+  number_educ: 1
+  education1: B.Sc Data Science, VNU-HCM, University of Science, Vietnam
+
+- name: Tran Quang Thuan
+  photo: anno.jpg
+  info: Research Assistant Intern, Bachelor Student in Data Science, VNU-HCM, University of Science, Vietnam
+  email: thuan.tq@vinuni.edu.vn

@@ -1,0 +1,21 @@
+- name: Kok-Seng Wong
+  photo: wong.ks.jpg
+  info: Associate Professor, College of Engineering and Computer Science, VinUniversity
+  url: https://sites.google.com/view/kswong
+  res_area: Information Security, Data Privacy, Trustworthy AI
+  email: wong.ks@vinuni.edu.vn
+  number_educ: 3
+  education1: Ph.D., Computer Science, Soongsil University, South Korea
+  education2: M.Sc., Information Technology, Malaysia University of Science and Technology (in collaboration with MIT)
+  education3: B.Sc., Software Engineering, University of Malaya, Malaysia
+
+- name: Khoa Doan
+  photo: khoa.dd.jpeg
+  info: Assistant Professor, College of Engineering and Computer Science, VinUniversity
+  url: https://khoadoan.me/
+  res_area: Generative Modeling, Information Retrieval, Computational Advertising, Trustworthy AI
+  email: khoa.dd@vinuni.edu.vn
+  number_educ: 3
+  education1: Ph.D., Computer Science, Virginia Tech (VT), Virginia, USA
+  education2: M.Sc., Computer Science, College Park, Maryland, USA
+  education3: B.Sc., Computer Science with a Minor in Mathematics, Webster University, Saint Louis, Missouri, USA

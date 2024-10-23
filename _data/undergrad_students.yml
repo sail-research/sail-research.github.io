@@ -1,0 +1,16 @@
+- name: Dao Duc Thinh
+  photo: 21thinh.dd.png
+  info: Research Assistant, Bachelor Student, College of Engineering and Computer Science, VinUniversity
+  email: 21thinh.dd@vinuni.edu.vn
+  res_area: Federated Learning, Backdoor Learning
+  # number_educ: 1
+  # education1:
+
+
+- name: Khuong Duy
+  photo: 22duy.k.jpg
+  info: UROP, Bachelor Student, College of Engineering and Computer Science, VinUniversity
+  email: 22duy.k@vinuni.edu.vn
+  res_area: Federated Learning, Multimodal Learning
+  # number_educ: 1
+  # education1:

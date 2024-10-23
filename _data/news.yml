@@ -1,0 +1,102 @@
+- date: October, 2024
+  headline: "New Project Launch: **Improving NLP Applications in Low-resource Languages: One Country and One Use Case At A Time**, A Cross-College Project at VinUniversity."
+
+- date: October, 2024
+  headline: "New Project: **Green Serverless Computing for Resource-Efficient AI Training** at the Center for Environment Intelligence, VinUniversity, Hanoi, Vietnam."
+
+- date: October, 2024
+  headline: "Our paper titled **Towards Good Practice for Convolution and Attention with PANs in Federated Medical Image Classification** has been accepted at Journal of Supercomputing."
+
+- date: September, 2024
+  headline: "We developed a [web-based platform](https://mtuann.shinyapps.io/research-papers/) to track and filter research papers on **Federated Learning, Trustworthy AI, Large Language Models, and Multimodal Machine Learning,** sourced from IEEE Xplore, ACM, ScienceDirect, Springer, OpenReview, arXiv, DBLP, and Google Scholar."
+
+
+- date: September, 2024
+  headline: "Welcome to our new Research Assistant Intern, **Tran Quang Thuan**, who will be working on the topic of **Generative Model**."
+
+- date: August, 2024
+  headline: "[Towards Clean-Label Backdoor Attacks in the Physical World](https://arxiv.org/abs/2407.19203) released on arXiv."
+
+- date: August, 2024
+  headline: "[Wicked Oddities: Selectively Poisoning for Effective Clean-Label Backdoor Attacks](https://arxiv.org/abs/2407.10825) released on arXiv."
+
+- date: August, 2024
+  headline: "[Overcoming Catastrophic Forgetting in Federated Class-Incremental Learning via Federated Global Twin Generator](https://arxiv.org/abs/2407.11078) released on arXiv."
+
+- date: August, 2024
+  headline: "[Non-Cooperative Backdoor Attacks in Federated Learning: A New Threat Landscape](https://arxiv.org/abs/2407.07917) released on arXiv."
+
+- date: August, 2024
+  headline: "[Venomancer: Towards Imperceptible and Target-on-Demand Backdoor Attacks in Federated Learning](https://arxiv.org/abs/2407.03144) released on arXiv."
+
+- date: July, 2024
+  headline: "Our paper titled **HPE-Li: WiFi-enabled Lightweight Dual Selective Kernel Convolution for Human Pose Estimation** has been accepted at The 18th European Conference on Computer Vision (ECCV 2024). You can access the paper [here](https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/04496.pdf)."
+
+- date: July, 2024
+  headline: "Congrats, **Nguyen Tran Huu Thinh (Lucaz)** is now a Ph.D. Candidate in Computer Science at VinUniversity, Vietnam!"
+
+- date: June, 2024
+  headline: "Our member attended CVPR 2024. The paper titled **Efficiently Assemble Normalization Layers and Regularization for Federated Domain Generalization** was presented at the conference. The paper is available [here](https://openaccess.thecvf.com/content/CVPR2024/papers/Le_Efficiently_Assemble_Normalization_Layers_and_Regularization_for_Federated_Domain_Generalization_CVPR_2024_paper.pdf)."
+
+- date: June, 2024
+  headline: "Our Farm2Vet team has won the grand prize of The Trinity Challenge 2024, securing £1 million in funding for our virtual veterinary platform for farmers. You can access the project [here](https://solve.mit.edu/challenges/trinity-challenge-amr/solutions/81996)."
+
+- date: May, 2024
+  headline: "New paper on arXiv! [Exploring the Practicality of Federated Learning: A Survey Towards the Communication Perspective](https://arxiv.org/abs/2405.20431)."
+
+- date: May, 2024
+  headline: "We attended ICLR 2024. Our paper titled **Understanding the Robustness of Randomized Feature Defense Against Query-Based Adversarial Attacks** was presented at the conference. The paper is available [here](https://arxiv.org/pdf/2310.00567.pdf)."
+
+- date: May, 2024
+  headline: "One paper titled **Fooling the Textual Fooler via Randomizing Latent Representations** has been accepted at Findings of the Association for Computational Linguistics: (ACL'24). You can access the paper [here](https://arxiv.org/abs/2310.01452)."
+
+- date: February, 2024
+  headline: "One paper titled **Efficiently Assemble Normalization Layers and Regularization for Federated Domain Generalization** has been accepted at Conference on Computer Vision and Pattern Recognition 2024 (CVPR'24)."
+
+- date: January, 2024
+  headline: "One paper titled **Towards Efficient Communication Federated Recommendation System via Low-rank Training** has been accepted at The Web Conference 2024 (WWW'24). You can access the paper [here](https://arxiv.org/pdf/2401.03748.pdf)."
+
+- date: January, 2024
+  headline: "One paper titled **Understanding the Robustness of Randomized Feature Defense Against Query-Based Adversarial Attacks** has been accepted at International Conference on Learning Representations (ICLR'24). You can access the paper [here](https://arxiv.org/pdf/2310.00567.pdf)."
+
+- date: January, 2024
+  headline: "One paper titled **Personalized Privacy-Preserving Framework for Cross-Silo Federated Learning** has been accepted by IEEE Transactions on Emerging Topics in Computing. You can access the paper [here](https://arxiv.org/pdf/2302.12020.pdf)."
+
+- date: January, 2024
+  headline: "Congrats, Le Huy Khiem will pursue his Ph.D. at the University of Notre Dame, USA under the supervision of Prof. Nitesh Vijay Chawla."
+
+- date: December, 2023
+  headline: "We attended NeurIPS 2023. Our paper titled **IBA: Towards Irreversible Backdoor Attacks in Federated Learning** was presented at the conference. The paper is available [here](https://neurips.cc/virtual/2023/poster/71079). We also oganized a workshop on **Backdoors in Deep Learning - The Good, the Bad, and the Ugly**. The recorded video is available [here](https://neurips.cc/virtual/2023/workshop/66550)."
+
+- date: November, 2023
+  headline: "One paper titled **FedFSLAR: A Federated Learning Framework for Few-shot Action Recognition** has been accepted at IEEE/CVF Winter Conference on Applications of Computer Vision (WACV2024) Workshop."
+
+- date: November, 2023
+  headline: "SAIL and MAIL lab members participated in ACML conference 2023. Tuan Nguyen presented our paper titled **An Empirical Study of Federated Unlearning: Efficiency and Effectiveness**. The code is available [here](https://github.com/sail-research/fed-unlearn)."
+
+- date: September 2023
+  headline: "Our paper titled **IBA: Towards Irreversible Backdoor Attacks in Federated Learning** has been accepted at Conference on Neural Information Processing Systems (NeurIPS 2023). You can access the paper [here](https://neurips.cc/virtual/2023/poster/71079)."
+
+- date: September 2023
+  headline: "Our survey paper titled **Backdoor Attacks and Defenses in Federated Learning: Survey, Challenges and Future Research Directions** has been accepted at Engineering Applications of Artificial Intelligence (EAAI). You can access the paper [here](https://www.sciencedirect.com/science/article/pii/S0952197623013507)."
+
+- date: September 2023
+  headline: "Our paper titled **An Empirical Study of Federated Unlearning: Efficiency and Effectiveness** has been accepted at Asian Conference on Machine Learning (ACML 2023). You can access the paper [here](https://proceedings.mlr.press/v222/nguyen24a.html)."
+
+- date: August 2023
+  headline: "Congrats, Nguyen Thuy Dung will pursue her Ph.D. at the University of Valderbilt, USA"
+
+- date: July 2023
+  headline: Congrats, Our [BUG](https://neurips.cc/virtual/2023/workshop/66550) workshop proposal on **Backdoors in Deep Learning - The Good, the Bad, and the Ugly** got accepted at NeurIPS 2023.
+
+- date: May 2023
+  headline: "New paper on arXiv! [An Empirical Study of Federated Learning on IoT-Edge Devices: Resource Allocation and Heterogeneity](https://arxiv.org/abs/2305.19831)."
+
+- date: May 2023
+  headline: "Our paper titled **FedGrad: Mitigating Backdoor Attacks in Federated Learning Through Local Ultimate Gradients Inspection** has been accepted at The International Joint Conference on Neural Networks (IJCNN 2023). You can access the paper [here](https://arxiv.org/pdf/2305.00328.pdf)."
+
+- date: March 2023
+  headline: "One paper titled **Backdoor Attacks and Defenses in Federated Learning: Survey, Challenges and Future Research Directions**. You can access the paper [here](https://arxiv.org/abs/2303.02213)."
+
+- date: January 2023
+  headline: Congrats, [Tuan Nguyen](https://mtuann.github.io/) is now a Ph.D. Candidate in Computer Science at VinUniversity, Vietnam!
