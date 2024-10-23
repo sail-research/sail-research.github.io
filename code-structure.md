@@ -128,5 +128,104 @@ your-jekyll-site/
 
 This will generate your site at `http://localhost:4000`.
 
+### Connect to Domain and Deploy
+To connect a domain from Cheapname (or any other domain registrar) to your GitHub Pages site (`github.io`), follow these steps:
+
+### Step 1: Configure Your GitHub Repository
+
+1. **Go to your GitHub repository** (e.g., `sail-research/sail-research.github.io`).
+2. **Click on the "Settings" tab.**
+3. **Scroll down to the "Pages" section**.
+4. In the "Custom domain" field, enter your domain name (e.g., `www.yourdomain.com` or `yourdomain.com`) and click "Save."
+5. GitHub will provide instructions for setting up a CNAME file. Ensure you create a file named `CNAME` in the root of your repository and add your custom domain (e.g., `www.yourdomain.com`) to that file.
+
+### Step 2: Set Up DNS Records on Cheapname
+
+1. **Log in to your Cheapname account.**
+2. **Navigate to the Domain Management section.**
+3. **Find your domain and select "DNS settings" or "Manage DNS."**
+
+#### A. If you're using a root domain (e.g., `yourdomain.com`):
+- **Add an A Record:**
+  - **Type:** A
+  - **Host:** @ (or leave it blank, depending on the interface)
+  - **Value:** `185.199.108.153`
+  - **TTL:** Default or 3600 seconds
+
+- **Add another A Record (repeat for each IP):**
+  - **Value:** `185.199.109.153`
+  - **Value:** `185.199.110.153`
+  - **Value:** `185.199.111.153`
+
+#### B. If you're using a subdomain (e.g., `www.yourdomain.com`):
+- **Add a CNAME Record:**
+  - **Type:** CNAME
+  - **Host:** www
+  - **Value:** `yourusername.github.io` (replace `yourusername` with your GitHub username)
+  - **TTL:** Default or 3600 seconds
+
+### Step 3: Wait for DNS Propagation
+
+DNS changes can take some time to propagate (usually a few minutes to 48 hours). You can check if your domain is pointing to your GitHub Pages site using tools like [whatsmydns.net](https://www.whatsmydns.net/).
+
+### Step 4: Verify the Connection
+
+Once the DNS changes have propagated, visit your domain (e.g., `www.yourdomain.com` or `yourdomain.com`) in a web browser. It should display your GitHub Pages site.
+
+### Additional Notes:
+- Make sure your repository is public to serve your pages without issues.
+- If you want to enforce HTTPS, GitHub will automatically enable HTTPS for your custom domain once the DNS is correctly set up. You can check this in the Pages settings in your repository.
+
+Following these steps should help you successfully connect your domain from Cheapname to your GitHub Pages site!
+
+
+To link your GitHub Pages site at `https://sail-research.github.io/` to your custom domain `sail-research.com` using Cheapname, here’s how to configure your DNS settings:
+
+### DNS Configuration on Cheapname
+
+1. **Log in to your Cheapname account**.
+2. Navigate to the **DNS Management** section for your domain (`sail-research.com`).
+
+3. **Add the following DNS records**:
+
+   #### A Records (for the root domain)
+   - **Type**: A
+     - **Name**: `@`
+     - **Value**: `185.199.108.153`
+   - **Type**: A
+     - **Name**: `@`
+     - **Value**: `185.199.109.153`
+   - **Type**: A
+     - **Name**: `@`
+     - **Value**: `185.199.110.153`
+   - **Type**: A
+     - **Name**: `@`
+     - **Value**: `185.199.111.153`
+
+   #### CNAME Record (for www subdomain, if you want to support it)
+   - **Type**: CNAME
+     - **Name**: `www`
+     - **Value**: `sail-research.github.io`
+
+4. **Save your changes**.
+
+### GitHub Configuration
+
+1. Go to your GitHub repository (`sail-research`).
+2. Navigate to **Settings** → **Pages**.
+3. In the **Custom domain** field, enter `sail-research.com` (or `www.sail-research.com` if you want to use that).
+4. Save the settings.
+
+### Additional Steps
+
+- **Enforce HTTPS**: After the DNS changes propagate (which can take a few minutes to 48 hours), go back to GitHub Pages settings and check the **Enforce HTTPS** option if it appears.
+  
+### Verification
+
+- Use a DNS checker tool like [DNS Checker](https://dnschecker.org) to verify that your A records are pointing to GitHub's IP addresses.
+- Once everything is set up correctly, you should be able to visit `sail-research.com` and see your GitHub Pages site.
+
+If you encounter any issues or have questions, feel free to ask!
+
 ### References
 For more detailed guidance, you can check the [official Jekyll documentation](https://jekyllrb.com/docs/) and explore additional resources for customizing your Jekyll site further.
