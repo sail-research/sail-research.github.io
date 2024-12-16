@@ -22,15 +22,21 @@ permalink: /projects/
         <a class="more-link" href="{{ site.baseurl }}/projects/{{ project.name }}" target="_blank">
           <i class="fas fa-external-link-alt"></i> Project Page
         </a>
+
+        
+        
         <a class="more-link" href="{{ project.github }}" target="_blank">
           <i class="fab fa-github"></i> Code
         </a>
+
         <a class="more-link" href="{{ project.url }}" target="_blank">
           <i class="fas fa-external-link-alt"></i> Paper
         </a>
+
         <a class="more-link" href="{{ project.github }}" target="_blank">
           <img alt="GitHub stars" class="github-stars" src="https://img.shields.io/github/stars/{{ project.github | replace: 'https://github.com/', '' }}?style=social">
         </a>
+        
       </p>
 
     </div>
