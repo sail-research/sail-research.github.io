@@ -28,13 +28,14 @@ A web-based platform to track and filter research papers (<a href="https://mtuan
 ---
 
 # Projects
+1. Project Title: "[Farm2Vet: Combatting AMR on the Farm Frontier](https://solve.mit.edu/solutions/81168)," The Trinity Challenge on Antimicrobial Resistance, Grand Prize Winner, 2024 (£1M). (Principal Investigator: Prof. Thanh Huong Nguyen, Prof. Doan Dang Khoa, Prof. Phi Thi Linh Giang, Co-PI: **Prof. Kok-Seng Wong**, Prof. Nguyen Ngoc Doanh, Prof. Pranee Liamputtong, Prof. Trieu Thanh Quang, Prof. Le Van Phan, Prof. Csaba Varga, Prof. Andrew W. Taylor-Robinson)
 1. Project Title: "Improving NLP Applications in Low-resource Languages: One Country and One Use Case At A Time," A Cross-College Project at VinUniversity, Hanoi, Vietnam. (Principal Investigator: Prof. Khoa D Doan, Co-PI: Dr. Dat Q Nguyen, Prof. Nidal Kamel, Prof. Kyunghwa Chung, Prof. Pranee Liamputtong, Prof. David Harrison, Prof. Dinh Nguyen, **Prof. Kok-seng Wong**, Doctor Paul O'Halloran)
-2. Project Title: "Green Serverless Computing for Resource-Efficient AI Training," Center for Environment Intelligence, VinUniversity, Hanoi, Vietnam. (Principal Investigator: **Prof. Kok-Seng Wong**, Co-PI: Prof. Nguyen Van Dinh, Prof. Andrew Le Duy Dung)
-3. Project Title: "Smart Indoor Air Quality Control System for Healthier and Greener Buildings,"  Vinuni-Illinois Smart Health Center Project. (Principal Investigator: Prof. Andrew Le Duy Dung & Prof. Vishal Verma, **Co-PI: Prof. Kok-Seng Wong**)
-4. Project Title: "Development of Brain-Computer Interface SW/HW Solutions," Oct 2022- Oct 2024, Commercialization Project, Nazarbayev University, Kazakhstan. (Principal Investigator: Prof. Minho Lee, **Co-PI: Prof. Kok-Seng Wong**)
-5. Project Title: "Applying Machine Learning to Mitigate RF Impairments in Wireless Communications Systems," Oct 2022- Dec 2023, Seed Grant, VinUniversity, Hanoi, Vietnam. (**Principal Investigator: Prof. Kok Seng Wong**)
-6. Project Title: "Privacy-Preserving, Robust, and Explainable Federated Learning Framework for Healthcare System," Vinuni-Illinois Smart Health Center Project. (**Principal Investigator: Prof. Kok Seng Wong, Co-PI: Prof. Khoa Doan**)
-7. Project Title: "Privacy-Preserving Data Publishing for Autonomous Vehicles," Jan 2021- Dec 2023, Seed Grant, VinUniversity, Vietnam. (**Principal Investigator: Prof. Kok Seng Wong**)
+1. Project Title: "Green Serverless Computing for Resource-Efficient AI Training," Center for Environment Intelligence, VinUniversity, Hanoi, Vietnam. (Principal Investigator: **Prof. Kok-Seng Wong**, Co-PI: Prof. Nguyen Van Dinh, Prof. Andrew Le Duy Dung)
+1. Project Title: "Smart Indoor Air Quality Control System for Healthier and Greener Buildings,"  Vinuni-Illinois Smart Health Center Project. (Principal Investigator: Prof. Andrew Le Duy Dung & Prof. Vishal Verma, **Co-PI: Prof. Kok-Seng Wong**)
+1. Project Title: "Development of Brain-Computer Interface SW/HW Solutions," Oct 2022- Oct 2024, Commercialization Project, Nazarbayev University, Kazakhstan. (Principal Investigator: Prof. Minho Lee, **Co-PI: Prof. Kok-Seng Wong**)
+1. Project Title: "Applying Machine Learning to Mitigate RF Impairments in Wireless Communications Systems," Oct 2022- Dec 2023, Seed Grant, VinUniversity, Hanoi, Vietnam. (**Principal Investigator: Prof. Kok Seng Wong**)
+1. Project Title: "Privacy-Preserving, Robust, and Explainable Federated Learning Framework for Healthcare System," Vinuni-Illinois Smart Health Center Project. (**Principal Investigator: Prof. Kok Seng Wong, Co-PI: Prof. Khoa Doan**)
+1. Project Title: "Privacy-Preserving Data Publishing for Autonomous Vehicles," Jan 2021- Dec 2023, Seed Grant, VinUniversity, Vietnam. (**Principal Investigator: Prof. Kok Seng Wong**)
 
 # Research focus
 - Backdoor Attacks in Machine Learning/ Federated Learning
