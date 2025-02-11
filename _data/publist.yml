@@ -1,3 +1,12 @@
+- title: "Wicked Oddities: Selectively Poisoning for Effective Clean-Label Backdoor Attacks"
+  image: paper-iclr25.png
+  description: This work studies a new and more practical (but also more challenging) threat model where the attacker only provides data for the target class (e.g., in face recognition systems) and has no knowledge of the victim model or any other classes in the training set.
+  authors: Nguyen Hung-Quang, Ngoc-Hieu Nguyen, The-Anh Ta, Thanh Nguyen-Tang, Kok-Seng Wong, Hoang Thanh-Tung, Khoa D Doan
+  link:
+    url: https://iclr.cc/virtual/2025/poster/31195
+    display: Proceedings of the International Conference on Learning Representations (ICLR'25)
+  highlight: 1
+
 - title: "HPE-Li: WiFi-enabled Lightweight Dual Selective Kernel Convolution for Human Pose Estimation"
   image: paper-eccv24.png
   description: We introduces a novel HPE-Li approach that harnesses multi-modal sensors (e.g. camera and WiFi) to generate accurate 3D skeletal in HPE. We then develop an efficient deep neural network to process raw WiFi signals.
