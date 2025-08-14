@@ -2,13 +2,7 @@
   headline: "Our paper titled [**SC-GIR: Goal-oriented Semantic Communication via Invariant Representation Learning for Image Transmission**](https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=7755) has been accepted at *IEEE Transactions on Mobile Computing* (TMC)."
 
 - date: August, 2025  
-  headline: "[HFedATM: Hierarchical Federated Domain Generalization via Optimal Transport and Regularized Mean Aggregation](https://arxiv.org/abs/2508.05135) released on arXiv."
-
-- date: August, 2025  
-  headline: "[pFedDSH: Enabling Knowledge Transfer in Personalized Federated Learning through Data-free Sub-Hypernetwork](https://arxiv.org/abs/2508.05157) released on arXiv."
-
-- date: August, 2025  
-  headline: "[FLAT: Latent-Driven Arbitrary-Target Backdoor Attacks in Federated Learning](https://arxiv.org/abs/2508.04064) released on arXiv."
+  headline: "[HFedATM: Hierarchical Federated Domain Generalization via Optimal Transport and Regularized Mean Aggregation](https://arxiv.org/abs/2508.05135), [pFedDSH: Enabling Knowledge Transfer in Personalized Federated Learning through Data-free Sub-Hypernetwork](https://arxiv.org/abs/2508.05157), and [FLAT: Latent-Driven Arbitrary-Target Backdoor Attacks in Federated Learning](https://arxiv.org/abs/2508.04064) released on arXiv."
 
 - date: July, 2025  
   headline: "[BackFed: An Efficient & Standardized Benchmark Suite for Backdoor Attacks in Federated Learning](https://arxiv.org/abs/2507.04903) released on arXiv."
