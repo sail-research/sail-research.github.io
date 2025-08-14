@@ -1,6 +1,18 @@
 - date: August, 2025  
   headline: "Our paper titled [**SC-GIR: Goal-oriented Semantic Communication via Invariant Representation Learning for Image Transmission**](https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=7755) has been accepted at *IEEE Transactions on Mobile Computing* (TMC)."
 
+- date: August, 2025  
+  headline: "[HFedATM: Hierarchical Federated Domain Generalization via Optimal Transport and Regularized Mean Aggregation](https://arxiv.org/abs/2508.05135) released on arXiv."
+
+- date: August, 2025  
+  headline: "[pFedDSH: Enabling Knowledge Transfer in Personalized Federated Learning through Data-free Sub-Hypernetwork](https://arxiv.org/abs/2508.05157) released on arXiv."
+
+- date: August, 2025  
+  headline: "[FLAT: Latent-Driven Arbitrary-Target Backdoor Attacks in Federated Learning](https://arxiv.org/abs/2508.04064) released on arXiv."
+
+- date: July, 2025  
+  headline: "[BackFed: An Efficient & Standardized Benchmark Suite for Backdoor Attacks in Federated Learning](https://arxiv.org/abs/2507.04903) released on arXiv."
+
 - date: May, 2025
   headline: "Two of our papers — [**FedDDF: Dynamic Dataset Filtering in Federated Large Language Model Training**](https://federated-learning.org/fl-asiaccs-2025/) and [**FedKoE: Enhancing Federated Multimodal Learning through Knowledge of Experts**](https://federated-learning.org/fl-asiaccs-2025/) — have been accepted at The International Workshop on Secure and Efficient Federated Learning in conjunction with ACM AsiaCCS 2025 (FL-AsiaCCS’25)."
 
@@ -24,7 +36,6 @@
 
 - date: September, 2024
   headline: "We developed a [web-based platform](https://mtuann.shinyapps.io/research-papers/) to track and filter research papers on **Federated Learning, Trustworthy AI, Large Language Models, and Multimodal Machine Learning,** sourced from IEEE Xplore, ACM, ScienceDirect, Springer, OpenReview, arXiv, DBLP, and Google Scholar."
-
 
 - date: September, 2024
   headline: "Welcome to our new Research Assistant Intern, **Tran Quang Thuan**, who will be working on the topic of **Generative Model**."
