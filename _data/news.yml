@@ -1,3 +1,12 @@
+- date: March, 2026  
+  headline: "Our paper titled [**BackFed: A Standardized and Efficient Benchmark Framework for Backdoor Attacks in Federated Learning**](https://arxiv.org/abs/2507.04903) has been accepted at the *ICLR 2026 Workshop on Principled Design for Trustworthy AI - Interpretability, Robustness, and Safety across Modalities*."
+
+- date: February, 2026  
+  headline: "Our paper titled [**HFedATM: Hierarchical Federated Domain Generalization via Optimal Transport and Regularized Mean Aggregation**](https://arxiv.org/abs/2508.05135) has been accepted at the main technical track of *CVPR 2026*."
+
+- date: February, 2026  
+  headline: "Our papers titled [**Onboarding Without Forgetting: Hypernetwork Personalization with Data-Free Replay for Personalized Federated Learning**](#) and [**Memory-efficient Continual Learning with Prototypical Exemplar Condensation**](#) have been accepted at the *CVPR 2026* Findings."
+
 - date: November, 2025  
   headline: "Our paper titled [**Clean-Label Physical Backdoor Attacks with Data Distillation**](#) has been accepted at the main technical track of *AAAI 2026*."
 
