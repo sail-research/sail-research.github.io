@@ -14,14 +14,14 @@ In the field of Federated Learning, we investigate various aspects such as priva
 In NLP Robustness, we focus on ensuring the Robustness of Natural Language Processing (NLP) models. Our research group explores topics such as adversarial attacks, defense mechanisms, model interpretability, and more. Through in-depth discussions and research, we aim to deepen our understanding of NLP robustness and contribute to the development of robust NLP systems.
 
 
-We developed a web-based platform <a href="https://mtuann.shinyapps.io/research-papers/" target="_blank">(shinyapps)</a> to track and filter research papers on **Federated Learning, Trustworthy AI, Large Language Models, and Multimodal Machine Learning,** sourced from IEEE Xplore, ACM, ScienceDirect, Springer, OpenReview, arXiv, DBLP, and Google Scholar.
+We developed a web-based platform <a href="https://mtuann.github.io/papers/" target="_blank">(Research Papers)</a> to track and filter research papers on **Federated Learning, Trustworthy AI, Large Language Models, and Multimodal Machine Learning,** sourced from IEEE Xplore, ACM, ScienceDirect, Springer, OpenReview, arXiv, DBLP, and Google Scholar.
 
 ---
 
 <figure>
 <img src="{{ site.url }}{{ site.baseurl }}/images/home/shiny-app.png" width="95%">
 <figcaption style="text-align: center;">
-A web-based platform to track and filter research papers (<a href="https://mtuann.shinyapps.io/research-papers/" target="_blank">https://mtuann.shinyapps.io/research-papers/</a>).
+A web-based platform to track and filter research papers (<a href="https://mtuann.github.io/papers/" target="_blank">https://mtuann.github.io/papers/</a>).
 </figcaption>
 </figure>
 
