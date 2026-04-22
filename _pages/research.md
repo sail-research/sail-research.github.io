@@ -29,6 +29,7 @@ A web-based platform to track and filter research papers (<a href="https://mtuan
 ---
 
 # Projects
+1. Project Title: "TrustFed: Trustworthy Federated Large Language Models," April 2026 - April 2028, Accelerating Research Excellence Program, VinUniversity, Hanoi, Vietnam. (**Principal Investigator: Prof. Kok-Seng Wong**)
 1. Project Title: "[Farm2Vet: Combatting AMR on the Farm Frontier](https://solve.mit.edu/solutions/81168)," The Trinity Challenge on Antimicrobial Resistance, Grand Prize Winner, 2024 (£1M). (Principal Investigator: Prof. Thanh Huong Nguyen, Prof. Doan Dang Khoa, Prof. Phi Thi Linh Giang, Co-PI: **Prof. Kok-Seng Wong**, Prof. Nguyen Ngoc Doanh, Prof. Pranee Liamputtong, Prof. Trieu Thanh Quang, Prof. Le Van Phan, Prof. Csaba Varga, Prof. Andrew W. Taylor-Robinson)
 1. Project Title: "Improving NLP Applications in Low-resource Languages: One Country and One Use Case At A Time," A Cross-College Project at VinUniversity, Hanoi, Vietnam. (Principal Investigator: Prof. Khoa D Doan, Co-PI: Dr. Dat Q Nguyen, Prof. Nidal Kamel, Prof. Kyunghwa Chung, Prof. Pranee Liamputtong, Prof. David Harrison, Prof. Dinh Nguyen, **Prof. Kok-seng Wong**, Doctor Paul O'Halloran)
 1. Project Title: "Green Serverless Computing for Resource-Efficient AI Training," Center for Environment Intelligence, VinUniversity, Hanoi, Vietnam. (Principal Investigator: **Prof. Kok-Seng Wong**, Co-PI: Prof. Nguyen Van Dinh, Prof. Andrew Le Duy Dung)
