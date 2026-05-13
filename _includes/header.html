@@ -20,7 +20,10 @@
           src="{{ site.url }}{{ site.baseurl }}/images/logopic/sail-lab-logo.jpg"
           alt="Security and Artificial Intelligence Lab logo"
         >
-        <span class="sail-brand-meta">@ VinUniversity</span>
+        <span class="sail-brand-copy">
+          <span class="sail-brand-title">Security and Artificial Intelligence Lab</span>
+          <span class="sail-brand-meta">@ VinUniversity</span>
+        </span>
       </a>
     </div>
     <div class="collapse navbar-collapse navbar-nav-container" id="navbar-collapse-1">
@@ -30,7 +33,7 @@
         <li><a href="{{ site.url }}{{ site.baseurl }}/publications">Publications</a></li>
         <li><a href="{{ site.url }}{{ site.baseurl }}/research">Research</a></li>
         <li><a href="{{ site.url }}{{ site.baseurl }}/vacancies">Vacancies</a></li>
-        <li><a href="{{ site.url }}{{ site.baseurl }}/pictures">(Pics)</a></li>
+        <li><a href="{{ site.url }}{{ site.baseurl }}/pictures">Gallery</a></li>
         
         <!-- <li><a href="{{ site.url }}{{ site.baseurl }}/projects">Projects</a></li> -->
 
@@ -61,6 +64,20 @@
     flex-shrink: 0;
   }
 
+  .sail-brand-copy {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .sail-brand-title {
+    color: #1f1f1f;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    line-height: 1.1;
+  }
+
   .sail-brand-meta {
     color: #4b4b4b;
     font-size: 13px;
@@ -87,6 +104,10 @@
 
     .sail-brand-logo {
       height: 34px;
+    }
+
+    .sail-brand-title {
+      font-size: 12px;
     }
 
     .sail-brand-meta {
