@@ -1,8 +1,9 @@
 ---
 import { navItems } from '../data/nav';
 import { site } from '../data/site';
+import { stripBase, withBase } from '../utils/paths';
 
-const pathname = Astro.url.pathname;
+const pathname = stripBase(Astro.url.pathname);
 const isActive = (href: string) => {
   if (href === '/') return pathname === '/';
   return pathname.startsWith(href);
@@ -11,9 +12,9 @@ const isActive = (href: string) => {
 
 <header class="header" data-site-header>
   <div class="container header-inner">
-    <a class="brand" href="/" aria-label={`${site.name} home`}>
+    <a class="brand" href={withBase('/')} aria-label={`${site.name} home`}>
       <span class="brand-mark" aria-hidden="true">
-        <img src="/logo-placeholder.svg" alt="" width="48" height="30" />
+        <img src={withBase('/logo-placeholder.svg')} alt="" width="48" height="30" />
       </span>
       <span class="brand-text">
         <strong>{site.shortName}</strong>
@@ -25,7 +26,7 @@ const isActive = (href: string) => {
     </button>
     <nav id="primary-navigation" class="nav" aria-label="Primary navigation" data-primary-navigation>
       {navItems.map((item) => (
-        <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+        <a href={withBase(item.href)} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
       ))}
     </nav>
   </div>

@@ -4,6 +4,8 @@ interface Props {
   title: string;
   subtitle: string;
 }
+import { withBase } from '../utils/paths';
+
 const { kicker, title, subtitle } = Astro.props;
 ---
 
@@ -13,8 +15,8 @@ const { kicker, title, subtitle } = Astro.props;
     <h1 id="home-hero-title" class="display-title mt-6"><span class="gradient-text">{title}</span></h1>
     <p class="lead">{subtitle}</p>
     <div class="hero-actions">
-      <a class="btn btn-primary" href="/research/">Explore research <span aria-hidden="true">→</span></a>
-      <a class="btn btn-secondary" href="/publications/">View publications <span aria-hidden="true">→</span></a>
+      <a class="btn btn-primary" href={withBase('/research/')}>Explore research <span aria-hidden="true">→</span></a>
+      <a class="btn btn-secondary" href={withBase('/publications/')}>View publications <span aria-hidden="true">→</span></a>
     </div>
   </div>
   <div class="hero-visual" aria-hidden="true">

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../utils/paths';
 ---
 
 <BaseLayout title="Page not found" description="Page not found.">
@@ -9,8 +10,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <h1 class="page-title mt-6"><span class="gradient-text">This page is not here.</span></h1>
       <p class="lead">Return to the SAIL homepage or explore the main research pages.</p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="/">Go home</a>
-        <a class="btn btn-secondary" href="/research/">Explore research</a>
+        <a class="btn btn-primary" href={withBase('/')}>Go home</a>
+        <a class="btn btn-secondary" href={withBase('/research/')}>Explore research</a>
       </div>
     </div>
   </section>

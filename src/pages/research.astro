@@ -6,6 +6,7 @@ import ProjectCard from '../components/ProjectCard.astro';
 import { researchPillars } from '../data/research';
 import { projects } from '../data/projects';
 import { acceptedPublications } from '../data/publications';
+import { withBase } from '../utils/paths';
 ---
 
 <BaseLayout title="Research" description="SAIL research pillars: trustworthy AI, distributed learning, and efficient machine learning.">
@@ -50,7 +51,7 @@ import { acceptedPublications } from '../data/publications';
               <h3 class="text-2xl font-bold tracking-tight">Selected publications</h3>
               <div class="mt-4 stack">
                 {relatedPublications.map((publication) => (
-                  <a class="small-link" href="/publications/">{publication.title} · {publication.year}</a>
+                  <a class="small-link" href={withBase('/publications/')}>{publication.title} · {publication.year}</a>
                 ))}
               </div>
             </div>
