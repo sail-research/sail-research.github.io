@@ -3,7 +3,8 @@ import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
-  site: 'https://sailresearch.github.io',
+  site: 'https://lucaznguyen.github.io',
+  base: '/sailresearch.github.io',
   output: 'static',
   integrations: [
     tailwind({ applyBaseStyles: false }),
