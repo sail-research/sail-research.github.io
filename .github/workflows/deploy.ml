@@ -16,8 +16,11 @@ jobs:
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v6
+        
       - name: Install, build, and upload your site
         uses: withastro/action@v6
+        with:
+          package-manager: npm
 
   deploy:
     needs: build
