@@ -23,7 +23,7 @@ const anchorId = idSuffix ? `${project.slug}-${idSuffix}` : project.slug;
     </div>
     {project.relatedPapers.length > 0 && (
       <div class="mt-5">
-        <strong class="text-sm uppercase tracking-wider text-white/70">Related papers</strong>
+        <strong class="eyebrow-label">Related papers</strong>
         <ul class="mt-2 space-y-1 muted text-sm">
           {project.relatedPapers.map((paper) => <li>• {paper}</li>)}
         </ul>

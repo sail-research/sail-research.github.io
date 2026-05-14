@@ -1,11 +1,11 @@
 ---
+import { withBase } from '../utils/paths';
+
 interface Props {
   kicker: string;
   title: string;
   subtitle: string;
 }
-import { withBase } from '../utils/paths';
-
 const { kicker, title, subtitle } = Astro.props;
 ---
 

@@ -1,6 +1,7 @@
 ---
 import PlaceholderFigure from './PlaceholderFigure.astro';
 import type { ResearchPillar } from '../data/research';
+import { withBase } from '../utils/paths';
 interface Props {
   pillar: ResearchPillar;
   compact?: boolean;
@@ -15,5 +16,5 @@ const { pillar, compact = false } = Astro.props;
   <div class="flex flex-wrap gap-2 mt-4">
     {pillar.themes.slice(0, compact ? 4 : pillar.themes.length).map((theme) => <span class="chip">{theme}</span>)}
   </div>
-  <a class="small-link mt-5" href={`/research/#${pillar.slug}`}>Explore pillar <span aria-hidden="true">→</span></a>
+  <a class="small-link mt-5" href={withBase(`/research/#${pillar.slug}`)}>Explore pillar <span aria-hidden="true">→</span></a>
 </article>

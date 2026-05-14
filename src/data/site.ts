@@ -6,6 +6,7 @@ export interface SocialLink {
 export const site = {
   name: 'Security and Artificial Intelligence Lab',
   shortName: 'SAIL',
+  tagline: 'Trustworthy, distributed, and efficient AI research',
   affiliation: 'College of Engineering and Computer Science, VinUniversity',
   url: 'https://lucaznguyen.github.io',
   description:
