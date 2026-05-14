@@ -1,0 +1,9 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">SAIL placeholder logo</title>
+  <desc id="desc">Abstract geometric placeholder logo using SAIL blue and orange.</desc>
+  <rect width="128" height="128" rx="28" fill="#000000"/>
+  <path d="M32 94L66 12L94 70L32 94Z" fill="#1A05A2"/>
+  <path d="M62 77L98 56L113 98L62 77Z" fill="#F47C32"/>
+  <rect x="86" y="18" width="31" height="31" rx="2" fill="#1A05A2"/>
+  <path d="M33 95L94 70" stroke="white" stroke-opacity="0.22" stroke-width="2"/>
+</svg>

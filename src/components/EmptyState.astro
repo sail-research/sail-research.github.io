@@ -1,0 +1,12 @@
+---
+interface Props {
+  title: string;
+  message: string;
+}
+const { title, message } = Astro.props;
+---
+
+<div class="empty-state">
+  <strong>{title}</strong>
+  <p class="mt-2">{message}</p>
+</div>

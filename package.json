@@ -1,0 +1,20 @@
+{
+  "name": "sailresearch.github.io",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static research lab website for the Security and Artificial Intelligence Lab at VinUniversity.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.2",
+    "@astrojs/tailwind": "^6.0.2",
+    "astro": "^5.15.0",
+    "tailwindcss": "^3.4.17"
+  },
+  "devDependencies": {}
+}

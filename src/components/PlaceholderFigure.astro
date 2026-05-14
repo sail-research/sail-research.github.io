@@ -1,0 +1,12 @@
+---
+interface Props {
+  label?: string;
+  title?: string;
+  size?: 'small' | 'default' | 'tall';
+}
+const { label = 'Placeholder figure', title = 'Abstract SAIL visual', size = 'default' } = Astro.props;
+---
+
+<div class:list={['placeholder-figure', size !== 'default' && size]} role="img" aria-label={title}>
+  <span class="figure-label"><span>{label}</span><span aria-hidden="true">SAIL</span></span>
+</div>

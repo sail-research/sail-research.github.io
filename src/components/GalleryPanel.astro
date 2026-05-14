@@ -1,0 +1,15 @@
+---
+import PlaceholderFigure from './PlaceholderFigure.astro';
+import type { GalleryItem } from '../data/gallery';
+interface Props {
+  item: GalleryItem;
+}
+const { item } = Astro.props;
+const style = `--panel-height:${item.height}px`;
+---
+
+<article class="card gallery-panel" style={style}>
+  <PlaceholderFigure label={item.label} title={`Placeholder image for ${item.title}`} />
+  <h3>{item.title}</h3>
+  <p>{item.caption}</p>
+</article>

@@ -1,0 +1,28 @@
+---
+interface Props {
+  kicker: string;
+  title: string;
+  subtitle: string;
+}
+const { kicker, title, subtitle } = Astro.props;
+---
+
+<section class="container hero-grid" aria-labelledby="home-hero-title">
+  <div>
+    <span class="kicker">{kicker}</span>
+    <h1 id="home-hero-title" class="display-title mt-6"><span class="gradient-text">{title}</span></h1>
+    <p class="lead">{subtitle}</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="/research/">Explore research <span aria-hidden="true">→</span></a>
+      <a class="btn btn-secondary" href="/publications/">View publications <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+  <div class="hero-visual" aria-hidden="true">
+    <div class="abstract-mark">
+      <span class="shape glow"></span>
+      <span class="shape triangle-one"></span>
+      <span class="shape triangle-two"></span>
+      <span class="shape block"></span>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,30 @@
+---
+import { site } from '../data/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <section aria-label="Lab summary">
+      <h2>{site.name}</h2>
+      <p>{site.affiliation}</p>
+      <p class="mt-4 max-w-xl">Trustworthy, distributed, and efficient AI research for robust, private, and scalable machine learning systems.</p>
+    </section>
+    <section aria-label="Contact information">
+      <h3>Contact</h3>
+      <p><a href={`mailto:${site.email}`}>{site.email}</a></p>
+      <p class="mt-4">
+        {site.address.map((line) => <>{line}<br /></>)}
+      </p>
+    </section>
+    <section aria-label="Social links">
+      <h3>Connect</h3>
+      <div class="footer-links">
+        {site.socialLinks.map((link) => (
+          link.url ? <a class="footer-pill" href={link.url}>{link.label}</a> : <span class="footer-pill" aria-disabled="true">{link.label}</span>
+        ))}
+      </div>
+      <p class="mt-6">© {year} {site.shortName}. Placeholder assets can be replaced later.</p>
+    </section>
+  </div>
+</footer>

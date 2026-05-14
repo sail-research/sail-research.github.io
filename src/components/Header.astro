@@ -1,0 +1,51 @@
+---
+import { navItems } from '../data/nav';
+import { site } from '../data/site';
+
+const pathname = Astro.url.pathname;
+const isActive = (href: string) => {
+  if (href === '/') return pathname === '/';
+  return pathname.startsWith(href);
+};
+---
+
+<header class="header" data-site-header>
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label={`${site.name} home`}>
+      <span class="brand-mark" aria-hidden="true">
+        <img src="/logo-placeholder.svg" alt="" width="48" height="30" />
+      </span>
+      <span class="brand-text">
+        <strong>{site.shortName}</strong>
+        <span>VinUniversity</span>
+      </span>
+    </a>
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="primary-navigation" data-menu-button>
+      Menu
+    </button>
+    <nav id="primary-navigation" class="nav" aria-label="Primary navigation" data-primary-navigation>
+      {navItems.map((item) => (
+        <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+      ))}
+    </nav>
+  </div>
+</header>
+
+<script is:inline>
+  const button = document.querySelector('[data-menu-button]');
+  const nav = document.querySelector('[data-primary-navigation]');
+  if (button && nav) {
+    button.addEventListener('click', () => {
+      const isOpen = button.getAttribute('aria-expanded') === 'true';
+      button.setAttribute('aria-expanded', String(!isOpen));
+      nav.setAttribute('data-open', String(!isOpen));
+    });
+
+    nav.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        button.setAttribute('aria-expanded', 'false');
+        nav.setAttribute('data-open', 'false');
+      });
+    });
+  }
+</script>

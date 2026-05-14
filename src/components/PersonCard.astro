@@ -1,0 +1,25 @@
+---
+import type { Person } from '../data/team';
+interface Props {
+  person: Person;
+}
+const { person } = Astro.props;
+---
+
+<article class="card person-card">
+  <div class="avatar" role="img" aria-label={`Placeholder portrait for ${person.name}`}></div>
+  <h3>{person.name}</h3>
+  <div class="role">{person.role}</div>
+  {person.affiliation && <p>{person.affiliation}</p>}
+  {person.shortBio && <p>{person.shortBio}</p>}
+  {person.researchInterests && person.researchInterests.length > 0 && (
+    <div class="flex flex-wrap gap-2 mt-4">
+      {person.researchInterests.map((interest) => <span class="chip">{interest}</span>)}
+    </div>
+  )}
+  {person.links && person.links.length > 0 && (
+    <div class="person-links">
+      {person.links.map((link) => <a class="small-link" href={link.url}>{link.label}</a>)}
+    </div>
+  )}
+</article>

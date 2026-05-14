@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import PublicationCard from '../components/PublicationCard.astro';
+import { acceptedPublications, arxivPublications } from '../data/publications';
+---
+
+<BaseLayout title="Publications" description="Accepted and arXiv publications from SAIL that include Prof. Kok-Seng Wong.">
+  <section class="page-hero">
+    <div class="container">
+      <span class="kicker">Publications</span>
+      <h1 class="page-title mt-6"><span class="gradient-text">Papers with Prof. Kok-Seng Wong.</span></h1>
+      <p class="lead">This page filters publications to works that include Prof. Kok-Seng Wong. Accepted papers and arXiv preprints are separated without duplication.</p>
+      <div class="metric-row">
+        <div class="metric"><strong>{acceptedPublications.length}</strong><span>accepted papers</span></div>
+        <div class="metric"><strong>{arxivPublications.length}</strong><span>arXiv preprints</span></div>
+        <div class="metric"><strong>KSW</strong><span>author filter</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <SectionHeader title="Publication list" description="Use the segmented control to switch between accepted papers and preprints. Edit entries in src/data/publications.ts." />
+      <div class="tabs" role="tablist" aria-label="Publication categories">
+        <button class="tab-button" type="button" role="tab" aria-selected="true" aria-controls="accepted-panel" id="accepted-tab" data-tab="accepted-panel">Accepted Papers</button>
+        <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="arxiv-panel" id="arxiv-tab" data-tab="arxiv-panel">arXiv Papers</button>
+      </div>
+      <div id="accepted-panel" class="tab-panel" role="tabpanel" aria-labelledby="accepted-tab">
+        <div class="publication-list">
+          {acceptedPublications.map((publication) => <PublicationCard publication={publication} />)}
+        </div>
+      </div>
+      <div id="arxiv-panel" class="tab-panel" role="tabpanel" aria-labelledby="arxiv-tab" hidden>
+        <div class="publication-list">
+          {arxivPublications.map((publication) => <PublicationCard publication={publication} />)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline>
+    const publicationButtons = Array.from(document.querySelectorAll('[data-tab]'));
+    publicationButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        publicationButtons.forEach((other) => other.setAttribute('aria-selected', String(other === button)));
+        publicationButtons.forEach((other) => {
+          const panel = document.getElementById(other.dataset.tab);
+          if (panel) panel.hidden = other !== button;
+        });
+      });
+    });
+  </script>
+</BaseLayout>

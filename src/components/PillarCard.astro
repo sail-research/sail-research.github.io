@@ -1,0 +1,19 @@
+---
+import PlaceholderFigure from './PlaceholderFigure.astro';
+import type { ResearchPillar } from '../data/research';
+interface Props {
+  pillar: ResearchPillar;
+  compact?: boolean;
+}
+const { pillar, compact = false } = Astro.props;
+---
+
+<article class="card pillar-card" id={pillar.slug}>
+  <PlaceholderFigure label={pillar.title} size={compact ? 'small' : 'default'} />
+  <h3>{pillar.title}</h3>
+  <p>{pillar.description}</p>
+  <div class="flex flex-wrap gap-2 mt-4">
+    {pillar.themes.slice(0, compact ? 4 : pillar.themes.length).map((theme) => <span class="chip">{theme}</span>)}
+  </div>
+  <a class="small-link mt-5" href={`/research/#${pillar.slug}`}>Explore pillar <span aria-hidden="true">→</span></a>
+</article>

@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import PillarCard from '../components/PillarCard.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { researchPillars } from '../data/research';
+import { projects } from '../data/projects';
+import { acceptedPublications } from '../data/publications';
+---
+
+<BaseLayout title="Research" description="SAIL research pillars: trustworthy AI, distributed learning, and efficient machine learning.">
+  <section class="page-hero">
+    <div class="container">
+      <span class="kicker">Research</span>
+      <h1 class="page-title mt-6"><span class="gradient-text">Trustworthy, distributed, efficient.</span></h1>
+      <p class="lead">SAIL organizes its research around three pillars that connect AI security, privacy, federated systems, and practical deployment.</p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <SectionHeader title="Research pillars" description="Each pillar includes themes, representative questions, related projects, and selected publications in a clean editorial layout." />
+      <div class="grid-3">
+        {researchPillars.map((pillar) => <PillarCard pillar={pillar} />)}
+      </div>
+    </div>
+  </section>
+
+  {researchPillars.map((pillar) => {
+    const relatedProjects = projects.filter((project) => pillar.projectSlugs.includes(project.slug));
+    const relatedPublications = acceptedPublications.filter((publication) =>
+      publication.tags.some((tag) => pillar.publicationKeywords.includes(tag))
+    ).slice(0, 4);
+
+    return (
+      <section class="section-tight" id={`${pillar.slug}-details`}>
+        <div class="container">
+          <SectionHeader title={pillar.title} description={pillar.description} />
+          <div class="grid-2">
+            <div class="card p-6">
+              <h3 class="text-2xl font-bold tracking-tight">Representative questions</h3>
+              <ul class="mt-4 space-y-3 muted">
+                {pillar.questions.map((question) => <li>• {question}</li>)}
+              </ul>
+              <div class="flex flex-wrap gap-2 mt-6">
+                {pillar.themes.map((theme) => <span class="chip">{theme}</span>)}
+              </div>
+            </div>
+            <div class="card p-6">
+              <h3 class="text-2xl font-bold tracking-tight">Selected publications</h3>
+              <div class="mt-4 stack">
+                {relatedPublications.map((publication) => (
+                  <a class="small-link" href="/publications/">{publication.title} · {publication.year}</a>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div class="mt-8 stack">
+            {relatedProjects.slice(0, 2).map((project) => <ProjectCard project={project} idSuffix={pillar.slug} />)}
+          </div>
+        </div>
+      </section>
+    );
+  })}
+</BaseLayout>

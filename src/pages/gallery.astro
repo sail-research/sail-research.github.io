@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import GalleryPanel from '../components/GalleryPanel.astro';
+import { galleryItems } from '../data/gallery';
+---
+
+<BaseLayout title="Gallery" description="SAIL gallery with placeholder panels for lab activity photos.">
+  <section class="page-hero">
+    <div class="container">
+      <span class="kicker">Gallery</span>
+      <h1 class="page-title mt-6"><span class="gradient-text">Lab activity panels.</span></h1>
+      <p class="lead">A masonry-style gallery for seminars, meetings, conferences, workshops, and lab community moments. Replace placeholders from public/gallery later.</p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <SectionHeader title="SAIL moments" description="All images are intentionally abstract placeholders for now." />
+      <div class="gallery-grid">
+        {galleryItems.map((item) => <GalleryPanel item={item} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

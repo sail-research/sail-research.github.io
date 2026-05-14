@@ -1,0 +1,38 @@
+---
+import PlaceholderFigure from './PlaceholderFigure.astro';
+import type { Project } from '../data/projects';
+interface Props {
+  project: Project;
+  featured?: boolean;
+  idSuffix?: string;
+}
+const { project, featured = false, idSuffix = '' } = Astro.props;
+const anchorId = idSuffix ? `${project.slug}-${idSuffix}` : project.slug;
+---
+
+<article class="card project-card" id={anchorId}>
+  <PlaceholderFigure label={project.pillar} title={`Placeholder figure for ${project.title}`} size={featured ? 'tall' : 'default'} />
+  <div class="p-2">
+    <span class:list={['status', project.status]}>{project.status}</span>
+    <h3>{project.title}</h3>
+    <p>{project.shortDescription}</p>
+    {project.note && <p class="muted mt-3 text-sm">{project.note}</p>}
+    {project.year && <p class="muted mt-3 text-sm"><strong>Timeline:</strong> {project.year}</p>}
+    <div class="flex flex-wrap gap-2 mt-4">
+      {project.themes.map((theme) => <span class="chip">{theme}</span>)}
+    </div>
+    {project.relatedPapers.length > 0 && (
+      <div class="mt-5">
+        <strong class="text-sm uppercase tracking-wider text-white/70">Related papers</strong>
+        <ul class="mt-2 space-y-1 muted text-sm">
+          {project.relatedPapers.map((paper) => <li>• {paper}</li>)}
+        </ul>
+      </div>
+    )}
+    {project.links && project.links.length > 0 && (
+      <div class="project-links">
+        {project.links.map((link) => <a class="small-link" href={link.url}>{link.label}</a>)}
+      </div>
+    )}
+  </div>
+</article>

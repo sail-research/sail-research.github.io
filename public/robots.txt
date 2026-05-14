@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sailresearch.github.io/sitemap-index.xml

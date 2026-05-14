@@ -1,0 +1,31 @@
+---
+import type { NewsItem } from '../data/news';
+interface Props {
+  items: NewsItem[];
+  showIntro?: boolean;
+}
+const { items, showIntro = true } = Astro.props;
+---
+
+<div class="news-strip">
+  {showIntro && (
+    <div class="card p-6">
+      <span class="kicker">Latest</span>
+      <h2 class="mt-4 text-3xl font-bold tracking-tight">News from the lab</h2>
+      <p class="muted mt-3">A compact feed for paper acceptances, project launches, and professional service updates.</p>
+      <a class="btn btn-secondary mt-6" href="/news/">View all news <span aria-hidden="true">→</span></a>
+    </div>
+  )}
+  <div class="news-list">
+    {items.map((item) => (
+      <article class="news-item">
+        <time>{item.date}</time>
+        <div>
+          <span class="chip">{item.label}</span>
+          <h3 class="mt-3">{item.link ? <a href={item.link}>{item.title}</a> : item.title}</h3>
+          <p>{item.summary}</p>
+        </div>
+      </article>
+    ))}
+  </div>
+</div>

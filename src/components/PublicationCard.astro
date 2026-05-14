@@ -1,0 +1,33 @@
+---
+import type { Publication } from '../data/publications';
+interface Props {
+  publication: Publication;
+}
+const { publication } = Astro.props;
+
+const highlightAuthor = (author: string) => {
+  const normalized = author.toLowerCase();
+  const variants = ['kok-seng wong', 'kok seng wong', 'ks wong', 'k. s. wong', 'k.-s. wong', 'wong, k. s.', 'wong, kok-seng', 'wong kok-seng'];
+  return variants.includes(normalized) ? `<span class="author-highlight">${author}</span>` : author;
+};
+const authorHtml = publication.authors.map(highlightAuthor).join(', ');
+---
+
+<article class="card pub-card">
+  <div>
+    <h3>{publication.title}</h3>
+    <p class="pub-authors" set:html={authorHtml}></p>
+    <div class="pub-meta">
+      <span class="chip">{publication.venue}</span>
+      <span class="chip">{publication.type}</span>
+      {publication.tags.map((tag) => <span class="chip">{tag}</span>)}
+    </div>
+    {publication.sourceNote && <p class="muted mt-3 text-sm">{publication.sourceNote}</p>}
+    {publication.links && publication.links.length > 0 && (
+      <div class="pub-links">
+        {publication.links.map((link) => <a class="small-link" href={link.url}>{link.label}</a>)}
+      </div>
+    )}
+  </div>
+  <div class="pub-year" aria-label={`Publication year ${publication.year}`}>{publication.year}</div>
+</article>

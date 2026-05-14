@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import PillarCard from '../components/PillarCard.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import NewsStrip from '../components/NewsStrip.astro';
+import { researchPillars } from '../data/research';
+import { projects } from '../data/projects';
+import { newsItems } from '../data/news';
+
+const featuredProject = projects[0];
+---
+
+<BaseLayout title="Home" description="Security and Artificial Intelligence Lab at VinUniversity: trustworthy, distributed, and efficient AI research.">
+  <Hero
+    kicker="Security and Artificial Intelligence Lab"
+    title="Trustworthy, distributed, and efficient AI research."
+    subtitle="We study and build robust, private, and scalable machine learning systems."
+  />
+
+  <section class="section-tight">
+    <div class="container">
+      <SectionHeader
+        kicker="Research"
+        title="Three pillars, one lab mission."
+        description="SAIL focuses on principled AI systems that can be trusted, distributed across real-world settings, and made efficient enough for practical deployment."
+      />
+      <div class="grid-3">
+        {researchPillars.map((pillar) => <PillarCard pillar={pillar} compact />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <SectionHeader
+        kicker="News"
+        title="Recent highlights."
+        description="A short editorial strip for major lab updates without turning the homepage into an archive."
+      />
+      <NewsStrip items={newsItems.slice(0, 4)} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeader
+        kicker="Featured project"
+        title="TrustFed: trustworthy federated large language models."
+        description="A current project connecting distributed learning, trustworthy AI, and scalable large-model collaboration."
+      />
+      <ProjectCard project={featuredProject} featured idSuffix="home" />
+      <div class="mt-6">
+        <a class="btn btn-secondary" href="/projects/">View all projects <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
