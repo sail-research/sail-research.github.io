@@ -12,14 +12,14 @@ const isActive = (href: string) => {
 
 <header class="header" data-site-header>
   <div class="container header-inner">
-    <a class="brand" href={withBase('/')} aria-label={`${site.name} home`}>
-      <span class="brand-mark" aria-hidden="true">
-        <img src={withBase('/logo-placeholder.svg')} alt="" width="48" height="30" />
-      </span>
-      <span class="brand-text">
-        <strong>{site.shortName}</strong>
-        <span>VinUniversity</span>
-      </span>
+    <a class="brand brand-logo-only" href={withBase('/')} aria-label={`${site.name} home`}>
+      <img
+        class="site-logo"
+        src={withBase('/logo-placeholder.svg')}
+        alt="SAIL"
+        width="96"
+        height="56"
+      />
     </a>
     <button class="menu-button" type="button" aria-expanded="false" aria-controls="primary-navigation" data-menu-button>
       Menu

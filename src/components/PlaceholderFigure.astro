@@ -4,9 +4,197 @@ interface Props {
   title?: string;
   size?: 'small' | 'default' | 'tall';
 }
-const { label = 'Placeholder figure', title = 'Abstract SAIL visual', size = 'default' } = Astro.props;
+
+const { label = 'Research visual', title = 'Abstract SAIL visual', size = 'default' } = Astro.props;
+const normalizedLabel = label.toLowerCase();
+const variant = normalizedLabel.includes('distributed')
+  ? 'distributed'
+  : normalizedLabel.includes('efficient')
+    ? 'efficient'
+    : normalizedLabel.includes('trust') || normalizedLabel.includes('security')
+      ? 'trust'
+      : 'hybrid';
 ---
 
-<div class:list={['placeholder-figure', size !== 'default' && size]} role="img" aria-label={title}>
+<div class:list={['placeholder-figure', 'research-visual', variant, size !== 'default' && size]} role="img" aria-label={title}>
+  <svg class="visual-svg" viewBox="0 0 360 220" aria-hidden="true">
+    <defs>
+      <linearGradient id={`visual-gradient-${variant}`} x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#1a05a2" stop-opacity="0.92" />
+        <stop offset="1" stop-color="#f47c32" stop-opacity="0.78" />
+      </linearGradient>
+    </defs>
+
+    {variant === 'trust' && (
+      <>
+        <path class="soft-fill" d="M180 34 L262 66 V128 C262 168 230 194 180 206 C130 194 98 168 98 128 V66 Z" />
+        <path class="main-stroke" d="M180 34 L262 66 V128 C262 168 230 194 180 206 C130 194 98 168 98 128 V66 Z" />
+        <path class="accent-stroke" d="M142 122 L171 151 L224 91" />
+        <circle class="dot primary" cx="108" cy="54" r="6" />
+        <circle class="dot accent" cx="280" cy="152" r="8" />
+      </>
+    )}
+
+    {variant === 'distributed' && (
+      <>
+        <path class="network-line" d="M68 64 L146 112 L222 70 L294 132 L212 174 L146 112 L92 166" />
+        <circle class="node large" cx="146" cy="112" r="19" />
+        <circle class="node" cx="68" cy="64" r="11" />
+        <circle class="node" cx="222" cy="70" r="13" />
+        <circle class="node accent" cx="294" cy="132" r="15" />
+        <circle class="node" cx="212" cy="174" r="12" />
+        <circle class="node accent" cx="92" cy="166" r="10" />
+      </>
+    )}
+
+    {variant === 'efficient' && (
+      <>
+        <path class="band band-one" d="M64 144 C110 92 154 72 214 74 C252 75 282 64 312 34" />
+        <path class="band band-two" d="M54 178 C112 124 164 106 228 110 C260 112 288 98 318 66" />
+        <path class="band band-three" d="M52 110 C104 68 152 52 214 50 C248 49 276 40 306 18" />
+        <rect class="chip-block" x="78" y="48" width="70" height="46" rx="14" />
+        <rect class="chip-block accent" x="214" y="128" width="70" height="46" rx="14" />
+      </>
+    )}
+
+    {variant === 'hybrid' && (
+      <>
+        <path class="network-line" d="M74 166 L142 86 L216 126 L294 60" />
+        <circle class="node" cx="74" cy="166" r="12" />
+        <circle class="node large" cx="142" cy="86" r="18" />
+        <circle class="node accent" cx="216" cy="126" r="14" />
+        <circle class="node" cx="294" cy="60" r="12" />
+        <path class="main-stroke" d="M168 48 L234 74 V124 C234 156 210 178 168 188 C126 178 102 156 102 124 V74 Z" />
+      </>
+    )}
+  </svg>
+
   <span class="figure-label"><span>{label}</span><span aria-hidden="true">SAIL</span></span>
 </div>
+
+<style>
+.research-visual {
+  isolation: isolate;
+  display: grid;
+  min-height: 15rem;
+  place-items: center;
+  background:
+    radial-gradient(circle at 82% 20%, rgba(244, 124, 50, 0.11), transparent 26%),
+    radial-gradient(circle at 20% 18%, rgba(26, 5, 162, 0.10), transparent 30%),
+    linear-gradient(rgba(23, 23, 23, 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23, 23, 23, 0.02) 1px, transparent 1px),
+    #ffffff;
+  background-size: auto, auto, 34px 34px, 34px 34px, auto;
+}
+
+.research-visual::before {
+  content: "";
+  position: absolute;
+  inset: 12%;
+  border: 1px solid rgba(26, 5, 162, 0.10);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.38);
+  transform: rotate(-8deg);
+}
+
+.research-visual::after {
+  content: "";
+  position: absolute;
+  inset: 18% 12% auto auto;
+  width: 5.5rem;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(244, 124, 50, 0.16), transparent 64%);
+  filter: blur(2px);
+}
+
+.visual-svg {
+  position: relative;
+  z-index: 1;
+  width: min(82%, 24rem);
+  height: auto;
+  overflow: visible;
+}
+
+.main-stroke,
+.accent-stroke,
+.network-line,
+.band {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.main-stroke {
+  stroke: #1a05a2;
+  stroke-width: 8;
+}
+
+.accent-stroke {
+  stroke: #f47c32;
+  stroke-width: 12;
+}
+
+.network-line {
+  stroke: rgba(26, 5, 162, 0.28);
+  stroke-width: 6;
+}
+
+.soft-fill {
+  fill: url(#visual-gradient-trust);
+  opacity: 0.10;
+}
+
+.node,
+.dot,
+.chip-block {
+  fill: #ffffff;
+  stroke: #1a05a2;
+  stroke-width: 7;
+}
+
+.node.large {
+  fill: rgba(26, 5, 162, 0.08);
+}
+
+.node.accent,
+.dot.accent,
+.chip-block.accent {
+  stroke: #f47c32;
+  fill: rgba(244, 124, 50, 0.08);
+}
+
+.dot.primary {
+  fill: #1a05a2;
+}
+
+.band {
+  stroke-width: 13;
+}
+
+.band-one {
+  stroke: rgba(26, 5, 162, 0.82);
+}
+
+.band-two {
+  stroke: rgba(244, 124, 50, 0.72);
+}
+
+.band-three {
+  stroke: rgba(26, 5, 162, 0.18);
+}
+
+.chip-block {
+  fill: rgba(255, 255, 255, 0.84);
+}
+
+.figure-label {
+  z-index: 2;
+}
+
+@media (max-width: 680px) {
+  .visual-svg {
+    width: 88%;
+  }
+}
+</style>

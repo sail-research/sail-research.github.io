@@ -17,6 +17,7 @@ export interface Person {
   role: string;
   group: TeamGroup;
   affiliation?: string;
+  image?: string;
   researchInterests?: string[];
   shortBio?: string;
   links?: PersonLink[];
@@ -28,6 +29,7 @@ export const team: Person[] = [
     role: 'Associate Professor, Computer Science program',
     group: 'professors',
     affiliation: 'College of Engineering and Computer Science, VinUniversity',
+    image: '/team/wong.ks.jpg',
     researchInterests: [
       'Information Security',
       'Data Privacy Protection',
@@ -48,6 +50,7 @@ export const team: Person[] = [
     role: 'PhD Student, started January 2023',
     group: 'phd',
     affiliation: 'VinUniversity',
+    image: '/team/tuan.nm.jpeg',
     researchInterests: ['Federated Learning', 'Backdoor Learning', 'Trustworthy Machine Learning', 'Adversarial Machine Learning'],
     links: [{ label: 'Homepage', url: 'https://mtuann.github.io' }],
   },
@@ -56,6 +59,7 @@ export const team: Person[] = [
     role: 'PhD Student, started September 2024',
     group: 'phd',
     affiliation: 'VinUniversity',
+    image: '/team/thinh.nth.jpg',
     researchInterests: ['Federated Learning', 'Continual Learning', 'Domain Generalization'],
   },
   {
@@ -63,6 +67,7 @@ export const team: Person[] = [
     role: 'Research Assistant',
     group: 'research-assistants',
     affiliation: 'SAIL, VinUniversity',
+    image: '/team/chinh.ld.jpg',
     researchInterests: ['Machine Learning', 'Computer Vision'],
   },
   {
@@ -70,6 +75,7 @@ export const team: Person[] = [
     role: 'Research Assistant',
     group: 'research-assistants',
     affiliation: 'SAIL, VinUniversity',
+    image: '/team/duy.hc.jpeg',
     researchInterests: ['Computer Science'],
   },
   {
@@ -77,6 +83,7 @@ export const team: Person[] = [
     role: 'Research Assistant',
     group: 'research-assistants',
     affiliation: 'SAIL, VinUniversity',
+    image: '/team/quang.nh.jpg',
     researchInterests: ['Trustworthy AI', 'Backdoor Learning'],
   },
   {
@@ -84,6 +91,7 @@ export const team: Person[] = [
     role: 'Research Assistant',
     group: 'research-assistants',
     affiliation: 'SAIL, VinUniversity',
+    image: '/team/hieu.nn.jpeg',
     researchInterests: ['Federated Learning', 'Efficient Learning'],
   },
   {
@@ -91,6 +99,7 @@ export const team: Person[] = [
     role: 'Research Assistant',
     group: 'research-assistants',
     affiliation: 'SAIL, VinUniversity',
+    image: '/team/phuc.nm.jpg',
     researchInterests: ['Data Science', 'Machine Learning'],
   },
   {
@@ -98,6 +107,7 @@ export const team: Person[] = [
     role: 'Research Assistant Intern',
     group: 'research-assistants',
     affiliation: 'VNU-HCM University of Science / SAIL, VinUniversity',
+    image: '/team/anno.jpg',
     researchInterests: ['Data Science', 'Federated Learning'],
   },
   {
@@ -105,6 +115,7 @@ export const team: Person[] = [
     role: 'Undergraduate Research Assistant',
     group: 'undergraduate-ra',
     affiliation: 'College of Engineering and Computer Science, VinUniversity',
+    image: '/team/21thinh.dd.jpg',
     researchInterests: ['Federated Learning', 'Backdoor Learning'],
   },
   {
@@ -112,6 +123,7 @@ export const team: Person[] = [
     role: 'UROP Student',
     group: 'undergraduate-ra',
     affiliation: 'College of Engineering and Computer Science, VinUniversity',
+    image: '/team/22duy.k.jpg',
     researchInterests: ['Federated Learning', 'Multimodal Learning'],
   },
   {
@@ -119,12 +131,14 @@ export const team: Person[] = [
     role: 'Research Assistant, now Eureka Robotics',
     group: 'alumni',
     affiliation: 'SAIL Alumni',
+    image: '/team/nhan.hd.jpeg',
   },
   {
     name: 'Nguyen Minh Quan',
     role: 'Research Assistant, now M.Sc. Biomedical Computing at TU Munich',
     group: 'alumni',
     affiliation: 'SAIL Alumni',
+    image: '/team/quan.nm.jpeg',
     links: [{ label: 'Homepage', url: 'https://givralnguyen.github.io' }],
   },
   {
@@ -132,12 +146,14 @@ export const team: Person[] = [
     role: 'Research Assistant, now PhD Computer Science at Trinity College Dublin',
     group: 'alumni',
     affiliation: 'SAIL Alumni',
+    image: '/team/tuan.tv.jpeg',
   },
   {
     name: 'Nguyen Thuy Dung',
     role: 'Research Assistant, now PhD Computer Science at Vanderbilt University',
     group: 'alumni',
     affiliation: 'SAIL Alumni',
+    image: '/team/dung.nt2.jpg',
     links: [{ label: 'Homepage', url: 'https://judydnguyen.github.io' }],
   },
   {
@@ -145,6 +161,7 @@ export const team: Person[] = [
     role: 'Research Assistant, now PhD Computer Science at University of Notre Dame',
     group: 'alumni',
     affiliation: 'SAIL Alumni',
+    image: '/team/khiem.lh.jpg',
     links: [{ label: 'Homepage', url: 'https://lhkhiem28.github.io' }],
   },
   {
@@ -152,12 +169,14 @@ export const team: Person[] = [
     role: 'Research Assistant',
     group: 'alumni',
     affiliation: 'SAIL Alumni',
+    image: '/team/20phuc.vh.jpeg',
   },
   {
     name: 'Luong Ha Tri Nhan',
     role: 'Research Assistant, now PhD Computer Science at University of Toronto',
     group: 'alumni',
     affiliation: 'SAIL Alumni',
+    image: '/team/nhan.lht.jpeg',
     researchInterests: ['AstroML', 'AI4Science', 'Computational Imaging'],
     links: [{ label: 'Homepage', url: 'https://lennemo09.github.io' }],
   },
@@ -166,12 +185,14 @@ export const team: Person[] = [
     role: 'Research Assistant, now Research Engineer at FPT Software AI Center',
     group: 'alumni',
     affiliation: 'SAIL Alumni',
+    image: '/team/long.ht.jpeg',
   },
   {
     name: 'Hong-Son Nguyen',
     role: 'Research Assistant',
     group: 'alumni',
     affiliation: 'SAIL Alumni',
+    image: '/team/son.nh.jpg',
     links: [{ label: 'Homepage', url: 'https://nguyenhongson1902.github.io' }],
   },
   {
@@ -179,6 +200,7 @@ export const team: Person[] = [
     role: 'Research Assistant',
     group: 'alumni',
     affiliation: 'SAIL Alumni',
+    image: '/team/jason.y.jpeg',
     links: [{ label: 'Homepage', url: 'https://jasonyang429.github.io' }],
   },
   {
@@ -186,24 +208,28 @@ export const team: Person[] = [
     role: 'Research Assistant, now M.Sc. Computer Science at University of Illinois Urbana-Champaign',
     group: 'alumni',
     affiliation: 'SAIL Alumni',
+    image: '/team/hung.nt.jpg',
   },
   {
     name: 'Pham Phuoc Minh Quang',
     role: 'Research Assistant, now M.Sc. Robotics at MBZUAI',
     group: 'alumni',
     affiliation: 'SAIL Alumni',
+    image: '/team/20quang.ppm.jpg',
   },
   {
     name: 'Le Chi Cuong',
     role: 'Research Assistant, now Resident at FPT Software AI Residency',
     group: 'alumni',
     affiliation: 'SAIL Alumni',
+    image: '/team/21cuong.lc.jpeg',
   },
   {
     name: 'Khoa D. Doan',
     role: 'Collaborator',
     group: 'collaborators',
     affiliation: 'VinUniversity',
+    image: '/team/khoa.dd.jpeg',
     researchInterests: ['Trustworthy AI', 'Federated Learning', 'Robust Machine Learning'],
     links: [{ label: 'Homepage', url: 'https://khoadoan.me' }],
   },

@@ -1,13 +1,21 @@
 ---
 import type { Person } from '../data/team';
+import { withBase } from '../utils/paths';
 interface Props {
   person: Person;
 }
 const { person } = Astro.props;
+const imageSrc = person.image ? withBase(person.image) : undefined;
 ---
 
 <article class="card person-card">
-  <div class="avatar" role="img" aria-label={`Placeholder portrait for ${person.name}`}></div>
+  <figure class:list={['avatar', imageSrc && 'has-image']}>
+    {imageSrc ? (
+      <img src={imageSrc} alt={person.name} decoding="async" />
+    ) : (
+      <span class="sr-only">{`Portrait placeholder for ${person.name}`}</span>
+    )}
+  </figure>
   <h3>{person.name}</h3>
   <div class="role">{person.role}</div>
   {person.affiliation && <p>{person.affiliation}</p>}

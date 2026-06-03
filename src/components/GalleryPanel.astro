@@ -10,6 +10,7 @@ const style = `--panel-height:${item.height}px`;
 
 <article class="card gallery-panel" style={style}>
   <PlaceholderFigure label={item.label} title={`Placeholder image for ${item.title}`} />
+  <span class="gallery-label">{item.label}</span>
   <h3>{item.title}</h3>
   <p>{item.caption}</p>
 </article>

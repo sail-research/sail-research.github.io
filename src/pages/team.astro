@@ -25,14 +25,14 @@ const collaborators = getPeopleByGroup('collaborators');
 
   <section class="section-tight">
     <div class="container stack">
-      <SectionHeader title="Professors" description="The Professors section intentionally includes only Prof. Kok-Seng Wong." />
+      <SectionHeader title="Professors" description="" />
       <div class="person-grid">{professors.map((person) => <PersonCard person={person} />)}</div>
     </div>
   </section>
 
   <section class="section-tight">
     <div class="container">
-      <SectionHeader title="Graduate Students" description="Use the tabs to switch between PhD and Master students. Add Master students in src/data/team.ts when available." />
+      <SectionHeader title="Graduate Students" description="" />
       <div class="tabs" role="tablist" aria-label="Graduate student groups">
         <button class="tab-button" type="button" role="tab" aria-selected="true" aria-controls="phd-panel" id="phd-tab" data-tab="phd-panel">PhD Students</button>
         <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="master-panel" id="master-tab" data-tab="master-panel">Master Students</button>
@@ -48,7 +48,7 @@ const collaborators = getPeopleByGroup('collaborators');
 
   <section class="section-tight">
     <div class="container">
-      <SectionHeader title="Research Assistants" description="Research assistants are separated from undergraduate student RAs for easier editing." />
+      <SectionHeader title="Research Assistants" description="" />
       <div class="tabs" role="tablist" aria-label="Research assistant groups">
         <button class="tab-button" type="button" role="tab" aria-selected="true" aria-controls="ra-panel" id="ra-tab" data-tab="ra-panel">Research Assistants</button>
         <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="undergrad-ra-panel" id="undergrad-ra-tab" data-tab="undergrad-ra-panel">Undergraduate Student RAs</button>
@@ -71,7 +71,7 @@ const collaborators = getPeopleByGroup('collaborators');
 
   <section class="section">
     <div class="container">
-      <SectionHeader title="Collaborators" description="Collaborators can be extended as the lab updates its public team data." />
+      <SectionHeader title="Collaborators" description="" />
       {collaborators.length ? <div class="person-grid">{collaborators.map((person) => <PersonCard person={person} />)}</div> : <EmptyState title="Collaborators placeholder" message="Add verified collaborators to src/data/team.ts." />}
     </div>
   </section>

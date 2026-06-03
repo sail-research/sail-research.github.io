@@ -9,22 +9,61 @@ interface Props {
 const { kicker, title, subtitle } = Astro.props;
 ---
 
-<section class="container hero-grid" aria-labelledby="home-hero-title">
-  <div>
+<section class="hero-grid" aria-labelledby="home-hero-title">
+  <div class="hero-content">
     <span class="kicker">{kicker}</span>
-    <h1 id="home-hero-title" class="display-title mt-6"><span class="gradient-text">{title}</span></h1>
+
+    <h1 id="home-hero-title" class="display-title mt-6">
+      <span class="gradient-text">{title}</span>
+    </h1>
+
     <p class="lead">{subtitle}</p>
+
     <div class="hero-actions">
-      <a class="btn btn-primary" href={withBase('/research/')}>Explore research <span aria-hidden="true">→</span></a>
-      <a class="btn btn-secondary" href={withBase('/publications/')}>View publications <span aria-hidden="true">→</span></a>
-    </div>
-  </div>
-  <div class="hero-visual" aria-hidden="true">
-    <div class="abstract-mark">
-      <span class="shape glow"></span>
-      <span class="shape triangle-one"></span>
-      <span class="shape triangle-two"></span>
-      <span class="shape block"></span>
+      <a class="btn btn-primary" href={withBase('/research/')}>Explore research <span aria-hidden="true">-&gt;</span></a>
+      <a class="btn btn-secondary" href={withBase('/publications/')}>View publications <span aria-hidden="true">-&gt;</span></a>
     </div>
   </div>
 </section>
+
+<style>
+.hero-grid {
+  width: 100%;
+  max-width: none;
+  min-height: calc(100vh - 96px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 48px 24px;
+}
+
+.hero-content {
+  width: 100%;
+  max-width: none;
+  margin: 0 auto;
+}
+
+.display-title {
+  width: 100%;
+  max-width: none;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  font-size: clamp(72px, 10vw, 150px);
+  line-height: 0.9;
+}
+
+.lead {
+  max-width: 1800px;
+}
+
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+</style>

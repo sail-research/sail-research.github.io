@@ -24,14 +24,14 @@ const anchorId = idSuffix ? `${project.slug}-${idSuffix}` : project.slug;
     {project.relatedPapers.length > 0 && (
       <div class="mt-5">
         <strong class="eyebrow-label">Related papers</strong>
-        <ul class="mt-2 space-y-1 muted text-sm">
-          {project.relatedPapers.map((paper) => <li>• {paper}</li>)}
+        <ul class="clean-list">
+          {project.relatedPapers.map((paper) => <li>{paper}</li>)}
         </ul>
       </div>
     )}
     {project.links && project.links.length > 0 && (
       <div class="project-links">
-        {project.links.map((link) => <a class="small-link" href={link.url}>{link.label}</a>)}
+        {project.links.map((link) => <a class="small-link" href={link.url} target="_blank" rel="noreferrer">{link.label}</a>)}
       </div>
     )}
   </div>

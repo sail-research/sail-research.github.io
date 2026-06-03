@@ -12,5 +12,25 @@ const { kicker, title, description } = Astro.props;
     {kicker && <span class="kicker">{kicker}</span>}
     <h2 class="mt-4">{title}</h2>
   </div>
+
   {description && <p>{description}</p>}
 </div>
+
+<style>
+.section-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.section-header > div,
+.section-header > p {
+  width: 100%;
+  max-width: 1800px;
+}
+
+.section-header p {
+  margin: 0;
+}
+</style>

@@ -6,11 +6,14 @@ import { acceptedPublications, arxivPublications } from '../data/publications';
 ---
 
 <BaseLayout title="Publications" description="Accepted and arXiv publications from SAIL that include Prof. Kok-Seng Wong.">
-  <section class="page-hero">
+  <section class="page-hero centered">
     <div class="container">
       <span class="kicker">Publications</span>
-      <h1 class="page-title mt-6"><span class="gradient-text">Papers with Prof. Kok-Seng Wong.</span></h1>
-      <p class="lead">This page filters publications to works that include Prof. Kok-Seng Wong. Accepted papers and arXiv preprints are separated without duplication.</p>
+      <h1 class="page-title mt-6">Papers with Prof. Kok-Seng Wong.</h1>
+      <div class="hero-note-grid">
+        <p class="lead">A curated publication list focused on trustworthy AI, federated learning, privacy, robustness, and efficient machine learning.</p>
+        <p class="hero-note">Accepted papers and arXiv preprints are separated without duplication. When a preprint becomes accepted, it is moved to the accepted list.</p>
+      </div>
       <div class="metric-row">
         <div class="metric"><strong>{acceptedPublications.length}</strong><span>accepted papers</span></div>
         <div class="metric"><strong>{arxivPublications.length}</strong><span>arXiv preprints</span></div>
@@ -21,11 +24,14 @@ import { acceptedPublications, arxivPublications } from '../data/publications';
 
   <section class="section-tight">
     <div class="container">
-      <SectionHeader title="Publication list" description="Use the segmented control to switch between accepted papers and preprints. Edit entries in src/data/publications.ts." />
-      <div class="tabs" role="tablist" aria-label="Publication categories">
-        <button class="tab-button" type="button" role="tab" aria-selected="true" aria-controls="accepted-panel" id="accepted-tab" data-tab="accepted-panel">Accepted Papers</button>
-        <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="arxiv-panel" id="arxiv-tab" data-tab="arxiv-panel">arXiv Papers</button>
+      <SectionHeader title="Publication list" description="" />
+      <div class="publication-toolbar">
+        <div class="tabs" role="tablist" aria-label="Publication categories">
+          <button class="tab-button" type="button" role="tab" aria-selected="true" aria-controls="accepted-panel" id="accepted-tab" data-tab="accepted-panel">Accepted Papers</button>
+          <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="arxiv-panel" id="arxiv-tab" data-tab="arxiv-panel">arXiv Papers</button>
+        </div>
       </div>
+
       <div id="accepted-panel" class="tab-panel" role="tabpanel" aria-labelledby="accepted-tab">
         <div class="publication-list">
           {acceptedPublications.map((publication) => <PublicationCard publication={publication} />)}

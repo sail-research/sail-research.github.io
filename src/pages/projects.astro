@@ -10,11 +10,13 @@ const exploratory = projects.filter((project) => project.status === 'exploratory
 ---
 
 <BaseLayout title="Projects" description="Research projects from SAIL with placeholder figures for future visuals.">
-  <section class="page-hero">
+  <section class="page-hero centered">
     <div class="container">
       <span class="kicker">Projects</span>
-      <h1 class="page-title mt-6"><span class="gradient-text">Research in motion.</span></h1>
-      <p class="lead">Projects connect the lab’s research pillars with concrete systems, benchmarks, and application areas. Every project currently uses a placeholder figure.</p>
+      <h1 class="page-title mt-6">Research in motion.</h1>
+      <div class="hero-note-grid">
+        <p class="lead">Projects connect SAIL’s research pillars with concrete systems, benchmarks, and application areas.</p>
+      </div>
     </div>
   </section>
 
@@ -33,7 +35,7 @@ const exploratory = projects.filter((project) => project.status === 'exploratory
   </section>
 
   {exploratory.length > 0 && (
-    <section class="section">
+    <section class="section-tight">
       <div class="container stack">
         <SectionHeader title="Exploratory projects" />
         {exploratory.map((project) => <ProjectCard project={project} />)}
