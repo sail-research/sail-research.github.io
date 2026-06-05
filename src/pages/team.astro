@@ -12,6 +12,8 @@ const ras = getPeopleByGroup('research-assistants');
 const undergradRas = getPeopleByGroup('undergraduate-ra');
 const alumni = getPeopleByGroup('alumni');
 const collaborators = getPeopleByGroup('collaborators');
+const supabaseRestUrl = 'https://rxnhlmrvwmepuphpithm.supabase.co/rest/v1';
+const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
 ---
 
 <BaseLayout title="Team" description="People at the Security and Artificial Intelligence Lab, VinUniversity.">
@@ -26,7 +28,7 @@ const collaborators = getPeopleByGroup('collaborators');
   <section class="section-tight">
     <div class="container stack">
       <SectionHeader title="Professors" description="" />
-      <div class="person-grid">{professors.map((person) => <PersonCard person={person} />)}</div>
+      <div class="person-grid" data-supabase-group="professors">{professors.map((person) => <PersonCard person={person} />)}</div>
     </div>
   </section>
 
@@ -38,10 +40,13 @@ const collaborators = getPeopleByGroup('collaborators');
         <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="master-panel" id="master-tab" data-tab="master-panel">Master Students</button>
       </div>
       <div id="phd-panel" class="tab-panel" role="tabpanel" aria-labelledby="phd-tab">
-        <div class="person-grid">{phd.map((person) => <PersonCard person={person} />)}</div>
+        <div class="person-grid" data-supabase-group="phd">{phd.map((person) => <PersonCard person={person} />)}</div>
       </div>
       <div id="master-panel" class="tab-panel" role="tabpanel" aria-labelledby="master-tab" hidden>
-        {master.length ? <div class="person-grid">{master.map((person) => <PersonCard person={person} />)}</div> : <EmptyState title="No Master students listed yet" message="Add verified Master student profiles to src/data/team.ts when ready." />}
+        <div class="person-grid" data-supabase-group="master" hidden={master.length === 0}>{master.map((person) => <PersonCard person={person} />)}</div>
+        <div data-empty-for="master" hidden={master.length > 0}>
+          <EmptyState title="No Master students listed yet" message="Add verified Master student profiles to Supabase when ready." />
+        </div>
       </div>
     </div>
   </section>
@@ -54,10 +59,10 @@ const collaborators = getPeopleByGroup('collaborators');
         <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="undergrad-ra-panel" id="undergrad-ra-tab" data-tab="undergrad-ra-panel">Undergraduate Student RAs</button>
       </div>
       <div id="ra-panel" class="tab-panel" role="tabpanel" aria-labelledby="ra-tab">
-        <div class="person-grid">{ras.map((person) => <PersonCard person={person} />)}</div>
+        <div class="person-grid" data-supabase-group="research-assistants">{ras.map((person) => <PersonCard person={person} />)}</div>
       </div>
       <div id="undergrad-ra-panel" class="tab-panel" role="tabpanel" aria-labelledby="undergrad-ra-tab" hidden>
-        <div class="person-grid">{undergradRas.map((person) => <PersonCard person={person} />)}</div>
+        <div class="person-grid" data-supabase-group="undergraduate-ra">{undergradRas.map((person) => <PersonCard person={person} />)}</div>
       </div>
     </div>
   </section>
@@ -65,14 +70,17 @@ const collaborators = getPeopleByGroup('collaborators');
   <section class="section-tight">
     <div class="container">
       <SectionHeader title="Alumni" description="Former SAIL members and their current destinations where known." />
-      <div class="person-grid">{alumni.map((person) => <PersonCard person={person} />)}</div>
+      <div class="person-grid" data-supabase-group="alumni">{alumni.map((person) => <PersonCard person={person} />)}</div>
     </div>
   </section>
 
   <section class="section">
     <div class="container">
       <SectionHeader title="Collaborators" description="" />
-      {collaborators.length ? <div class="person-grid">{collaborators.map((person) => <PersonCard person={person} />)}</div> : <EmptyState title="Collaborators placeholder" message="Add verified collaborators to src/data/team.ts." />}
+      <div class="person-grid" data-supabase-group="collaborators" hidden={collaborators.length === 0}>{collaborators.map((person) => <PersonCard person={person} />)}</div>
+      <div data-empty-for="collaborators" hidden={collaborators.length > 0}>
+        <EmptyState title="Collaborators placeholder" message="Add verified collaborators to Supabase." />
+      </div>
     </div>
   </section>
 
@@ -88,6 +96,128 @@ const collaborators = getPeopleByGroup('collaborators');
           });
         });
       });
+    });
+  </script>
+
+  <script define:vars={{ supabaseRestUrl, supabasePublishableKey }}>
+    const clusterLabels = {
+      'trustworthy-ai': 'Trustworthy AI',
+      'distributed-learning': 'Distributed Learning',
+      'efficient-machine-learning': 'Efficient Machine Learning',
+    };
+
+    const headers = {
+      apikey: supabasePublishableKey,
+      Authorization: `Bearer ${supabasePublishableKey}`,
+    };
+
+    const escapeHtml = (value) =>
+      String(value ?? '').replace(/[&<>"']/g, (char) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;',
+      }[char]));
+
+    const safeUrl = (value) => {
+      if (!value) return '';
+      try {
+        const url = new URL(value);
+        return ['http:', 'https:', 'mailto:'].includes(url.protocol) ? url.toString() : '';
+      } catch {
+        return '';
+      }
+    };
+
+    const imageUrl = (value) => {
+      const url = safeUrl(value);
+      if (!url) return '';
+
+      const fileMatch = url.match(/drive\.google\.com\/file\/d\/([^/?]+)/);
+      const idMatch = url.match(/[?&]id=([^&]+)/);
+      const driveId = fileMatch?.[1] || idMatch?.[1];
+      if (driveId) {
+        return `https://drive.google.com/thumbnail?id=${encodeURIComponent(driveId)}&sz=w400`;
+      }
+
+      return url;
+    };
+
+    const renderLinks = (member) => {
+      const links = [
+        ['Homepage', member.homepage_url],
+        ['Scholar', member.scholar_url],
+        ['LinkedIn', member.linkedin_url],
+      ]
+        .map(([label, url]) => [label, safeUrl(url)])
+        .filter(([, url]) => url);
+
+      if (!links.length) return '';
+      return `<div class="person-links">${links
+        .map(([label, url]) => `<a class="small-link" href="${escapeHtml(url)}">${escapeHtml(label)}</a>`)
+        .join('')}</div>`;
+    };
+
+    const renderChips = (member) => {
+      const interests = Array.isArray(member.research_interests) ? member.research_interests : [];
+      const chips = [...interests, clusterLabels[member.cluster_slug]].filter(Boolean);
+      if (!chips.length) return '';
+      return `<div class="flex flex-wrap gap-2 mt-4">${chips
+        .map((chip) => `<span class="chip">${escapeHtml(chip)}</span>`)
+        .join('')}</div>`;
+    };
+
+    const renderAvatar = (member) => {
+      const portraitUrl = imageUrl(member.image_url);
+      if (!portraitUrl) {
+        return `<figure class="avatar"><span class="sr-only">Portrait placeholder for ${escapeHtml(member.name)}</span></figure>`;
+      }
+      return `<figure class="avatar has-image"><img src="${escapeHtml(portraitUrl)}" alt="${escapeHtml(member.name)}" loading="lazy" decoding="async" /></figure>`;
+    };
+
+    const renderMemberCard = (member) => `
+      <article class="card person-card" data-supabase-member="${escapeHtml(member.email || member.name)}">
+        ${renderAvatar(member)}
+        <h3>${escapeHtml(member.name)}</h3>
+        <div class="role">${escapeHtml(member.role_title)}</div>
+        ${member.affiliation ? `<p>${escapeHtml(member.affiliation)}</p>` : ''}
+        ${member.short_bio ? `<p>${escapeHtml(member.short_bio)}</p>` : ''}
+        ${renderChips(member)}
+        ${renderLinks(member)}
+      </article>
+    `;
+
+    async function loadApprovedMembers() {
+      const query = [
+        'select=name,email,role_title,group_key,cluster_slug,affiliation,image_url,homepage_url,scholar_url,linkedin_url,research_interests,short_bio,status',
+        'status=in.(active,alumni)',
+        'order=sort_order.asc,name.asc',
+      ].join('&');
+      const response = await fetch(`${supabaseRestUrl}/lab_members?${query}`, { headers });
+      if (!response.ok) return;
+
+      const members = await response.json();
+      if (!Array.isArray(members) || members.length === 0) return;
+
+      members.forEach((member) => {
+        const group = member.status === 'alumni' ? 'alumni' : member.group_key;
+        const container = document.querySelector(`[data-supabase-group="${CSS.escape(group)}"]`);
+        if (!container) return;
+
+        const key = member.email || member.name;
+        if (key && container.querySelector(`[data-supabase-member="${CSS.escape(key)}"]`)) return;
+
+        container.insertAdjacentHTML('beforeend', renderMemberCard(member));
+        container.hidden = false;
+
+        const emptyState = document.querySelector(`[data-empty-for="${CSS.escape(group)}"]`);
+        if (emptyState) emptyState.hidden = true;
+      });
+    }
+
+    loadApprovedMembers().catch((error) => {
+      console.warn('Unable to load approved lab members', error);
     });
   </script>
 </BaseLayout>
