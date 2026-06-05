@@ -1,0 +1,242 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const supabaseRestUrl = 'https://rxnhlmrvwmepuphpithm.supabase.co/rest/v1';
+const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
+---
+
+<BaseLayout
+  title="Lab registration"
+  description="Private SAIL lab registration form."
+  robots="noindex,nofollow"
+>
+  <section class="page-hero register-hero">
+    <div class="container">
+      <span class="kicker">Private registration</span>
+      <h1 class="page-title mt-6"><span class="gradient-text">Join the SAIL directory.</span></h1>
+      <p class="lead">Submit your lab profile for verification. Approved profiles appear in the public team directory.</p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container register-layout">
+      <form class="register-form card" id="lab-register-form">
+        <div class="form-status" id="invite-status" role="status">Checking invite link...</div>
+
+        <div class="form-grid">
+          <label>
+            <span>Full name</span>
+            <input name="name" type="text" autocomplete="name" required />
+          </label>
+
+          <label>
+            <span>Email</span>
+            <input name="email" type="email" autocomplete="email" placeholder="name@vinuni.edu.vn" required />
+          </label>
+
+          <label>
+            <span>Directory group</span>
+            <select name="group_key" required>
+              <option value="research-assistants">Research Assistant</option>
+              <option value="undergraduate-ra">Undergraduate RA</option>
+              <option value="phd">PhD Student</option>
+              <option value="master">Master Student</option>
+              <option value="professors">Professor</option>
+              <option value="collaborators">Collaborator</option>
+              <option value="alumni">Alumni</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Primary cluster</span>
+            <select name="cluster_slug" id="cluster-select">
+              <option value="">Select a cluster</option>
+              <option value="trustworthy-ai">Trustworthy AI</option>
+              <option value="distributed-learning">Distributed Learning</option>
+              <option value="efficient-machine-learning">Efficient Machine Learning</option>
+            </select>
+          </label>
+
+          <label class="span-2">
+            <span>Role title</span>
+            <input name="role_title" type="text" placeholder="Research Assistant, PhD Student, UROP Student..." required />
+          </label>
+
+          <label class="span-2">
+            <span>Affiliation</span>
+            <input name="affiliation" type="text" placeholder="SAIL, VinUniversity" />
+          </label>
+
+          <label class="span-2">
+            <span>Research interests</span>
+            <input name="research_interests" type="text" placeholder="Federated Learning, Trustworthy AI, Backdoor Defense" />
+          </label>
+
+          <label>
+            <span>Homepage</span>
+            <input name="homepage_url" type="url" placeholder="https://..." />
+          </label>
+
+          <label>
+            <span>Google Scholar</span>
+            <input name="scholar_url" type="url" placeholder="https://scholar.google.com/..." />
+          </label>
+
+          <label>
+            <span>LinkedIn</span>
+            <input name="linkedin_url" type="url" placeholder="https://linkedin.com/in/..." />
+          </label>
+
+          <label>
+            <span>Photo URL</span>
+            <input name="image_url" type="url" placeholder="https://..." />
+          </label>
+
+          <label class="span-2">
+            <span>Short bio</span>
+            <textarea name="short_bio" rows="5" placeholder="One or two concise sentences about your work."></textarea>
+          </label>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn btn-primary" type="submit" id="submit-button">Submit for verification</button>
+          <p class="form-note">This private form accepts VinUniversity email addresses for the current invite.</p>
+        </div>
+      </form>
+
+      <aside class="register-aside">
+        <div class="content-panel">
+          <h3>Review queue</h3>
+          <ul class="clean-list">
+            <li>Submitted profiles are stored as pending.</li>
+            <li>Lab admins approve role, cluster, and public visibility in Supabase.</li>
+            <li>People leaving the lab can be moved to alumni or hidden.</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <script define:vars={{ supabaseRestUrl, supabasePublishableKey }}>
+    const form = document.getElementById('lab-register-form');
+    const statusBox = document.getElementById('invite-status');
+    const submitButton = document.getElementById('submit-button');
+    const clusterSelect = document.getElementById('cluster-select');
+    const inviteToken = new URLSearchParams(window.location.search).get('invite')?.trim() || '';
+
+    const headers = {
+      apikey: supabasePublishableKey,
+      Authorization: `Bearer ${supabasePublishableKey}`,
+    };
+
+    function setStatus(message, tone = 'neutral') {
+      statusBox.textContent = message;
+      statusBox.dataset.tone = tone;
+    }
+
+    function normalizeList(value) {
+      return value
+        .split(',')
+        .map((item) => item.trim())
+        .filter(Boolean);
+    }
+
+    function nullable(value) {
+      const trimmed = value.trim();
+      return trimmed.length ? trimmed : null;
+    }
+
+    function field(formData, name) {
+      const value = formData.get(name);
+      return typeof value === 'string' ? value : '';
+    }
+
+    async function loadClusters() {
+      const response = await fetch(`${supabaseRestUrl}/lab_clusters?select=slug,name&order=sort_order.asc`, {
+        headers,
+      });
+      if (!response.ok) return;
+
+      const clusters = await response.json();
+      if (!Array.isArray(clusters) || clusters.length === 0) return;
+
+      clusterSelect.innerHTML = '<option value="">Select a cluster</option>';
+      clusters.forEach((cluster) => {
+        const option = document.createElement('option');
+        option.value = cluster.slug;
+        option.textContent = cluster.name;
+        clusterSelect.append(option);
+      });
+    }
+
+    async function submitProfile(event) {
+      event.preventDefault();
+
+      if (!inviteToken) {
+        setStatus('Missing invite token. Please use the private registration link shared by the lab.', 'error');
+        return;
+      }
+
+      const data = new FormData(form);
+      const payload = {
+        name: field(data, 'name').trim(),
+        email: field(data, 'email').trim().toLowerCase(),
+        group_key: field(data, 'group_key'),
+        cluster_slug: nullable(field(data, 'cluster_slug')),
+        role_title: field(data, 'role_title').trim(),
+        affiliation: nullable(field(data, 'affiliation')),
+        image_url: nullable(field(data, 'image_url')),
+        homepage_url: nullable(field(data, 'homepage_url')),
+        scholar_url: nullable(field(data, 'scholar_url')),
+        linkedin_url: nullable(field(data, 'linkedin_url')),
+        research_interests: normalizeList(field(data, 'research_interests')),
+        short_bio: nullable(field(data, 'short_bio')),
+        status: 'pending',
+        invite_token: inviteToken,
+      };
+
+      submitButton.disabled = true;
+      submitButton.textContent = 'Submitting...';
+      setStatus('Submitting your profile for verification...', 'neutral');
+
+      const response = await fetch(`${supabaseRestUrl}/lab_members`, {
+        method: 'POST',
+        headers: {
+          ...headers,
+          'Content-Type': 'application/json',
+          Prefer: 'return=minimal',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        form.reset();
+        setStatus('Registration received. Your profile is pending lab verification.', 'success');
+        submitButton.textContent = 'Submitted';
+        return;
+      }
+
+      const error = await response.json().catch(() => null);
+      const message = error?.message || 'Unable to submit this profile.';
+      const friendly = message.includes('row-level security')
+        ? 'Invite invalid, expired, or this email domain is not allowed for the current invite.'
+        : message.includes('lab_members_email_unique')
+          ? 'This email is already registered in the lab directory.'
+          : message;
+
+      setStatus(friendly, 'error');
+      submitButton.disabled = false;
+      submitButton.textContent = 'Submit for verification';
+    }
+
+    if (!inviteToken) {
+      setStatus('Missing invite token. Please use the private registration link shared by the lab.', 'error');
+      submitButton.disabled = true;
+    } else {
+      setStatus('Invite link detected. This submission will enter pending verification.', 'success');
+      loadClusters();
+    }
+
+    form.addEventListener('submit', submitProfile);
+  </script>
+</BaseLayout>
