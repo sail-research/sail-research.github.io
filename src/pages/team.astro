@@ -111,6 +111,8 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
       Authorization: `Bearer ${supabasePublishableKey}`,
     };
 
+    const ignoredMemberEmails = new Set(['test@vinuni.edu.vn']);
+
     const escapeHtml = (value) =>
       String(value ?? '').replace(/[&<>"']/g, (char) => ({
         '&': '&amp;',
@@ -201,6 +203,8 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
       if (!Array.isArray(members) || members.length === 0) return;
 
       members.forEach((member) => {
+        if (ignoredMemberEmails.has(String(member.email || '').toLowerCase())) return;
+
         const group = member.status === 'alumni' ? 'alumni' : member.group_key;
         const container = document.querySelector(`[data-supabase-group="${CSS.escape(group)}"]`);
         if (!container) return;
