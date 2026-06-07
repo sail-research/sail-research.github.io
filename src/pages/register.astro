@@ -2,7 +2,9 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const supabaseRestUrl = 'https://rxnhlmrvwmepuphpithm.supabase.co/rest/v1';
+const supabaseStorageUrl = 'https://rxnhlmrvwmepuphpithm.supabase.co/storage/v1';
 const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
+const memberPhotoBucket = 'member-photos';
 ---
 
 <BaseLayout
@@ -87,9 +89,13 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
             <input name="linkedin_url" type="url" placeholder="https://linkedin.com/in/..." />
           </label>
 
-          <label>
-            <span>Photo URL</span>
-            <input name="image_url" type="url" placeholder="https://..." />
+          <label class="span-2 photo-upload-field">
+            <span>Profile photo</span>
+            <input id="photo-input" name="portrait_file" type="file" accept="image/jpeg,image/png,image/webp" required />
+            <div class="photo-upload-preview" id="photo-preview" aria-live="polite">
+              <div class="photo-preview-frame"><span>Preview</span></div>
+              <p>Upload a clear JPG, PNG, or WebP image up to 4 MB.</p>
+            </div>
           </label>
 
           <label class="span-2">
@@ -117,12 +123,21 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
     </div>
   </section>
 
-  <script define:vars={{ supabaseRestUrl, supabasePublishableKey }}>
+  <script define:vars={{ supabaseRestUrl, supabaseStorageUrl, supabasePublishableKey, memberPhotoBucket }}>
     const form = document.getElementById('lab-register-form');
     const statusBox = document.getElementById('invite-status');
     const submitButton = document.getElementById('submit-button');
     const clusterSelect = document.getElementById('cluster-select');
+    const photoInput = document.getElementById('photo-input');
+    const photoPreview = document.getElementById('photo-preview');
     const inviteToken = new URLSearchParams(window.location.search).get('invite')?.trim() || '';
+    const maxPhotoSize = 4 * 1024 * 1024;
+    const acceptedPhotoTypes = new Map([
+      ['image/jpeg', 'jpg'],
+      ['image/png', 'png'],
+      ['image/webp', 'webp'],
+    ]);
+    let previewObjectUrl = '';
 
     const headers = {
       apikey: supabasePublishableKey,
@@ -149,6 +164,102 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
     function field(formData, name) {
       const value = formData.get(name);
       return typeof value === 'string' ? value : '';
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>"']/g, (char) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;',
+      }[char]));
+    }
+
+    function selectedPhoto(formData) {
+      const value = formData.get('portrait_file');
+      return value instanceof File && value.size > 0 ? value : null;
+    }
+
+    function validatePhoto(file) {
+      if (!file) return 'Please upload a profile photo.';
+      if (!acceptedPhotoTypes.has(file.type)) return 'Please upload a JPG, PNG, or WebP photo.';
+      if (file.size > maxPhotoSize) return 'Please keep the profile photo at 4 MB or smaller.';
+      return '';
+    }
+
+    function slugify(value) {
+      return value
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .slice(0, 64) || 'member';
+    }
+
+    function encodedStoragePath(path) {
+      return path.split('/').map((part) => encodeURIComponent(part)).join('/');
+    }
+
+    function createPhotoPath(email, file) {
+      const extension = acceptedPhotoTypes.get(file.type) || 'jpg';
+      const stamp = new Date().toISOString().replace(/[-:.TZ]/g, '').slice(0, 14);
+      const randomId = typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      return `pending/${slugify(email)}-${stamp}-${randomId}.${extension}`;
+    }
+
+    async function uploadPhoto(file, email) {
+      const issue = validatePhoto(file);
+      if (issue) throw new Error(issue);
+
+      const storagePath = createPhotoPath(email, file);
+      const encodedPath = encodedStoragePath(storagePath);
+      const response = await fetch(`${supabaseStorageUrl}/object/${memberPhotoBucket}/${encodedPath}`, {
+        method: 'POST',
+        headers: {
+          ...headers,
+          'Content-Type': file.type,
+          'x-upsert': 'false',
+        },
+        body: file,
+      });
+
+      if (!response.ok) {
+        const error = await response.json().catch(() => null);
+        const message = error?.message || 'Unable to upload this profile photo.';
+        if (message.toLowerCase().includes('bucket not found')) {
+          throw new Error('Photo storage is not ready yet. Please ask the lab admin to enable the member-photos bucket.');
+        }
+        if (message.toLowerCase().includes('row-level security')) {
+          throw new Error('Photo upload is blocked by Supabase Storage policy. Please ask the lab admin to enable uploads for member photos.');
+        }
+        throw new Error(message);
+      }
+
+      return `${supabaseStorageUrl}/object/public/${memberPhotoBucket}/${encodedPath}`;
+    }
+
+    function updatePhotoPreview() {
+      if (previewObjectUrl) URL.revokeObjectURL(previewObjectUrl);
+      previewObjectUrl = '';
+
+      const file = photoInput.files?.[0];
+      if (!file) {
+        photoPreview.innerHTML = '<div class="photo-preview-frame"><span>Preview</span></div><p>Upload a clear JPG, PNG, or WebP image up to 4 MB.</p>';
+        return;
+      }
+
+      const issue = validatePhoto(file);
+      if (issue) {
+        photoPreview.innerHTML = `<div class="photo-preview-frame"><span>Preview</span></div><p>${issue}</p>`;
+        return;
+      }
+
+      previewObjectUrl = URL.createObjectURL(file);
+      const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+      photoPreview.innerHTML = `
+        <div class="photo-preview-frame has-photo"><img src="${previewObjectUrl}" alt="Selected profile photo preview" /></div>
+        <p>${escapeHtml(file.name)} · ${sizeMb} MB</p>
+      `;
     }
 
     async function loadClusters() {
@@ -178,6 +289,14 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
       }
 
       const data = new FormData(form);
+      const photoFile = selectedPhoto(data);
+      const photoIssue = validatePhoto(photoFile);
+      if (photoIssue) {
+        setStatus(photoIssue, 'error');
+        photoInput.focus();
+        return;
+      }
+
       const payload = {
         name: field(data, 'name').trim(),
         email: field(data, 'email').trim().toLowerCase(),
@@ -185,7 +304,7 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
         cluster_slug: nullable(field(data, 'cluster_slug')),
         role_title: field(data, 'role_title').trim(),
         affiliation: nullable(field(data, 'affiliation')),
-        image_url: nullable(field(data, 'image_url')),
+        image_url: null,
         homepage_url: nullable(field(data, 'homepage_url')),
         scholar_url: nullable(field(data, 'scholar_url')),
         linkedin_url: nullable(field(data, 'linkedin_url')),
@@ -196,6 +315,18 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
       };
 
       submitButton.disabled = true;
+      submitButton.textContent = 'Uploading photo...';
+      setStatus('Uploading your profile photo...', 'neutral');
+
+      try {
+        payload.image_url = await uploadPhoto(photoFile, payload.email);
+      } catch (error) {
+        setStatus(error instanceof Error ? error.message : 'Unable to upload this profile photo.', 'error');
+        submitButton.disabled = false;
+        submitButton.textContent = 'Submit for verification';
+        return;
+      }
+
       submitButton.textContent = 'Submitting...';
       setStatus('Submitting your profile for verification...', 'neutral');
 
@@ -211,6 +342,7 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
 
       if (response.ok) {
         form.reset();
+        updatePhotoPreview();
         setStatus('Registration received. Your profile is pending lab verification.', 'success');
         submitButton.textContent = 'Submitted';
         return;
@@ -237,6 +369,7 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
       loadClusters();
     }
 
+    photoInput.addEventListener('change', updatePhotoPreview);
     form.addEventListener('submit', submitProfile);
   </script>
 </BaseLayout>

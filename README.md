@@ -70,6 +70,16 @@ public/gallery/
 
 After adding real images, update the matching data files and components to use the new image paths.
 
+## Registration photo uploads
+
+The private registration form uploads member portraits to Supabase Storage bucket:
+
+```text
+member-photos
+```
+
+Run `docs/SUPABASE_MEMBER_PHOTOS_STORAGE.sql` once in the Supabase SQL Editor before testing registration uploads. The form uploads JPG, PNG, and WebP files up to 4 MB, then stores the public Storage URL in `lab_members.image_url`.
+
 ## Publications rules
 
 The publications page is intentionally simple and does not include a paper search tool.
