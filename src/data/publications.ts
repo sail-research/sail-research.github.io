@@ -1,9 +1,15 @@
 export type PublicationStatus = 'accepted' | 'arxiv';
 export type PublicationType = 'conference' | 'journal' | 'workshop' | 'preprint';
+export type PublicationVenueMetricLabel = 'Impact Factor' | 'Ranking';
 
 export interface PublicationLink {
   label: string;
   url: string;
+}
+
+export interface PublicationVenueMetric {
+  label: PublicationVenueMetricLabel;
+  value: string;
 }
 
 export interface Publication {
@@ -14,6 +20,7 @@ export interface Publication {
   status: PublicationStatus;
   type: PublicationType;
   tags: string[];
+  venueMetric?: PublicationVenueMetric;
   links?: PublicationLink[];
   sourceNote?: string;
 }
@@ -31,6 +38,32 @@ const kokSengVariants = [
 
 export const includesKokSengWong = (authors: string[]) =>
   authors.some((author) => kokSengVariants.some((variant) => author.toLowerCase() === variant.toLowerCase()));
+
+const venueMetrics: Record<string, PublicationVenueMetric> = {
+  'AAAI 2026': { label: 'Ranking', value: 'CORE A*' },
+  'CVPR 2026': { label: 'Ranking', value: 'CORE A*' },
+  'CVPR 2026 Findings': { label: 'Ranking', value: 'CORE A* venue' },
+  'ICLR 2026 Workshop on Principled Design for Trustworthy AI': { label: 'Ranking', value: 'Workshop' },
+  'IEEE Transactions on Neural Networks and Learning Systems': { label: 'Impact Factor', value: '8.9' },
+  'IEEE Transactions on Mobile Computing': { label: 'Impact Factor', value: '9.2' },
+  'ICLR 2025': { label: 'Ranking', value: 'CORE A*' },
+  'FL-AsiaCCS 2025': { label: 'Ranking', value: 'Workshop' },
+  'IEEE Access': { label: 'Impact Factor', value: '3.6' },
+  'ECCV 2024': { label: 'Ranking', value: 'CORE A' },
+  'CVPR 2024': { label: 'Ranking', value: 'CORE A*' },
+  'Findings of ACL 2024': { label: 'Ranking', value: 'CORE A* venue' },
+  'IEEE Transactions on Emerging Topics in Computing': { label: 'Impact Factor', value: '5.4' },
+  'Engineering Applications of Artificial Intelligence': { label: 'Impact Factor', value: '8.0' },
+  'The Web Conference 2024': { label: 'Ranking', value: 'CORE A*' },
+  'ICLR 2024': { label: 'Ranking', value: 'CORE A*' },
+  'WACV 2024 Workshop': { label: 'Ranking', value: 'Workshop' },
+  'IJCNN 2023': { label: 'Ranking', value: 'CORE A' },
+  'NeurIPS 2023': { label: 'Ranking', value: 'CORE A*' },
+  'ACML 2023': { label: 'Ranking', value: 'CORE B' },
+  'IEEE Transactions on Network and Service Management': { label: 'Impact Factor', value: '5.4' },
+  'ATC 2022': { label: 'Ranking', value: 'CORE unlisted' },
+  'ICOIN 2022': { label: 'Ranking', value: 'CORE B' },
+};
 
 export const publications: Publication[] = [
   {
@@ -367,7 +400,12 @@ export const publications: Publication[] = [
     tags: ['Trustworthy AI', 'Federated learning', 'Backdoor attacks and defenses'],
     links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2407.03144' }],
   },
-].filter((publication) => includesKokSengWong(publication.authors));
+]
+  .filter((publication) => includesKokSengWong(publication.authors))
+  .map((publication) => ({
+    ...publication,
+    venueMetric: publication.venueMetric ?? venueMetrics[publication.venue],
+  }));
 
 const statusRank: Record<PublicationType, number> = {
   journal: 0,
