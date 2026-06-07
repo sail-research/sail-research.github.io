@@ -3,8 +3,11 @@ import type { Person } from '../data/team';
 import { withBase } from '../utils/paths';
 interface Props {
   person: Person;
+  showBio?: boolean;
+  showResearchInterests?: boolean;
+  showLinks?: boolean;
 }
-const { person } = Astro.props;
+const { person, showBio = true, showResearchInterests = true, showLinks = true } = Astro.props;
 const imageSrc = person.image ? withBase(person.image) : undefined;
 ---
 
@@ -19,13 +22,13 @@ const imageSrc = person.image ? withBase(person.image) : undefined;
   <h3>{person.name}</h3>
   <div class="role">{person.role}</div>
   {person.affiliation && <p>{person.affiliation}</p>}
-  {person.shortBio && <p>{person.shortBio}</p>}
-  {person.researchInterests && person.researchInterests.length > 0 && (
+  {showBio && person.shortBio && <p>{person.shortBio}</p>}
+  {showResearchInterests && person.researchInterests && person.researchInterests.length > 0 && (
     <div class="flex flex-wrap gap-2 mt-4">
       {person.researchInterests.map((interest) => <span class="chip">{interest}</span>)}
     </div>
   )}
-  {person.links && person.links.length > 0 && (
+  {showLinks && person.links && person.links.length > 0 && (
     <div class="person-links">
       {person.links.map((link) => <a class="small-link" href={link.url}>{link.label}</a>)}
     </div>

@@ -26,7 +26,9 @@ const collaborators = getPeopleByGroup('collaborators');
   <section class="section-tight">
     <div class="container stack">
       <SectionHeader title="Professors" description="" />
-      <div class="person-grid">{professors.map((person) => <PersonCard person={person} />)}</div>
+      <div class="person-grid">
+        {professors.map((person) => <PersonCard person={person} showBio={false} showResearchInterests={false} showLinks={false} />)}
+      </div>
     </div>
   </section>
 
