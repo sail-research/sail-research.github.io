@@ -1,0 +1,422 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="Astro v6.3.5"><title>Lab registration · SAIL</title><meta name="description" content="Private SAIL lab registration form."><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://www.sail-research.com/register/"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:type" content="website"><meta property="og:title" content="Lab registration · SAIL"><meta property="og:description" content="Private SAIL lab registration form."><meta property="og:url" content="https://www.sail-research.com/register/"><meta property="og:image" content="https://www.sail-research.com/logo-placeholder.svg"><meta name="twitter:card" content="summary_large_image"><link rel="stylesheet" href="/_astro/BaseLayout.DieEKDFY.css"></head> <body> <a class="skip-link" href="#main">Skip to content</a> <header class="header" data-site-header> <div class="container header-inner"> <a class="brand brand-logo-only" href="/" aria-label="Security and Artificial Intelligence Lab home"> <img class="site-logo" src="/logo-placeholder.svg" alt="SAIL" width="96" height="56"> </a> <button class="menu-button" type="button" aria-expanded="false" aria-controls="primary-navigation" data-menu-button>
+Menu
+</button> <nav id="primary-navigation" class="nav" aria-label="Primary navigation" data-primary-navigation> <a href="/">Home</a><a href="/team/">Team</a><a href="/publications/">Publications</a><a href="/research/">Research</a><a href="/projects/">Projects</a><a href="/gallery/">Gallery</a> </nav> </div> </header> <script>
+  const button = document.querySelector('[data-menu-button]');
+  const nav = document.querySelector('[data-primary-navigation]');
+  if (button && nav) {
+    button.addEventListener('click', () => {
+      const isOpen = button.getAttribute('aria-expanded') === 'true';
+      button.setAttribute('aria-expanded', String(!isOpen));
+      nav.setAttribute('data-open', String(!isOpen));
+    });
+
+    nav.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        button.setAttribute('aria-expanded', 'false');
+        nav.setAttribute('data-open', 'false');
+      });
+    });
+  }
+</script> <main id="main">  <section class="page-hero register-hero"> <div class="container"> <span class="kicker">Private registration</span> <h1 class="page-title mt-6"><span class="gradient-text">Join the SAIL directory.</span></h1> <p class="lead">Submit your lab profile for verification. Approved profiles appear in the public team directory.</p> </div> </section> <section class="section-tight"> <div class="container register-layout"> <form class="register-form card" id="lab-register-form"> <div class="form-status" id="invite-status" role="status">Checking invite link...</div> <div class="form-grid"> <label> <span>Full name</span> <input name="name" type="text" autocomplete="name" required> </label> <label> <span>Email</span> <input name="email" type="email" autocomplete="email" placeholder="name@vinuni.edu.vn" required> </label> <label> <span>Directory group</span> <select name="group_key" required> <option value="research-assistants">Research Assistant</option> <option value="undergraduate-ra">Undergraduate RA</option> <option value="phd">PhD Student</option> <option value="master">Master Student</option> <option value="professors">Professor</option> <option value="collaborators">Collaborator</option> <option value="alumni">Alumni</option> </select> </label> <label> <span>Primary cluster</span> <select name="cluster_slug" id="cluster-select"> <option value="">Select a cluster</option> <option value="trustworthy-ai">Trustworthy AI</option> <option value="distributed-learning">Distributed Learning</option> <option value="efficient-machine-learning">Efficient Machine Learning</option> </select> </label> <label class="span-2"> <span>Role title</span> <input name="role_title" type="text" placeholder="Research Assistant, PhD Student, UROP Student..." required> </label> <label class="span-2"> <span>Affiliation</span> <input name="affiliation" type="text" placeholder="SAIL, VinUniversity"> </label> <label class="span-2"> <span>Research interests</span> <input name="research_interests" type="text" placeholder="Federated Learning, Trustworthy AI, Backdoor Defense"> </label> <label> <span>Homepage</span> <input name="homepage_url" type="url" placeholder="https://..."> </label> <label> <span>Google Scholar</span> <input name="scholar_url" type="url" placeholder="https://scholar.google.com/..."> </label> <label> <span>LinkedIn</span> <input name="linkedin_url" type="url" placeholder="https://linkedin.com/in/..."> </label> <div class="span-2 photo-upload-field"> <label for="photo-input"><span>Profile photo</span></label> <input id="photo-input" name="portrait_file" type="file" accept="image/jpeg,image/png,image/webp" required> <div class="photo-upload-preview" id="photo-preview" aria-live="polite"> <div class="photo-preview-frame"><span>1:1</span></div> <p>Choose a JPG, PNG, or WebP image. The saved portrait will be square.</p> </div> <div class="photo-cropper" id="photo-cropper" hidden> <div class="photo-crop-stage" id="photo-crop-stage"> <img id="photo-crop-image" alt="Selected profile photo crop" draggable="false"> <span class="photo-crop-border" aria-hidden="true"></span> </div> <div class="photo-crop-controls"> <label for="photo-zoom"> <span>Zoom</span> <input id="photo-zoom" type="range" min="1" max="3" step="0.01" value="1"> </label> <button class="btn btn-secondary photo-reset-button" id="photo-reset-button" type="button">Reset crop</button> </div> </div> </div> <label class="span-2"> <span>Short bio</span> <textarea name="short_bio" rows="5" placeholder="One or two concise sentences about your work."></textarea> </label> </div> <div class="form-actions"> <button class="btn btn-primary" type="submit" id="submit-button">Submit for verification</button> <p class="form-note">This private form accepts VinUniversity email addresses for the current invite.</p> </div> </form> <aside class="register-aside"> <div class="content-panel"> <h3>Review queue</h3> <ul class="clean-list"> <li>Submitted profiles are stored as pending.</li> <li>Lab admins approve role, cluster, and public visibility in Supabase.</li> <li>People leaving the lab can be moved to alumni or hidden.</li> </ul> </div> </aside> </div> </section> <script>(function(){const supabaseRestUrl = "https://rxnhlmrvwmepuphpithm.supabase.co/rest/v1";
+const supabaseStorageUrl = "https://rxnhlmrvwmepuphpithm.supabase.co/storage/v1";
+const supabasePublishableKey = "sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7";
+const memberPhotoBucket = "member-photos";
+
+    const form = document.getElementById('lab-register-form');
+    const statusBox = document.getElementById('invite-status');
+    const submitButton = document.getElementById('submit-button');
+    const clusterSelect = document.getElementById('cluster-select');
+    const photoInput = document.getElementById('photo-input');
+    const photoPreview = document.getElementById('photo-preview');
+    const photoCropper = document.getElementById('photo-cropper');
+    const photoCropStage = document.getElementById('photo-crop-stage');
+    const photoCropImage = document.getElementById('photo-crop-image');
+    const photoZoom = document.getElementById('photo-zoom');
+    const photoResetButton = document.getElementById('photo-reset-button');
+    const inviteToken = new URLSearchParams(window.location.search).get('invite')?.trim() || '';
+    const maxSourcePhotoSize = 12 * 1024 * 1024;
+    const maxUploadPhotoSize = 4 * 1024 * 1024;
+    const croppedPhotoSize = 800;
+    const acceptedPhotoTypes = new Map([
+      ['image/jpeg', 'jpg'],
+      ['image/png', 'png'],
+      ['image/webp', 'webp'],
+    ]);
+    let previewObjectUrl = '';
+    let cropReady = false;
+    let cropState = { scale: 1, x: 0, y: 0 };
+    let dragState = null;
+
+    const headers = {
+      apikey: supabasePublishableKey,
+      Authorization: `Bearer ${supabasePublishableKey}`,
+    };
+
+    function setStatus(message, tone = 'neutral') {
+      statusBox.textContent = message;
+      statusBox.dataset.tone = tone;
+    }
+
+    function normalizeList(value) {
+      return value
+        .split(',')
+        .map((item) => item.trim())
+        .filter(Boolean);
+    }
+
+    function nullable(value) {
+      const trimmed = value.trim();
+      return trimmed.length ? trimmed : null;
+    }
+
+    function field(formData, name) {
+      const value = formData.get(name);
+      return typeof value === 'string' ? value : '';
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>"']/g, (char) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;',
+      }[char]));
+    }
+
+    function selectedPhoto(formData) {
+      const value = formData.get('portrait_file');
+      return value instanceof File && value.size > 0 ? value : null;
+    }
+
+    function validatePhoto(file) {
+      if (!file) return 'Please upload a profile photo.';
+      if (!acceptedPhotoTypes.has(file.type)) return 'Please upload a JPG, PNG, or WebP photo.';
+      if (file.size > maxSourcePhotoSize) return 'Please keep the source photo at 12 MB or smaller.';
+      return '';
+    }
+
+    function validateCroppedPhoto(file) {
+      if (!file) return 'Please crop a profile photo.';
+      if (file.type !== 'image/jpeg') return 'Unable to prepare the cropped JPG photo.';
+      if (file.size > maxUploadPhotoSize) return 'The cropped profile photo is too large. Please choose a smaller source image.';
+      return '';
+    }
+
+    function slugify(value) {
+      return value
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .slice(0, 64) || 'member';
+    }
+
+    function encodedStoragePath(path) {
+      return path.split('/').map((part) => encodeURIComponent(part)).join('/');
+    }
+
+    function createPhotoPath(email) {
+      const stamp = new Date().toISOString().replace(/[-:.TZ]/g, '').slice(0, 14);
+      const randomId = typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      return `pending/${slugify(email)}-${stamp}-${randomId}.jpg`;
+    }
+
+    async function uploadPhoto(file, email) {
+      const issue = validateCroppedPhoto(file);
+      if (issue) throw new Error(issue);
+
+      const storagePath = createPhotoPath(email);
+      const encodedPath = encodedStoragePath(storagePath);
+      const response = await fetch(`${supabaseStorageUrl}/object/${memberPhotoBucket}/${encodedPath}`, {
+        method: 'POST',
+        headers: {
+          ...headers,
+          'Content-Type': file.type,
+          'x-upsert': 'false',
+        },
+        body: file,
+      });
+
+      if (!response.ok) {
+        const error = await response.json().catch(() => null);
+        const message = error?.message || 'Unable to upload this profile photo.';
+        if (message.toLowerCase().includes('bucket not found')) {
+          throw new Error('Photo storage is not ready yet. Please ask the lab admin to enable the member-photos bucket.');
+        }
+        if (message.toLowerCase().includes('row-level security')) {
+          throw new Error('Photo upload is blocked by Supabase Storage policy. Please ask the lab admin to enable uploads for member photos.');
+        }
+        throw new Error(message);
+      }
+
+      return `${supabaseStorageUrl}/object/public/${memberPhotoBucket}/${encodedPath}`;
+    }
+
+    function clamp(value, min, max) {
+      return Math.min(max, Math.max(min, value));
+    }
+
+    function cropBaseSize() {
+      const stageSize = photoCropStage.getBoundingClientRect().width;
+      const ratio = photoCropImage.naturalWidth / photoCropImage.naturalHeight;
+      if (!stageSize || !ratio) return { stageSize: 0, width: 0, height: 0 };
+
+      if (ratio >= 1) {
+        return { stageSize, width: stageSize * ratio, height: stageSize };
+      }
+
+      return { stageSize, width: stageSize, height: stageSize / ratio };
+    }
+
+    function clampCropState() {
+      const base = cropBaseSize();
+      if (!base.stageSize) return;
+
+      const scaledWidth = base.width * cropState.scale;
+      const scaledHeight = base.height * cropState.scale;
+      const maxX = Math.max(0, (scaledWidth - base.stageSize) / 2);
+      const maxY = Math.max(0, (scaledHeight - base.stageSize) / 2);
+      cropState.x = clamp(cropState.x, -maxX, maxX);
+      cropState.y = clamp(cropState.y, -maxY, maxY);
+    }
+
+    function renderCrop() {
+      if (!cropReady) return;
+
+      const base = cropBaseSize();
+      if (!base.stageSize) return;
+
+      clampCropState();
+      photoCropImage.style.width = `${base.width}px`;
+      photoCropImage.style.height = `${base.height}px`;
+      photoCropImage.style.transform = `translate(-50%, -50%) translate(${cropState.x}px, ${cropState.y}px) scale(${cropState.scale})`;
+    }
+
+    function resetCrop() {
+      cropState = { scale: 1, x: 0, y: 0 };
+      photoZoom.value = '1';
+      renderCrop();
+    }
+
+    function clearCrop() {
+      cropReady = false;
+      photoCropper.hidden = true;
+      photoCropImage.removeAttribute('src');
+      resetCrop();
+    }
+
+    function croppedPhotoFile(email) {
+      if (!cropReady) {
+        return Promise.reject(new Error('Please choose and crop a profile photo.'));
+      }
+
+      renderCrop();
+      const base = cropBaseSize();
+      const displayWidth = base.width * cropState.scale;
+      const displayHeight = base.height * cropState.scale;
+      const left = base.stageSize / 2 - displayWidth / 2 + cropState.x;
+      const top = base.stageSize / 2 - displayHeight / 2 + cropState.y;
+      const sx = clamp((0 - left) * photoCropImage.naturalWidth / displayWidth, 0, photoCropImage.naturalWidth);
+      const sy = clamp((0 - top) * photoCropImage.naturalHeight / displayHeight, 0, photoCropImage.naturalHeight);
+      const sw = clamp(base.stageSize * photoCropImage.naturalWidth / displayWidth, 1, photoCropImage.naturalWidth - sx);
+      const sh = clamp(base.stageSize * photoCropImage.naturalHeight / displayHeight, 1, photoCropImage.naturalHeight - sy);
+
+      const canvas = document.createElement('canvas');
+      canvas.width = croppedPhotoSize;
+      canvas.height = croppedPhotoSize;
+      const context = canvas.getContext('2d');
+      if (!context) {
+        return Promise.reject(new Error('Unable to prepare the cropped profile photo.'));
+      }
+      context.fillStyle = '#ffffff';
+      context.fillRect(0, 0, croppedPhotoSize, croppedPhotoSize);
+      context.drawImage(photoCropImage, sx, sy, sw, sh, 0, 0, croppedPhotoSize, croppedPhotoSize);
+
+      return new Promise((resolve, reject) => {
+        canvas.toBlob((blob) => {
+          if (!blob) {
+            reject(new Error('Unable to prepare the cropped profile photo.'));
+            return;
+          }
+          resolve(new File([blob], `${slugify(email)}-profile.jpg`, { type: 'image/jpeg' }));
+        }, 'image/jpeg', 0.9);
+      });
+    }
+
+    function updatePhotoPreview() {
+      if (previewObjectUrl) URL.revokeObjectURL(previewObjectUrl);
+      previewObjectUrl = '';
+      clearCrop();
+
+      const file = photoInput.files?.[0];
+      if (!file) {
+        photoPreview.innerHTML = '<div class="photo-preview-frame"><span>1:1</span></div><p>Choose a JPG, PNG, or WebP image. The saved portrait will be square.</p>';
+        return;
+      }
+
+      const issue = validatePhoto(file);
+      if (issue) {
+        photoPreview.innerHTML = `<div class="photo-preview-frame"><span>1:1</span></div><p>${issue}</p>`;
+        return;
+      }
+
+      previewObjectUrl = URL.createObjectURL(file);
+      const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+      photoPreview.innerHTML = `
+        <div class="photo-preview-frame has-photo"><img src="${previewObjectUrl}" alt="Selected profile photo preview" /></div>
+        <p>${escapeHtml(file.name)} - ${sizeMb} MB</p>
+      `;
+      photoCropImage.onload = () => {
+        cropReady = true;
+        photoCropper.hidden = false;
+        resetCrop();
+      };
+      photoCropImage.onerror = () => {
+        clearCrop();
+        photoPreview.innerHTML = '<div class="photo-preview-frame"><span>1:1</span></div><p>Unable to read this image file.</p>';
+      };
+      photoCropImage.src = previewObjectUrl;
+    }
+
+    async function loadClusters() {
+      const response = await fetch(`${supabaseRestUrl}/lab_clusters?select=slug,name&order=sort_order.asc`, {
+        headers,
+      });
+      if (!response.ok) return;
+
+      const clusters = await response.json();
+      if (!Array.isArray(clusters) || clusters.length === 0) return;
+
+      clusterSelect.innerHTML = '<option value="">Select a cluster</option>';
+      clusters.forEach((cluster) => {
+        const option = document.createElement('option');
+        option.value = cluster.slug;
+        option.textContent = cluster.name;
+        clusterSelect.append(option);
+      });
+    }
+
+    async function submitProfile(event) {
+      event.preventDefault();
+
+      if (!inviteToken) {
+        setStatus('Missing invite token. Please use the private registration link shared by the lab.', 'error');
+        return;
+      }
+
+      const data = new FormData(form);
+      const photoFile = selectedPhoto(data);
+      const photoIssue = validatePhoto(photoFile);
+      if (photoIssue) {
+        setStatus(photoIssue, 'error');
+        photoInput.focus();
+        return;
+      }
+
+      const payload = {
+        name: field(data, 'name').trim(),
+        email: field(data, 'email').trim().toLowerCase(),
+        group_key: field(data, 'group_key'),
+        cluster_slug: nullable(field(data, 'cluster_slug')),
+        role_title: field(data, 'role_title').trim(),
+        affiliation: nullable(field(data, 'affiliation')),
+        image_url: null,
+        homepage_url: nullable(field(data, 'homepage_url')),
+        scholar_url: nullable(field(data, 'scholar_url')),
+        linkedin_url: nullable(field(data, 'linkedin_url')),
+        research_interests: normalizeList(field(data, 'research_interests')),
+        short_bio: nullable(field(data, 'short_bio')),
+        status: 'pending',
+        invite_token: inviteToken,
+      };
+
+      submitButton.disabled = true;
+      submitButton.textContent = 'Cropping photo...';
+      setStatus('Preparing your square profile photo...', 'neutral');
+
+      try {
+        const croppedPhoto = await croppedPhotoFile(payload.email);
+        submitButton.textContent = 'Uploading photo...';
+        setStatus('Uploading your profile photo...', 'neutral');
+        payload.image_url = await uploadPhoto(croppedPhoto, payload.email);
+      } catch (error) {
+        setStatus(error instanceof Error ? error.message : 'Unable to upload this profile photo.', 'error');
+        submitButton.disabled = false;
+        submitButton.textContent = 'Submit for verification';
+        return;
+      }
+
+      submitButton.textContent = 'Submitting...';
+      setStatus('Submitting your profile for verification...', 'neutral');
+
+      const response = await fetch(`${supabaseRestUrl}/lab_members`, {
+        method: 'POST',
+        headers: {
+          ...headers,
+          'Content-Type': 'application/json',
+          Prefer: 'return=minimal',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        form.reset();
+        updatePhotoPreview();
+        setStatus('Registration received. Your profile is pending lab verification.', 'success');
+        submitButton.textContent = 'Submitted';
+        return;
+      }
+
+      const error = await response.json().catch(() => null);
+      const message = error?.message || 'Unable to submit this profile.';
+      const friendly = message.includes('row-level security')
+        ? 'Invite invalid, expired, or this email domain is not allowed for the current invite.'
+        : message.includes('lab_members_email_unique')
+          ? 'This email is already registered in the lab directory.'
+          : message;
+
+      setStatus(friendly, 'error');
+      submitButton.disabled = false;
+      submitButton.textContent = 'Submit for verification';
+    }
+
+    if (!inviteToken) {
+      setStatus('Missing invite token. Please use the private registration link shared by the lab.', 'error');
+      submitButton.disabled = true;
+    } else {
+      setStatus('Invite link detected. This submission will enter pending verification.', 'success');
+      loadClusters();
+    }
+
+    photoInput.addEventListener('change', updatePhotoPreview);
+    photoZoom.addEventListener('input', () => {
+      cropState.scale = Number(photoZoom.value);
+      renderCrop();
+    });
+    photoResetButton.addEventListener('click', resetCrop);
+    photoCropStage.addEventListener('pointerdown', (event) => {
+      if (!cropReady) return;
+      photoCropStage.setPointerCapture(event.pointerId);
+      dragState = {
+        pointerId: event.pointerId,
+        startX: event.clientX,
+        startY: event.clientY,
+        originX: cropState.x,
+        originY: cropState.y,
+      };
+    });
+    photoCropStage.addEventListener('pointermove', (event) => {
+      if (!dragState || dragState.pointerId !== event.pointerId) return;
+      cropState.x = dragState.originX + event.clientX - dragState.startX;
+      cropState.y = dragState.originY + event.clientY - dragState.startY;
+      renderCrop();
+    });
+    photoCropStage.addEventListener('pointerup', (event) => {
+      if (dragState?.pointerId === event.pointerId) dragState = null;
+    });
+    photoCropStage.addEventListener('pointercancel', () => {
+      dragState = null;
+    });
+    window.addEventListener('resize', renderCrop);
+    form.addEventListener('submit', submitProfile);
+  })();</script>  </main> <footer class="footer"> <div class="container footer-grid"> <section aria-label="Lab summary"> <h2>Security and Artificial Intelligence Lab</h2> <p>College of Engineering and Computer Science, VinUniversity</p> <p class="mt-4 max-w-xl">Trustworthy, distributed, and efficient AI research for robust, private, and scalable machine learning systems.</p> </section> <section aria-label="Contact information"> <h3>Contact</h3> <p><a href="mailto:contact@sail-research.com">contact@sail-research.com</a></p> <p class="mt-4"> G3 Building, VinUniversity<br>Vinhomes Ocean Park, Gia Lam District<br>Hanoi, Vietnam<br> </p> </section> <section aria-label="Social links"> <h3>Connect</h3> <div class="footer-links"> <a class="footer-pill" href="https://github.com/sail-research/" target="_blank" rel="noreferrer">GitHub</a><a class="footer-pill" href="https://www.facebook.com/sail.research" target="_blank" rel="noreferrer">Facebook</a> </div> <p class="mt-6">© 2026 SAIL Lab.</p> </section> </div> </footer> </body></html>

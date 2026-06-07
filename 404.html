@@ -1,0 +1,20 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="Astro v6.3.5"><title>Page not found · SAIL</title><meta name="description" content="Page not found."><link rel="canonical" href="https://www.sail-research.com/404/"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:type" content="website"><meta property="og:title" content="Page not found · SAIL"><meta property="og:description" content="Page not found."><meta property="og:url" content="https://www.sail-research.com/404/"><meta property="og:image" content="https://www.sail-research.com/logo-placeholder.svg"><meta name="twitter:card" content="summary_large_image"><link rel="stylesheet" href="/_astro/BaseLayout.DieEKDFY.css"></head> <body> <a class="skip-link" href="#main">Skip to content</a> <header class="header" data-site-header> <div class="container header-inner"> <a class="brand brand-logo-only" href="/" aria-label="Security and Artificial Intelligence Lab home"> <img class="site-logo" src="/logo-placeholder.svg" alt="SAIL" width="96" height="56"> </a> <button class="menu-button" type="button" aria-expanded="false" aria-controls="primary-navigation" data-menu-button>
+Menu
+</button> <nav id="primary-navigation" class="nav" aria-label="Primary navigation" data-primary-navigation> <a href="/">Home</a><a href="/team/">Team</a><a href="/publications/">Publications</a><a href="/research/">Research</a><a href="/projects/">Projects</a><a href="/gallery/">Gallery</a> </nav> </div> </header> <script>
+  const button = document.querySelector('[data-menu-button]');
+  const nav = document.querySelector('[data-primary-navigation]');
+  if (button && nav) {
+    button.addEventListener('click', () => {
+      const isOpen = button.getAttribute('aria-expanded') === 'true';
+      button.setAttribute('aria-expanded', String(!isOpen));
+      nav.setAttribute('data-open', String(!isOpen));
+    });
+
+    nav.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        button.setAttribute('aria-expanded', 'false');
+        nav.setAttribute('data-open', 'false');
+      });
+    });
+  }
+</script> <main id="main">  <section class="page-hero"> <div class="container"> <span class="kicker">404</span> <h1 class="page-title mt-6"><span class="gradient-text">This page is not here.</span></h1> <p class="lead">Return to the SAIL homepage or explore the main research pages.</p> <div class="hero-actions"> <a class="btn btn-primary" href="/">Go home</a> <a class="btn btn-secondary" href="/research/">Explore research</a> </div> </div> </section>  </main> <footer class="footer"> <div class="container footer-grid"> <section aria-label="Lab summary"> <h2>Security and Artificial Intelligence Lab</h2> <p>College of Engineering and Computer Science, VinUniversity</p> <p class="mt-4 max-w-xl">Trustworthy, distributed, and efficient AI research for robust, private, and scalable machine learning systems.</p> </section> <section aria-label="Contact information"> <h3>Contact</h3> <p><a href="mailto:contact@sail-research.com">contact@sail-research.com</a></p> <p class="mt-4"> G3 Building, VinUniversity<br>Vinhomes Ocean Park, Gia Lam District<br>Hanoi, Vietnam<br> </p> </section> <section aria-label="Social links"> <h3>Connect</h3> <div class="footer-links"> <a class="footer-pill" href="https://github.com/sail-research/" target="_blank" rel="noreferrer">GitHub</a><a class="footer-pill" href="https://www.facebook.com/sail.research" target="_blank" rel="noreferrer">Facebook</a> </div> <p class="mt-6">© 2026 SAIL Lab.</p> </section> </div> </footer> </body></html>
