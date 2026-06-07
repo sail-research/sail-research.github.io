@@ -9,6 +9,7 @@ export interface PublicationLink {
 
 export interface PublicationVenueMetric {
   label: PublicationVenueMetricLabel;
+  sourceYear: string;
   value: string;
 }
 
@@ -39,30 +40,34 @@ const kokSengVariants = [
 export const includesKokSengWong = (authors: string[]) =>
   authors.some((author) => kokSengVariants.some((variant) => author.toLowerCase() === variant.toLowerCase()));
 
-const venueMetrics: Record<string, PublicationVenueMetric> = {
-  'AAAI 2026': { label: 'Ranking', value: 'CORE A*' },
-  'CVPR 2026': { label: 'Ranking', value: 'CORE A*' },
-  'CVPR 2026 Findings': { label: 'Ranking', value: 'CORE A* venue' },
-  'ICLR 2026 Workshop on Principled Design for Trustworthy AI': { label: 'Ranking', value: 'Workshop' },
-  'IEEE Transactions on Neural Networks and Learning Systems': { label: 'Impact Factor', value: '8.9' },
-  'IEEE Transactions on Mobile Computing': { label: 'Impact Factor', value: '9.2' },
-  'ICLR 2025': { label: 'Ranking', value: 'CORE A*' },
-  'FL-AsiaCCS 2025': { label: 'Ranking', value: 'Workshop' },
-  'IEEE Access': { label: 'Impact Factor', value: '3.6' },
-  'ECCV 2024': { label: 'Ranking', value: 'CORE A*' },
-  'CVPR 2024': { label: 'Ranking', value: 'CORE A*' },
-  'Findings of ACL 2024': { label: 'Ranking', value: 'CORE A* venue' },
-  'IEEE Transactions on Emerging Topics in Computing': { label: 'Impact Factor', value: '5.4' },
-  'Engineering Applications of Artificial Intelligence': { label: 'Impact Factor', value: '8.0' },
-  'The Web Conference 2024': { label: 'Ranking', value: 'CORE A*' },
-  'ICLR 2024': { label: 'Ranking', value: 'CORE A*' },
-  'WACV 2024 Workshop': { label: 'Ranking', value: 'Workshop' },
-  'IJCNN 2023': { label: 'Ranking', value: 'CORE B' },
-  'NeurIPS 2023': { label: 'Ranking', value: 'CORE A*' },
-  'ACML 2023': { label: 'Ranking', value: 'CORE B' },
-  'IEEE Transactions on Network and Service Management': { label: 'Impact Factor', value: '5.4' },
-  'ATC 2022': { label: 'Ranking', value: 'CORE unlisted' },
-  'ICOIN 2022': { label: 'Ranking', value: 'CORE B' },
+const metricKey = (publication: Pick<Publication, 'venue' | 'year'>) => `${publication.venue}::${publication.year}`;
+
+const venueYearMetrics: Record<string, PublicationVenueMetric> = {
+  'AAAI 2026::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'A*' },
+  'CVPR 2026::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'A*' },
+  'CVPR 2026 Findings::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'A* (CVPR)' },
+  'ICLR 2026 Workshop on Principled Design for Trustworthy AI::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'Workshop (ICLR A*)' },
+  'IEEE Transactions on Neural Networks and Learning Systems::2025': { label: 'Impact Factor', sourceYear: 'JCR 2024', value: '8.9' },
+  'IEEE Transactions on Mobile Computing::2025': { label: 'Impact Factor', sourceYear: 'JCR 2024', value: '9.2' },
+  'ICLR 2025::2025': { label: 'Ranking', sourceYear: 'CORE2023', value: 'A*' },
+  'FL-AsiaCCS 2025::2025': { label: 'Ranking', sourceYear: 'CORE2023', value: 'Workshop (AsiaCCS A)' },
+  'IEEE Access::2024': { label: 'Impact Factor', sourceYear: 'JCR 2024', value: '3.6' },
+  'ECCV 2024::2024': { label: 'Ranking', sourceYear: 'CORE2023', value: 'A*' },
+  'CVPR 2024::2024': { label: 'Ranking', sourceYear: 'CORE2023', value: 'A*' },
+  'Findings of ACL 2024::2024': { label: 'Ranking', sourceYear: 'CORE2023', value: 'A* (ACL)' },
+  'IEEE Transactions on Emerging Topics in Computing::2024': { label: 'Impact Factor', sourceYear: 'JCR 2024', value: '5.4' },
+  'Engineering Applications of Artificial Intelligence::2024': { label: 'Impact Factor', sourceYear: 'JCR 2024', value: '8.0' },
+  'The Web Conference 2024::2024': { label: 'Ranking', sourceYear: 'CORE2023', value: 'A*' },
+  'ICLR 2024::2024': { label: 'Ranking', sourceYear: 'CORE2023', value: 'A*' },
+  'WACV 2024 Workshop::2024': { label: 'Ranking', sourceYear: 'CORE2023', value: 'Workshop (WACV A)' },
+  'IJCNN 2023::2023': { label: 'Ranking', sourceYear: 'CORE2023', value: 'B' },
+  'NeurIPS 2023::2023': { label: 'Ranking', sourceYear: 'CORE2023', value: 'A*' },
+  'ACML 2023::2023': { label: 'Ranking', sourceYear: 'CORE2023', value: 'Unranked' },
+  'IEEE Transactions on Network and Service Management::2023': { label: 'Impact Factor', sourceYear: 'JCR 2023', value: '4.7' },
+  'IEEE Access::2022': { label: 'Impact Factor', sourceYear: 'JCR 2022', value: '3.9' },
+  'ATC 2022::2022': { label: 'Ranking', sourceYear: 'CORE2021', value: 'Unlisted' },
+  'ICOIN 2022::2022': { label: 'Ranking', sourceYear: 'CORE2021', value: 'Unlisted' },
+  'IEEE Access::2021': { label: 'Impact Factor', sourceYear: 'JCR 2021', value: '3.476' },
 };
 
 export const publications: Publication[] = [
@@ -404,7 +409,7 @@ export const publications: Publication[] = [
   .filter((publication) => includesKokSengWong(publication.authors))
   .map((publication) => ({
     ...publication,
-    venueMetric: publication.venueMetric ?? venueMetrics[publication.venue],
+    venueMetric: publication.venueMetric ?? venueYearMetrics[metricKey(publication)],
   }));
 
 const statusRank: Record<PublicationType, number> = {

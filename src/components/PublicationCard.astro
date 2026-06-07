@@ -28,7 +28,9 @@ const typeLabel = publication.type.charAt(0).toUpperCase() + publication.type.sl
     <div class="flex flex-wrap gap-2 mb-3">
       <span class="chip chip-accent">{publication.venue}</span>
       <span class="chip">{typeLabel}</span>
-      {publication.venueMetric && <span class="chip chip-metric">{publication.venueMetric.label}: {publication.venueMetric.value}</span>}
+      {publication.venueMetric && (
+        <span class="chip chip-metric">{publication.venueMetric.label} ({publication.venueMetric.sourceYear}): {publication.venueMetric.value}</span>
+      )}
     </div>
     <h3>{publication.title}</h3>
     <p class="pub-authors" set:html={authorHtml}></p>
