@@ -14,9 +14,7 @@ export const site = {
   email: 'contact@sail-research.com',
   address: ['G3 Building, VinUniversity', 'Vinhomes Ocean Park, Gia Lam District', 'Hanoi, Vietnam'],
   socialLinks: [
-    { label: 'GitHub' },
-    { label: 'LinkedIn' },
-    { label: 'X' },
-    { label: 'Facebook' },
+    { label: 'GitHub', url: 'https://github.com/sail-research/' },
+    { label: 'Facebook', url: 'https://www.facebook.com/sail.research' },
   ] satisfies SocialLink[],
 } as const;

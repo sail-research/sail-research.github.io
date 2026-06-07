@@ -5,12 +5,21 @@ interface Props {
 }
 const { publication } = Astro.props;
 
-const highlightAuthor = (author: string) => {
-  const normalized = author.toLowerCase().trim();
-  const variants = ['kok-seng wong', 'kok seng wong', 'ks wong', 'k. s. wong', 'k.-s. wong', 'wong, k. s.', 'wong, kok-seng', 'wong kok-seng'];
-  return variants.includes(normalized) ? `<span class="author-highlight">${author}</span>` : author;
-};
-const authorHtml = publication.authors.map(highlightAuthor).join(', ');
+const escapeHtml = (value: string) =>
+  value.replace(/[&<>"']/g, (char) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;',
+  }[char] ?? char));
+
+const authorHtml = publication.authors
+  .map((author, index) => {
+    const escaped = escapeHtml(author);
+    return index === 0 ? `<span class="author-highlight">${escaped}</span>` : escaped;
+  })
+  .join(', ');
 const typeLabel = publication.type.charAt(0).toUpperCase() + publication.type.slice(1);
 ---
 

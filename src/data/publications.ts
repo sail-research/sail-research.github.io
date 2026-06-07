@@ -41,7 +41,10 @@ export const publications: Publication[] = [
     status: 'accepted',
     type: 'conference',
     tags: ['Trustworthy AI', 'Robustness', 'Backdoor attacks and defenses'],
-    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2407.19203' }],
+    links: [
+      { label: 'AAAI', url: 'https://ojs.aaai.org/index.php/AAAI/article/view/37349' },
+      { label: 'arXiv', url: 'https://arxiv.org/abs/2407.19203' },
+    ],
   },
   {
     title: 'HFedATM: Hierarchical Federated Domain Generalization via Optimal Transport and Regularized Mean Aggregation',
@@ -51,7 +54,10 @@ export const publications: Publication[] = [
     status: 'accepted',
     type: 'conference',
     tags: ['Distributed Learning', 'Federated learning', 'Domain generalization', 'Efficient ML'],
-    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2508.05135' }],
+    links: [
+      { label: 'CVF', url: 'https://openaccess.thecvf.com/content/CVPR2026/papers/Nguyen_HFedATM_Hierarchical_Federated_Domain_Generalization_via_Optimal_Transport_and_Regularized_CVPR_2026_paper.pdf' },
+      { label: 'arXiv', url: 'https://arxiv.org/abs/2508.05135' },
+    ],
   },
   {
     title: 'Onboarding Without Forgetting: Hypernetwork Personalization with Data-Free Replay for Personalized Federated Learning',
@@ -61,7 +67,10 @@ export const publications: Publication[] = [
     status: 'accepted',
     type: 'conference',
     tags: ['Distributed Learning', 'Personalized federated learning', 'Continual learning'],
-    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2508.05157' }],
+    links: [
+      { label: 'CVF', url: 'https://openaccess.thecvf.com/content/CVPR2026F/papers/Nguyen_Onboarding_Without_Forgetting_Hypernetwork_Personalization_with_Data-Free_Replay_for_Personalized_CVPRF_2026_paper.pdf' },
+      { label: 'arXiv', url: 'https://arxiv.org/abs/2508.05157' },
+    ],
     sourceNote: 'Previously listed as pFedDSH arXiv preprint; moved to accepted after CVPR 2026 Findings acceptance.',
   },
   {
@@ -82,6 +91,7 @@ export const publications: Publication[] = [
     status: 'accepted',
     type: 'workshop',
     tags: ['Trustworthy AI', 'Federated learning', 'Benchmarking'],
+    links: [{ label: 'OpenReview', url: 'https://openreview.net/forum?id=0hHnZeXr9k' }],
   },
   {
     title: 'An Empirical Study of Federated Learning on IoT-Edge Devices: Resource Allocation and Heterogeneity',
@@ -91,6 +101,10 @@ export const publications: Publication[] = [
     status: 'accepted',
     type: 'journal',
     tags: ['Distributed Learning', 'Edge AI', 'Resource allocation'],
+    links: [
+      { label: 'DOI', url: 'https://doi.org/10.1109/TNNLS.2025.3611415' },
+      { label: 'arXiv', url: 'https://arxiv.org/abs/2305.19831' },
+    ],
   },
   {
     title: 'SC-GIR: Goal-oriented Semantic Communication via Invariant Representation Learning for Image Transmission',
@@ -100,6 +114,10 @@ export const publications: Publication[] = [
     status: 'accepted',
     type: 'journal',
     tags: ['Efficient ML', 'Semantic communication'],
+    links: [
+      { label: 'DOI', url: 'https://doi.org/10.1109/TMC.2025.3600434' },
+      { label: 'arXiv', url: 'https://arxiv.org/abs/2509.01119' },
+    ],
   },
   {
     title: 'Wicked Oddities: Selectively Poisoning for Effective Clean-Label Backdoor Attacks',
@@ -109,7 +127,10 @@ export const publications: Publication[] = [
     status: 'accepted',
     type: 'conference',
     tags: ['Trustworthy AI', 'Robustness', 'Backdoor attacks and defenses'],
-    links: [{ label: 'Paper', url: 'https://iclr.cc/virtual/2025/poster/28903' }],
+    links: [
+      { label: 'OpenReview', url: 'https://openreview.net/forum?id=1Z3C49JQVf' },
+      { label: 'ICLR', url: 'https://iclr.cc/virtual/2025/poster/28903' },
+    ],
   },
   {
     title: 'FedDDF: Dynamic Dataset Filtering in Federated Large Language Model Training',
@@ -159,7 +180,10 @@ export const publications: Publication[] = [
     status: 'accepted',
     type: 'conference',
     tags: ['Distributed Learning', 'Federated learning', 'Domain generalization'],
-    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2402.18092' }],
+    links: [
+      { label: 'CVF', url: 'https://openaccess.thecvf.com/content/CVPR2024/html/Le_Efficiently_Assemble_Normalization_Layers_and_Regularization_for_Federated_Domain_Generalization_CVPR_2024_paper.html' },
+      { label: 'arXiv', url: 'https://arxiv.org/abs/2402.18092' },
+    ],
   },
   {
     title: 'Fooling the Textual Fooler via Randomizing Latent Representations',
@@ -169,7 +193,10 @@ export const publications: Publication[] = [
     status: 'accepted',
     type: 'conference',
     tags: ['Trustworthy AI', 'NLP robustness'],
-    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2404.12713' }],
+    links: [
+      { label: 'ACL Anthology', url: 'https://aclanthology.org/2024.findings-acl.856/' },
+      { label: 'arXiv', url: 'https://arxiv.org/abs/2404.12713' },
+    ],
   },
   {
     title: 'Personalized Privacy-Preserving Framework for Cross-Silo Federated Learning',
@@ -189,7 +216,7 @@ export const publications: Publication[] = [
     status: 'accepted',
     type: 'journal',
     tags: ['Trustworthy AI', 'Federated learning', 'Survey'],
-    links: [{ label: 'Paper', url: 'https://www.sciencedirect.com/science/article/pii/S0952197623018507' }],
+    links: [{ label: 'DOI', url: 'https://doi.org/10.1016/j.engappai.2023.107166' }],
   },
   {
     title: 'Towards Efficient Communication Federated Recommendation System via Low-rank Training',
@@ -199,7 +226,10 @@ export const publications: Publication[] = [
     status: 'accepted',
     type: 'conference',
     tags: ['Distributed Learning', 'Communication efficiency', 'Recommendation systems'],
-    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2402.07095' }],
+    links: [
+      { label: 'DOI', url: 'https://doi.org/10.1145/3589334.3645702' },
+      { label: 'arXiv', url: 'https://arxiv.org/abs/2402.07095' },
+    ],
   },
   {
     title: 'Understanding the Robustness of Randomized Feature Defense Against Query-Based Adversarial Attacks',
@@ -229,7 +259,10 @@ export const publications: Publication[] = [
     status: 'accepted',
     type: 'conference',
     tags: ['Trustworthy AI', 'Federated learning', 'Backdoor defenses'],
-    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2305.00328' }],
+    links: [
+      { label: 'DOI', url: 'https://doi.org/10.1109/IJCNN54540.2023.10191655' },
+      { label: 'arXiv', url: 'https://arxiv.org/abs/2305.00328' },
+    ],
   },
   {
     title: 'IBA: Towards Irreversible Backdoor Attacks in Federated Learning',
@@ -259,7 +292,10 @@ export const publications: Publication[] = [
     status: 'accepted',
     type: 'journal',
     tags: ['Distributed Learning', 'Resource-constrained learning', 'Edge AI'],
-    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2301.05564' }],
+    links: [
+      { label: 'DOI', url: 'https://doi.org/10.1109/TNSM.2023.3314066' },
+      { label: 'arXiv', url: 'https://arxiv.org/abs/2211.10948' },
+    ],
   },
   {
     title: 'Toward Efficient Hierarchical Federated Learning Design Over Multi-Hop Wireless Communications Networks',

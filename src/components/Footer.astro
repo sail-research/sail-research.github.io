@@ -21,7 +21,7 @@ const year = new Date().getFullYear();
       <h3>Connect</h3>
       <div class="footer-links">
         {site.socialLinks.map((link) => (
-          link.url ? <a class="footer-pill" href={link.url}>{link.label}</a> : <span class="footer-pill" aria-disabled="true">{link.label}</span>
+          link.url ? <a class="footer-pill" href={link.url} target="_blank" rel="noreferrer">{link.label}</a> : <span class="footer-pill" aria-disabled="true">{link.label}</span>
         ))}
       </div>
       <p class="mt-6">© {year} {site.shortName} Lab.</p>

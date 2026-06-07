@@ -5,11 +5,11 @@ import PublicationCard from '../components/PublicationCard.astro';
 import { acceptedPublications, arxivPublications } from '../data/publications';
 ---
 
-<BaseLayout title="Publications" description="Accepted and arXiv publications from SAIL that include Prof. Kok-Seng Wong.">
+<BaseLayout title="Publications" description="Published and preprint research from the SAIL lab.">
   <section class="page-hero centered">
     <div class="container">
       <span class="kicker">Publications</span>
-      <h1 class="page-title mt-6">Papers with Prof. Kok-Seng Wong.</h1>
+      <h1 class="page-title mt-6">Lab published papers.</h1>
       <div class="hero-note-grid">
         <p class="lead">A curated publication list focused on trustworthy AI, federated learning, privacy, robustness, and efficient machine learning.</p>
         <p class="hero-note">Accepted papers and arXiv preprints are separated without duplication. When a preprint becomes accepted, it is moved to the accepted list.</p>
@@ -17,14 +17,14 @@ import { acceptedPublications, arxivPublications } from '../data/publications';
       <div class="metric-row">
         <div class="metric"><strong>{acceptedPublications.length}</strong><span>accepted papers</span></div>
         <div class="metric"><strong>{arxivPublications.length}</strong><span>arXiv preprints</span></div>
-        <div class="metric"><strong>KSW</strong><span>author filter</span></div>
+        <div class="metric"><strong>SAIL</strong><span>lab scope</span></div>
       </div>
     </div>
   </section>
 
   <section class="section-tight">
     <div class="container">
-      <SectionHeader title="Publication list" description="" />
+      <SectionHeader title="Lab publication list" description="" />
       <div class="publication-toolbar">
         <div class="tabs" role="tablist" aria-label="Publication categories">
           <button class="tab-button" type="button" role="tab" aria-selected="true" aria-controls="accepted-panel" id="accepted-tab" data-tab="accepted-panel">Accepted Papers</button>
