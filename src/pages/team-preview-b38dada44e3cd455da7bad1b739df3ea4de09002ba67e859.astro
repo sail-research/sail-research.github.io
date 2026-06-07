@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TeamDirectory from '../components/TeamDirectory.astro';
+---
+
+<BaseLayout
+  title="Team Preview"
+  description="Private SAIL team directory preview."
+  robots="noindex,nofollow"
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="kicker">Private preview</span>
+      <h1 class="page-title mt-6"><span class="gradient-text">People behind SAIL.</span></h1>
+      <p class="lead">A private preview of approved Supabase profiles before the public directory is reopened.</p>
+    </div>
+  </section>
+
+  <TeamDirectory />
+</BaseLayout>

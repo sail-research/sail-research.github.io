@@ -1,0 +1,222 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import EmptyState from './EmptyState.astro';
+
+const supabaseRestUrl = 'https://rxnhlmrvwmepuphpithm.supabase.co/rest/v1';
+const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
+---
+
+<section class="section-tight">
+  <div class="container stack">
+    <SectionHeader title="Professors" description="" />
+    <div class="person-grid" data-supabase-group="professors" hidden></div>
+    <div data-empty-for="professors">
+      <EmptyState title="No approved profiles yet" message="Approved professor profiles from Supabase will appear here." />
+    </div>
+  </div>
+</section>
+
+<section class="section-tight">
+  <div class="container">
+    <SectionHeader title="Graduate Students" description="" />
+    <div class="tabs" role="tablist" aria-label="Graduate student groups">
+      <button class="tab-button" type="button" role="tab" aria-selected="true" aria-controls="phd-panel" id="phd-tab" data-tab="phd-panel">PhD Students</button>
+      <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="master-panel" id="master-tab" data-tab="master-panel">Master Students</button>
+    </div>
+    <div id="phd-panel" class="tab-panel" role="tabpanel" aria-labelledby="phd-tab">
+      <div class="person-grid" data-supabase-group="phd" hidden></div>
+      <div data-empty-for="phd">
+        <EmptyState title="No approved PhD profiles yet" message="Approved PhD student profiles from Supabase will appear here." />
+      </div>
+    </div>
+    <div id="master-panel" class="tab-panel" role="tabpanel" aria-labelledby="master-tab" hidden>
+      <div class="person-grid" data-supabase-group="master" hidden></div>
+      <div data-empty-for="master">
+        <EmptyState title="No approved Master profiles yet" message="Approved Master student profiles from Supabase will appear here." />
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-tight">
+  <div class="container">
+    <SectionHeader title="Research Assistants" description="" />
+    <div class="tabs" role="tablist" aria-label="Research assistant groups">
+      <button class="tab-button" type="button" role="tab" aria-selected="true" aria-controls="ra-panel" id="ra-tab" data-tab="ra-panel">Research Assistants</button>
+      <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="undergrad-ra-panel" id="undergrad-ra-tab" data-tab="undergrad-ra-panel">Undergraduate Student RAs</button>
+    </div>
+    <div id="ra-panel" class="tab-panel" role="tabpanel" aria-labelledby="ra-tab">
+      <div class="person-grid" data-supabase-group="research-assistants" hidden></div>
+      <div data-empty-for="research-assistants">
+        <EmptyState title="No approved RA profiles yet" message="Approved research assistant profiles from Supabase will appear here." />
+      </div>
+    </div>
+    <div id="undergrad-ra-panel" class="tab-panel" role="tabpanel" aria-labelledby="undergrad-ra-tab" hidden>
+      <div class="person-grid" data-supabase-group="undergraduate-ra" hidden></div>
+      <div data-empty-for="undergraduate-ra">
+        <EmptyState title="No approved undergraduate RA profiles yet" message="Approved undergraduate RA profiles from Supabase will appear here." />
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-tight">
+  <div class="container">
+    <SectionHeader title="Alumni" description="Former SAIL members and their current destinations where known." />
+    <div class="person-grid" data-supabase-group="alumni" hidden></div>
+    <div data-empty-for="alumni">
+      <EmptyState title="No approved alumni profiles yet" message="Approved alumni profiles from Supabase will appear here." />
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <SectionHeader title="Collaborators" description="" />
+    <div class="person-grid" data-supabase-group="collaborators" hidden></div>
+    <div data-empty-for="collaborators">
+      <EmptyState title="No approved collaborator profiles yet" message="Approved collaborator profiles from Supabase will appear here." />
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  document.querySelectorAll('.tabs').forEach((tabGroup) => {
+    const buttons = Array.from(tabGroup.querySelectorAll('[data-tab]'));
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        buttons.forEach((other) => other.setAttribute('aria-selected', String(other === button)));
+        buttons.forEach((other) => {
+          const panel = document.getElementById(other.dataset.tab);
+          if (panel) panel.hidden = other !== button;
+        });
+      });
+    });
+  });
+</script>
+
+<script define:vars={{ supabaseRestUrl, supabasePublishableKey }}>
+  const clusterLabels = {
+    'trustworthy-ai': 'Trustworthy AI',
+    'distributed-learning': 'Distributed Learning',
+    'efficient-machine-learning': 'Efficient Machine Learning',
+  };
+
+  const headers = {
+    apikey: supabasePublishableKey,
+    Authorization: `Bearer ${supabasePublishableKey}`,
+  };
+
+  const ignoredMemberEmails = new Set(['test@vinuni.edu.vn']);
+
+  const escapeHtml = (value) =>
+    String(value ?? '').replace(/[&<>"']/g, (char) => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;',
+    }[char]));
+
+  const safeUrl = (value) => {
+    if (!value) return '';
+    try {
+      const url = new URL(value);
+      return ['http:', 'https:', 'mailto:'].includes(url.protocol) ? url.toString() : '';
+    } catch {
+      return '';
+    }
+  };
+
+  const imageUrl = (value) => {
+    const url = safeUrl(value);
+    if (!url) return '';
+
+    const fileMatch = url.match(/drive\.google\.com\/file\/d\/([^/?]+)/);
+    const idMatch = url.match(/[?&]id=([^&]+)/);
+    const driveId = fileMatch?.[1] || idMatch?.[1];
+    if (driveId) {
+      return `https://drive.google.com/thumbnail?id=${encodeURIComponent(driveId)}&sz=w400`;
+    }
+
+    return url;
+  };
+
+  const renderLinks = (member) => {
+    const links = [
+      ['Homepage', member.homepage_url],
+      ['Scholar', member.scholar_url],
+      ['LinkedIn', member.linkedin_url],
+    ]
+      .map(([label, url]) => [label, safeUrl(url)])
+      .filter(([, url]) => url);
+
+    if (!links.length) return '';
+    return `<div class="person-links">${links
+      .map(([label, url]) => `<a class="small-link" href="${escapeHtml(url)}">${escapeHtml(label)}</a>`)
+      .join('')}</div>`;
+  };
+
+  const renderChips = (member) => {
+    const interests = Array.isArray(member.research_interests) ? member.research_interests : [];
+    const chips = [...interests, clusterLabels[member.cluster_slug]].filter(Boolean);
+    if (!chips.length) return '';
+    return `<div class="flex flex-wrap gap-2 mt-4">${chips
+      .map((chip) => `<span class="chip">${escapeHtml(chip)}</span>`)
+      .join('')}</div>`;
+  };
+
+  const renderAvatar = (member) => {
+    const portraitUrl = imageUrl(member.image_url);
+    if (!portraitUrl) {
+      return `<figure class="avatar"><span class="sr-only">Portrait placeholder for ${escapeHtml(member.name)}</span></figure>`;
+    }
+    return `<figure class="avatar has-image"><img src="${escapeHtml(portraitUrl)}" alt="${escapeHtml(member.name)}" loading="lazy" decoding="async" /></figure>`;
+  };
+
+  const renderMemberCard = (member) => `
+    <article class="card person-card" data-supabase-member="${escapeHtml(member.email || member.name)}">
+      ${renderAvatar(member)}
+      <h3>${escapeHtml(member.name)}</h3>
+      <div class="role">${escapeHtml(member.role_title)}</div>
+      ${member.affiliation ? `<p>${escapeHtml(member.affiliation)}</p>` : ''}
+      ${member.short_bio ? `<p>${escapeHtml(member.short_bio)}</p>` : ''}
+      ${renderChips(member)}
+      ${renderLinks(member)}
+    </article>
+  `;
+
+  async function loadApprovedMembers() {
+    const query = [
+      'select=name,email,role_title,group_key,cluster_slug,affiliation,image_url,homepage_url,scholar_url,linkedin_url,research_interests,short_bio,status',
+      'status=in.(active,alumni)',
+      'order=sort_order.asc,name.asc',
+    ].join('&');
+    const response = await fetch(`${supabaseRestUrl}/lab_members?${query}`, { headers });
+    if (!response.ok) return;
+
+    const members = await response.json();
+    if (!Array.isArray(members) || members.length === 0) return;
+
+    members.forEach((member) => {
+      if (ignoredMemberEmails.has(String(member.email || '').toLowerCase())) return;
+
+      const group = member.status === 'alumni' ? 'alumni' : member.group_key;
+      const container = document.querySelector(`[data-supabase-group="${CSS.escape(group)}"]`);
+      if (!container) return;
+
+      const key = member.email || member.name;
+      if (key && container.querySelector(`[data-supabase-member="${CSS.escape(key)}"]`)) return;
+
+      container.insertAdjacentHTML('beforeend', renderMemberCard(member));
+      container.hidden = false;
+
+      const emptyState = document.querySelector(`[data-empty-for="${CSS.escape(group)}"]`);
+      if (emptyState) emptyState.hidden = true;
+    });
+  }
+
+  loadApprovedMembers().catch((error) => {
+    console.warn('Unable to load approved lab members', error);
+  });
+</script>
