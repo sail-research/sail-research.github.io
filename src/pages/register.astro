@@ -89,14 +89,27 @@ const memberPhotoBucket = 'member-photos';
             <input name="linkedin_url" type="url" placeholder="https://linkedin.com/in/..." />
           </label>
 
-          <label class="span-2 photo-upload-field">
-            <span>Profile photo</span>
+          <div class="span-2 photo-upload-field">
+            <label for="photo-input"><span>Profile photo</span></label>
             <input id="photo-input" name="portrait_file" type="file" accept="image/jpeg,image/png,image/webp" required />
             <div class="photo-upload-preview" id="photo-preview" aria-live="polite">
-              <div class="photo-preview-frame"><span>Preview</span></div>
-              <p>Upload a clear JPG, PNG, or WebP image up to 4 MB.</p>
+              <div class="photo-preview-frame"><span>1:1</span></div>
+              <p>Choose a JPG, PNG, or WebP image. The saved portrait will be square.</p>
             </div>
-          </label>
+            <div class="photo-cropper" id="photo-cropper" hidden>
+              <div class="photo-crop-stage" id="photo-crop-stage">
+                <img id="photo-crop-image" alt="Selected profile photo crop" draggable="false" />
+                <span class="photo-crop-border" aria-hidden="true"></span>
+              </div>
+              <div class="photo-crop-controls">
+                <label for="photo-zoom">
+                  <span>Zoom</span>
+                  <input id="photo-zoom" type="range" min="1" max="3" step="0.01" value="1" />
+                </label>
+                <button class="btn btn-secondary photo-reset-button" id="photo-reset-button" type="button">Reset crop</button>
+              </div>
+            </div>
+          </div>
 
           <label class="span-2">
             <span>Short bio</span>
@@ -130,14 +143,24 @@ const memberPhotoBucket = 'member-photos';
     const clusterSelect = document.getElementById('cluster-select');
     const photoInput = document.getElementById('photo-input');
     const photoPreview = document.getElementById('photo-preview');
+    const photoCropper = document.getElementById('photo-cropper');
+    const photoCropStage = document.getElementById('photo-crop-stage');
+    const photoCropImage = document.getElementById('photo-crop-image');
+    const photoZoom = document.getElementById('photo-zoom');
+    const photoResetButton = document.getElementById('photo-reset-button');
     const inviteToken = new URLSearchParams(window.location.search).get('invite')?.trim() || '';
-    const maxPhotoSize = 4 * 1024 * 1024;
+    const maxSourcePhotoSize = 12 * 1024 * 1024;
+    const maxUploadPhotoSize = 4 * 1024 * 1024;
+    const croppedPhotoSize = 800;
     const acceptedPhotoTypes = new Map([
       ['image/jpeg', 'jpg'],
       ['image/png', 'png'],
       ['image/webp', 'webp'],
     ]);
     let previewObjectUrl = '';
+    let cropReady = false;
+    let cropState = { scale: 1, x: 0, y: 0 };
+    let dragState = null;
 
     const headers = {
       apikey: supabasePublishableKey,
@@ -184,7 +207,14 @@ const memberPhotoBucket = 'member-photos';
     function validatePhoto(file) {
       if (!file) return 'Please upload a profile photo.';
       if (!acceptedPhotoTypes.has(file.type)) return 'Please upload a JPG, PNG, or WebP photo.';
-      if (file.size > maxPhotoSize) return 'Please keep the profile photo at 4 MB or smaller.';
+      if (file.size > maxSourcePhotoSize) return 'Please keep the source photo at 12 MB or smaller.';
+      return '';
+    }
+
+    function validateCroppedPhoto(file) {
+      if (!file) return 'Please crop a profile photo.';
+      if (file.type !== 'image/jpeg') return 'Unable to prepare the cropped JPG photo.';
+      if (file.size > maxUploadPhotoSize) return 'The cropped profile photo is too large. Please choose a smaller source image.';
       return '';
     }
 
@@ -200,18 +230,17 @@ const memberPhotoBucket = 'member-photos';
       return path.split('/').map((part) => encodeURIComponent(part)).join('/');
     }
 
-    function createPhotoPath(email, file) {
-      const extension = acceptedPhotoTypes.get(file.type) || 'jpg';
+    function createPhotoPath(email) {
       const stamp = new Date().toISOString().replace(/[-:.TZ]/g, '').slice(0, 14);
       const randomId = typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
-      return `pending/${slugify(email)}-${stamp}-${randomId}.${extension}`;
+      return `pending/${slugify(email)}-${stamp}-${randomId}.jpg`;
     }
 
     async function uploadPhoto(file, email) {
-      const issue = validatePhoto(file);
+      const issue = validateCroppedPhoto(file);
       if (issue) throw new Error(issue);
 
-      const storagePath = createPhotoPath(email, file);
+      const storagePath = createPhotoPath(email);
       const encodedPath = encodedStoragePath(storagePath);
       const response = await fetch(`${supabaseStorageUrl}/object/${memberPhotoBucket}/${encodedPath}`, {
         method: 'POST',
@@ -238,19 +267,111 @@ const memberPhotoBucket = 'member-photos';
       return `${supabaseStorageUrl}/object/public/${memberPhotoBucket}/${encodedPath}`;
     }
 
+    function clamp(value, min, max) {
+      return Math.min(max, Math.max(min, value));
+    }
+
+    function cropBaseSize() {
+      const stageSize = photoCropStage.getBoundingClientRect().width;
+      const ratio = photoCropImage.naturalWidth / photoCropImage.naturalHeight;
+      if (!stageSize || !ratio) return { stageSize: 0, width: 0, height: 0 };
+
+      if (ratio >= 1) {
+        return { stageSize, width: stageSize * ratio, height: stageSize };
+      }
+
+      return { stageSize, width: stageSize, height: stageSize / ratio };
+    }
+
+    function clampCropState() {
+      const base = cropBaseSize();
+      if (!base.stageSize) return;
+
+      const scaledWidth = base.width * cropState.scale;
+      const scaledHeight = base.height * cropState.scale;
+      const maxX = Math.max(0, (scaledWidth - base.stageSize) / 2);
+      const maxY = Math.max(0, (scaledHeight - base.stageSize) / 2);
+      cropState.x = clamp(cropState.x, -maxX, maxX);
+      cropState.y = clamp(cropState.y, -maxY, maxY);
+    }
+
+    function renderCrop() {
+      if (!cropReady) return;
+
+      const base = cropBaseSize();
+      if (!base.stageSize) return;
+
+      clampCropState();
+      photoCropImage.style.width = `${base.width}px`;
+      photoCropImage.style.height = `${base.height}px`;
+      photoCropImage.style.transform = `translate(-50%, -50%) translate(${cropState.x}px, ${cropState.y}px) scale(${cropState.scale})`;
+    }
+
+    function resetCrop() {
+      cropState = { scale: 1, x: 0, y: 0 };
+      photoZoom.value = '1';
+      renderCrop();
+    }
+
+    function clearCrop() {
+      cropReady = false;
+      photoCropper.hidden = true;
+      photoCropImage.removeAttribute('src');
+      resetCrop();
+    }
+
+    function croppedPhotoFile(email) {
+      if (!cropReady) {
+        return Promise.reject(new Error('Please choose and crop a profile photo.'));
+      }
+
+      renderCrop();
+      const base = cropBaseSize();
+      const displayWidth = base.width * cropState.scale;
+      const displayHeight = base.height * cropState.scale;
+      const left = base.stageSize / 2 - displayWidth / 2 + cropState.x;
+      const top = base.stageSize / 2 - displayHeight / 2 + cropState.y;
+      const sx = clamp((0 - left) * photoCropImage.naturalWidth / displayWidth, 0, photoCropImage.naturalWidth);
+      const sy = clamp((0 - top) * photoCropImage.naturalHeight / displayHeight, 0, photoCropImage.naturalHeight);
+      const sw = clamp(base.stageSize * photoCropImage.naturalWidth / displayWidth, 1, photoCropImage.naturalWidth - sx);
+      const sh = clamp(base.stageSize * photoCropImage.naturalHeight / displayHeight, 1, photoCropImage.naturalHeight - sy);
+
+      const canvas = document.createElement('canvas');
+      canvas.width = croppedPhotoSize;
+      canvas.height = croppedPhotoSize;
+      const context = canvas.getContext('2d');
+      if (!context) {
+        return Promise.reject(new Error('Unable to prepare the cropped profile photo.'));
+      }
+      context.fillStyle = '#ffffff';
+      context.fillRect(0, 0, croppedPhotoSize, croppedPhotoSize);
+      context.drawImage(photoCropImage, sx, sy, sw, sh, 0, 0, croppedPhotoSize, croppedPhotoSize);
+
+      return new Promise((resolve, reject) => {
+        canvas.toBlob((blob) => {
+          if (!blob) {
+            reject(new Error('Unable to prepare the cropped profile photo.'));
+            return;
+          }
+          resolve(new File([blob], `${slugify(email)}-profile.jpg`, { type: 'image/jpeg' }));
+        }, 'image/jpeg', 0.9);
+      });
+    }
+
     function updatePhotoPreview() {
       if (previewObjectUrl) URL.revokeObjectURL(previewObjectUrl);
       previewObjectUrl = '';
+      clearCrop();
 
       const file = photoInput.files?.[0];
       if (!file) {
-        photoPreview.innerHTML = '<div class="photo-preview-frame"><span>Preview</span></div><p>Upload a clear JPG, PNG, or WebP image up to 4 MB.</p>';
+        photoPreview.innerHTML = '<div class="photo-preview-frame"><span>1:1</span></div><p>Choose a JPG, PNG, or WebP image. The saved portrait will be square.</p>';
         return;
       }
 
       const issue = validatePhoto(file);
       if (issue) {
-        photoPreview.innerHTML = `<div class="photo-preview-frame"><span>Preview</span></div><p>${issue}</p>`;
+        photoPreview.innerHTML = `<div class="photo-preview-frame"><span>1:1</span></div><p>${issue}</p>`;
         return;
       }
 
@@ -258,8 +379,18 @@ const memberPhotoBucket = 'member-photos';
       const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
       photoPreview.innerHTML = `
         <div class="photo-preview-frame has-photo"><img src="${previewObjectUrl}" alt="Selected profile photo preview" /></div>
-        <p>${escapeHtml(file.name)} · ${sizeMb} MB</p>
+        <p>${escapeHtml(file.name)} - ${sizeMb} MB</p>
       `;
+      photoCropImage.onload = () => {
+        cropReady = true;
+        photoCropper.hidden = false;
+        resetCrop();
+      };
+      photoCropImage.onerror = () => {
+        clearCrop();
+        photoPreview.innerHTML = '<div class="photo-preview-frame"><span>1:1</span></div><p>Unable to read this image file.</p>';
+      };
+      photoCropImage.src = previewObjectUrl;
     }
 
     async function loadClusters() {
@@ -315,11 +446,14 @@ const memberPhotoBucket = 'member-photos';
       };
 
       submitButton.disabled = true;
-      submitButton.textContent = 'Uploading photo...';
-      setStatus('Uploading your profile photo...', 'neutral');
+      submitButton.textContent = 'Cropping photo...';
+      setStatus('Preparing your square profile photo...', 'neutral');
 
       try {
-        payload.image_url = await uploadPhoto(photoFile, payload.email);
+        const croppedPhoto = await croppedPhotoFile(payload.email);
+        submitButton.textContent = 'Uploading photo...';
+        setStatus('Uploading your profile photo...', 'neutral');
+        payload.image_url = await uploadPhoto(croppedPhoto, payload.email);
       } catch (error) {
         setStatus(error instanceof Error ? error.message : 'Unable to upload this profile photo.', 'error');
         submitButton.disabled = false;
@@ -370,6 +504,35 @@ const memberPhotoBucket = 'member-photos';
     }
 
     photoInput.addEventListener('change', updatePhotoPreview);
+    photoZoom.addEventListener('input', () => {
+      cropState.scale = Number(photoZoom.value);
+      renderCrop();
+    });
+    photoResetButton.addEventListener('click', resetCrop);
+    photoCropStage.addEventListener('pointerdown', (event) => {
+      if (!cropReady) return;
+      photoCropStage.setPointerCapture(event.pointerId);
+      dragState = {
+        pointerId: event.pointerId,
+        startX: event.clientX,
+        startY: event.clientY,
+        originX: cropState.x,
+        originY: cropState.y,
+      };
+    });
+    photoCropStage.addEventListener('pointermove', (event) => {
+      if (!dragState || dragState.pointerId !== event.pointerId) return;
+      cropState.x = dragState.originX + event.clientX - dragState.startX;
+      cropState.y = dragState.originY + event.clientY - dragState.startY;
+      renderCrop();
+    });
+    photoCropStage.addEventListener('pointerup', (event) => {
+      if (dragState?.pointerId === event.pointerId) dragState = null;
+    });
+    photoCropStage.addEventListener('pointercancel', () => {
+      dragState = null;
+    });
+    window.addEventListener('resize', renderCrop);
     form.addEventListener('submit', submitProfile);
   </script>
 </BaseLayout>

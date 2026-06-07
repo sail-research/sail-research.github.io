@@ -78,7 +78,7 @@ The private registration form uploads member portraits to Supabase Storage bucke
 member-photos
 ```
 
-Run `docs/SUPABASE_MEMBER_PHOTOS_STORAGE.sql` once in the Supabase SQL Editor before testing registration uploads. The form uploads JPG, PNG, and WebP files up to 4 MB, then stores the public Storage URL in `lab_members.image_url`.
+Run `docs/SUPABASE_MEMBER_PHOTOS_STORAGE.sql` once in the Supabase SQL Editor before testing registration uploads. The form accepts JPG, PNG, and WebP source images up to 12 MB, lets the user crop to a 1:1 portrait, uploads the cropped 800x800 JPG, then stores the public Storage URL in `lab_members.image_url`.
 
 ## Publications rules
 
