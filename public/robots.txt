@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://lucaznguyen.github.io/sailresearch.github.io/sitemap-index.xml
+Sitemap: https://www.sail-research.com/sitemap-index.xml

@@ -87,75 +87,67 @@ Current rules:
 This project is configured for:
 
 ```text
-https://sailresearch.github.io
+https://www.sail-research.com
 ```
 
-It assumes the repository is the special GitHub Pages repository:
+The canonical repository is:
 
 ```text
-sailresearch.github.io
+https://github.com/sail-research/sail-research.github.io
 ```
 
-Because this is a special `<username>.github.io` or `<organization>.github.io` repository, `astro.config.mjs` sets:
+Because the site is served from the domain root, `astro.config.mjs` sets:
 
 ```js
-site: 'https://sailresearch.github.io'
+site: 'https://www.sail-research.com'
 ```
 
 and does **not** set `base`.
 
 To deploy:
 
-1. Create a GitHub repository named `sailresearch.github.io`.
-2. Push this project to the `main` branch.
+1. Push source changes to the `main` branch.
+2. Run `npm run build`.
 3. Go to repository **Settings → Pages**.
-4. Set the source to **GitHub Actions**.
-5. The workflow in `.github/workflows/deploy.yml` will build and deploy automatically.
+4. Set the source to the `gh-pages` branch.
+5. Publish the generated `dist/` directory to `gh-pages`, keeping `CNAME` in the deployed output.
 
-## Custom domain: sail-research.com
+## Custom domain
 
-To switch from `https://sailresearch.github.io` to `https://sail-research.com`:
+The GitHub Pages custom domain is already configured as:
 
-1. Rename `public/CNAME.example` to `public/CNAME`.
-2. Keep the file content as:
+```text
+www.sail-research.com
+```
 
-   ```text
-   sail-research.com
-   ```
+Current domain requirements:
 
-3. Update `astro.config.mjs`:
-
-   ```js
-   site: 'https://sail-research.com'
-   ```
-
-4. Keep `base` unset.
-5. Configure GitHub Pages custom domain settings.
-6. Configure DNS for the domain provider.
-7. Update `public/robots.txt` sitemap URL to use the custom domain.
+1. Keep `public/CNAME` set to `www.sail-research.com`.
+2. Keep `base` unset in `astro.config.mjs`.
+3. Keep `public/robots.txt` sitemap URL on the custom domain.
 
 ## Using a normal project repository instead
 
-If the repository is not the special `sailresearch.github.io` repo, for example:
+If the repository is not the special `sail-research.github.io` repo, for example:
 
 ```text
-https://github.com/sailresearch/sail-website
+https://github.com/sail-research/sail-website
 ```
 
 then the GitHub Pages URL will usually be:
 
 ```text
-https://sailresearch.github.io/sail-website/
+https://sail-research.github.io/sail-website/
 ```
 
 In that case, update `astro.config.mjs`:
 
 ```js
-site: 'https://sailresearch.github.io',
+site: 'https://sail-research.github.io',
 base: '/sail-website'
 ```
 
-You must also make sure internal links work with the configured base. The current version is optimized for the special `sailresearch.github.io` repository and custom domain deployment.
+You must also make sure internal links work with the configured base. The current version is optimized for `sail-research.github.io` with the `www.sail-research.com` custom domain.
 
 ## Data sources
 

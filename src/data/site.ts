@@ -8,7 +8,7 @@ export const site = {
   shortName: 'SAIL',
   tagline: 'Trustworthy, distributed, and efficient AI research',
   affiliation: 'College of Engineering and Computer Science, VinUniversity',
-  url: 'https://lucaznguyen.github.io',
+  url: 'https://www.sail-research.com',
   description:
     'Security and Artificial Intelligence Lab at VinUniversity: trustworthy, distributed, and efficient AI research.',
   email: 'contact@sail-research.com',
