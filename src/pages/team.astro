@@ -1,17 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import SectionHeader from '../components/SectionHeader.astro';
-import PersonCard from '../components/PersonCard.astro';
-import EmptyState from '../components/EmptyState.astro';
-import { getPeopleByGroup } from '../data/team';
-
-const professors = getPeopleByGroup('professors');
-const phd = getPeopleByGroup('phd');
-const master = getPeopleByGroup('master');
-const ras = getPeopleByGroup('research-assistants');
-const undergradRas = getPeopleByGroup('undergraduate-ra');
-const alumni = getPeopleByGroup('alumni');
-const collaborators = getPeopleByGroup('collaborators');
+import TeamDirectory from '../components/TeamDirectory.astro';
 ---
 
 <BaseLayout title="Team" description="People at the Security and Artificial Intelligence Lab, VinUniversity.">
@@ -23,80 +12,5 @@ const collaborators = getPeopleByGroup('collaborators');
     </div>
   </section>
 
-  <section class="section-tight">
-    <div class="container stack">
-      <SectionHeader title="Professors" description="" />
-      <div class="person-grid">
-        {professors.map((person) => <PersonCard person={person} showBio={false} showResearchInterests={false} showLinks={false} />)}
-      </div>
-    </div>
-  </section>
-
-  <section class="section-tight">
-    <div class="container">
-      <SectionHeader title="Graduate Students" description="" />
-      <div class="tabs" role="tablist" aria-label="Graduate student groups">
-        <button class="tab-button" type="button" role="tab" aria-selected="true" aria-controls="phd-panel" id="phd-tab" data-tab="phd-panel">PhD Students</button>
-        <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="master-panel" id="master-tab" data-tab="master-panel">Master Students</button>
-      </div>
-      <div id="phd-panel" class="tab-panel" role="tabpanel" aria-labelledby="phd-tab">
-        <div class="person-grid">{phd.map((person) => <PersonCard person={person} />)}</div>
-      </div>
-      <div id="master-panel" class="tab-panel" role="tabpanel" aria-labelledby="master-tab" hidden>
-        <div class="person-grid" hidden={master.length === 0}>{master.map((person) => <PersonCard person={person} />)}</div>
-        <div data-empty-for="master" hidden={master.length > 0}>
-          <EmptyState title="No Master students listed yet" message="This section will be updated when profiles are available." />
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section-tight">
-    <div class="container">
-      <SectionHeader title="Research Assistants" description="" />
-      <div class="tabs" role="tablist" aria-label="Research assistant groups">
-        <button class="tab-button" type="button" role="tab" aria-selected="true" aria-controls="ra-panel" id="ra-tab" data-tab="ra-panel">Research Assistants</button>
-        <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="undergrad-ra-panel" id="undergrad-ra-tab" data-tab="undergrad-ra-panel">Undergraduate Student RAs</button>
-      </div>
-      <div id="ra-panel" class="tab-panel" role="tabpanel" aria-labelledby="ra-tab">
-        <div class="person-grid">{ras.map((person) => <PersonCard person={person} />)}</div>
-      </div>
-      <div id="undergrad-ra-panel" class="tab-panel" role="tabpanel" aria-labelledby="undergrad-ra-tab" hidden>
-        <div class="person-grid">{undergradRas.map((person) => <PersonCard person={person} />)}</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section-tight">
-    <div class="container">
-      <SectionHeader title="Alumni" description="Former SAIL members and their current destinations where known." />
-      <div class="person-grid">{alumni.map((person) => <PersonCard person={person} />)}</div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <SectionHeader title="Collaborators" description="" />
-      <div class="person-grid" hidden={collaborators.length === 0}>{collaborators.map((person) => <PersonCard person={person} />)}</div>
-      <div data-empty-for="collaborators" hidden={collaborators.length > 0}>
-        <EmptyState title="Collaborators placeholder" message="This section will be updated when profiles are available." />
-      </div>
-    </div>
-  </section>
-
-  <script is:inline>
-    document.querySelectorAll('.tabs').forEach((tabGroup) => {
-      const buttons = Array.from(tabGroup.querySelectorAll('[data-tab]'));
-      buttons.forEach((button) => {
-        button.addEventListener('click', () => {
-          buttons.forEach((other) => other.setAttribute('aria-selected', String(other === button)));
-          buttons.forEach((other) => {
-            const panel = document.getElementById(other.dataset.tab);
-            if (panel) panel.hidden = other !== button;
-          });
-        });
-      });
-    });
-  </script>
-
+  <TeamDirectory />
 </BaseLayout>
