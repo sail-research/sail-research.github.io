@@ -22,6 +22,7 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
     <div class="tabs" role="tablist" aria-label="Graduate student groups">
       <button class="tab-button" type="button" role="tab" aria-selected="true" aria-controls="phd-panel" id="phd-tab" data-tab="phd-panel">PhD Students</button>
       <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="master-panel" id="master-tab" data-tab="master-panel">Master Students</button>
+      <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="undergraduate-panel" id="undergraduate-tab" data-tab="undergraduate-panel">Undergraduate Students</button>
     </div>
     <div id="phd-panel" class="tab-panel" role="tabpanel" aria-labelledby="phd-tab">
       <div class="person-grid" data-supabase-group="phd" hidden></div>
@@ -33,6 +34,12 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
       <div class="person-grid" data-supabase-group="master" hidden></div>
       <div data-empty-for="master">
         <EmptyState title="No approved Master profiles yet" message="Approved Master student profiles from Supabase will appear here." />
+      </div>
+    </div>
+    <div id="undergraduate-panel" class="tab-panel" role="tabpanel" aria-labelledby="undergraduate-tab" hidden>
+      <div class="person-grid" data-supabase-group="undergraduate" hidden></div>
+      <div data-empty-for="undergraduate">
+        <EmptyState title="No approved undergraduate profiles yet" message="Approved undergraduate student profiles from Supabase will appear here." />
       </div>
     </div>
   </div>
@@ -158,6 +165,8 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
   };
 
   const renderChips = (member) => {
+    if (member.group_key === 'professors') return '';
+
     const interests = Array.isArray(member.research_interests) ? member.research_interests : [];
     const chips = [...interests, clusterLabels[member.cluster_slug]].filter(Boolean);
     if (!chips.length) return '';
@@ -180,7 +189,6 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
       <h3>${escapeHtml(member.name)}</h3>
       <div class="role">${escapeHtml(member.role_title)}</div>
       ${member.affiliation ? `<p>${escapeHtml(member.affiliation)}</p>` : ''}
-      ${member.short_bio ? `<p>${escapeHtml(member.short_bio)}</p>` : ''}
       ${renderChips(member)}
       ${renderLinks(member)}
     </article>
@@ -188,7 +196,7 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
 
   async function loadApprovedMembers() {
     const query = [
-      'select=name,email,role_title,group_key,cluster_slug,affiliation,image_url,homepage_url,scholar_url,linkedin_url,research_interests,short_bio,status',
+      'select=name,email,role_title,group_key,cluster_slug,affiliation,image_url,homepage_url,scholar_url,linkedin_url,research_interests,status',
       'status=in.(active,alumni)',
       'order=sort_order.asc,name.asc',
     ].join('&');
