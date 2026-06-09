@@ -22,7 +22,6 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
     <div class="tabs" role="tablist" aria-label="Graduate student groups">
       <button class="tab-button" type="button" role="tab" aria-selected="true" aria-controls="phd-panel" id="phd-tab" data-tab="phd-panel">PhD Students</button>
       <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="master-panel" id="master-tab" data-tab="master-panel">Master Students</button>
-      <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="undergraduate-panel" id="undergraduate-tab" data-tab="undergraduate-panel">Undergraduate Students</button>
     </div>
     <div id="phd-panel" class="tab-panel" role="tabpanel" aria-labelledby="phd-tab">
       <div class="person-grid" data-supabase-group="phd" hidden></div>
@@ -34,12 +33,6 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
       <div class="person-grid" data-supabase-group="master" hidden></div>
       <div data-empty-for="master">
         <EmptyState title="No Master student profiles listed yet" message="This section will be updated when profiles are available." />
-      </div>
-    </div>
-    <div id="undergraduate-panel" class="tab-panel" role="tabpanel" aria-labelledby="undergraduate-tab" hidden>
-      <div class="person-grid" data-supabase-group="undergraduate" hidden></div>
-      <div data-empty-for="undergraduate">
-        <EmptyState title="No undergraduate profiles listed yet" message="This section will be updated when profiles are available." />
       </div>
     </div>
   </div>

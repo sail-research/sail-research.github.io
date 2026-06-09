@@ -2,7 +2,6 @@ export type TeamGroup =
   | 'professors'
   | 'phd'
   | 'master'
-  | 'undergraduate'
   | 'research-assistants'
   | 'undergraduate-ra'
   | 'alumni'
