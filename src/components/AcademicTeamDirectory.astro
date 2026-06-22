@@ -1,0 +1,104 @@
+---
+const supabaseRestUrl = 'https://rxnhlmrvwmepuphpithm.supabase.co/rest/v1';
+const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
+---
+
+<div class="academic-team" data-academic-team>
+  <p class="academic-note">Loading the current SAIL directory from Supabase...</p>
+</div>
+
+<script define:vars={{ supabaseRestUrl, supabasePublishableKey }}>
+  const headers = {
+    apikey: supabasePublishableKey,
+    Authorization: `Bearer ${supabasePublishableKey}`,
+  };
+
+  const groupLabels = {
+    professors: 'Faculty',
+    phd: 'PhD',
+    master: 'Master',
+    'research-assistants': 'RA',
+    'undergraduate-ra': 'Undergrad RA',
+    alumni: 'Alumni',
+    collaborators: 'Collaborator',
+  };
+
+  const clusterLabels = {
+    'trustworthy-ai': 'Trustworthy AI',
+    'distributed-learning': 'Distributed Learning',
+    'efficient-machine-learning': 'Efficient ML',
+  };
+
+  const order = ['professors', 'phd', 'master', 'research-assistants', 'undergraduate-ra', 'collaborators', 'alumni'];
+
+  const escapeHtml = (value) =>
+    String(value ?? '').replace(/[&<>"']/g, (char) => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;',
+    }[char]));
+
+  const renderMember = (member) => {
+    const role = groupLabels[member.status === 'alumni' ? 'alumni' : member.group_key] || member.group_key || 'Member';
+    const cluster = clusterLabels[member.cluster_slug] || member.cluster_slug || '';
+    const homepage = member.homepage_url ? ` <a href="${escapeHtml(member.homepage_url)}">Homepage</a>` : '';
+    const scholar = member.scholar_url ? ` <a href="${escapeHtml(member.scholar_url)}">Scholar</a>` : '';
+
+    return `
+      <li class="academic-person-item">
+        <span class="academic-person-role">${escapeHtml(role)}</span>
+        <span class="academic-person-text">
+          <strong>${escapeHtml(member.name)}</strong>
+          <span class="academic-person-cluster"> ${escapeHtml(member.role_title || '')}${cluster ? `, ${escapeHtml(cluster)}` : ''}</span>
+          ${homepage}${scholar}
+        </span>
+      </li>
+    `;
+  };
+
+  async function loadTeam() {
+    const root = document.querySelector('[data-academic-team]');
+    if (!root) return;
+
+    const query = [
+      'select=name,email,role_title,group_key,cluster_slug,status,homepage_url,scholar_url',
+      'status=in.(active,alumni)',
+      'order=sort_order.asc,name.asc',
+    ].join('&');
+
+    const response = await fetch(`${supabaseRestUrl}/lab_members?${query}`, { headers });
+    if (!response.ok) {
+      root.innerHTML = '<p class="academic-note">Unable to load team directory.</p>';
+      return;
+    }
+
+    const members = await response.json();
+    if (!Array.isArray(members) || members.length === 0) {
+      root.innerHTML = '<p class="academic-note">Team directory will appear here.</p>';
+      return;
+    }
+
+    const grouped = new Map();
+    members.forEach((member) => {
+      const key = member.status === 'alumni' ? 'alumni' : member.group_key;
+      if (!grouped.has(key)) grouped.set(key, []);
+      grouped.get(key).push(member);
+    });
+
+    root.innerHTML = order
+      .filter((key) => grouped.has(key))
+      .map((key) => `
+        <h3 class="subsection-title">${escapeHtml(groupLabels[key] || key)}</h3>
+        <ul class="academic-people-list">
+          ${grouped.get(key).map(renderMember).join('')}
+        </ul>
+      `)
+      .join('');
+  }
+
+  loadTeam().catch((error) => {
+    console.warn('Unable to load academic team directory', error);
+  });
+</script>
