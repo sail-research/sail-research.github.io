@@ -1,55 +1,95 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import SectionHeader from '../components/SectionHeader.astro';
-import PublicationCard from '../components/PublicationCard.astro';
-import { acceptedPublications, arxivPublications } from '../data/publications';
+import AcademicLayout from '../layouts/AcademicLayout.astro';
+import { acceptedPublications, arxivPublications, type Publication } from '../data/publications';
+
+const groupByYear = (items: Publication[]) =>
+  items.reduce((groups, publication) => {
+    if (!groups.has(publication.year)) groups.set(publication.year, []);
+    groups.get(publication.year)?.push(publication);
+    return groups;
+  }, new Map<number, Publication[]>());
+
+const acceptedByYear = groupByYear(acceptedPublications);
+const arxivByYear = groupByYear(arxivPublications);
+const firstLink = (links = []) => links[0]?.url;
+const authorHtml = (authors: string[]) =>
+  authors.map((author, index) => (index === 0 ? `<strong>${author}</strong>` : author)).join(', ');
 ---
 
-<BaseLayout title="Publications" description="Published and preprint research from the SAIL lab.">
-  <section class="page-hero centered">
-    <div class="container">
-      <span class="kicker">Publications</span>
-      <h1 class="page-title mt-6">Lab published papers.</h1>
-      <div class="hero-note-grid">
-        <p class="lead">A curated publication list focused on trustworthy AI, federated learning, privacy, robustness, and efficient machine learning.</p>
-        <p class="hero-note">Accepted papers and arXiv preprints are separated without duplication. When a preprint becomes accepted, it is moved to the accepted list.</p>
-      </div>
-    </div>
-  </section>
+<AcademicLayout title="Publications" description="Published and preprint research from the SAIL lab." activeNav="publications">
+  <main class="academic-content">
+    <header class="academic-page-header">
+      <p class="academic-kicker">Publications</p>
+      <h1 class="academic-name">Lab published papers.</h1>
+      <p class="academic-section-intro">
+        A curated publication list focused on trustworthy AI, federated learning, privacy, robustness, and efficient
+        machine learning. First authors are highlighted.
+      </p>
+    </header>
 
-  <section class="section-tight">
-    <div class="container">
-      <SectionHeader title="Lab publication list" description="" />
-      <div class="publication-toolbar">
-        <div class="tabs" role="tablist" aria-label="Publication categories">
-          <button class="tab-button" type="button" role="tab" aria-selected="true" aria-controls="accepted-panel" id="accepted-tab" data-tab="accepted-panel">Accepted Papers</button>
-          <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="arxiv-panel" id="arxiv-tab" data-tab="arxiv-panel">arXiv Papers</button>
+    <section class="academic-section">
+      <h2 class="academic-section-title">Accepted Papers</h2>
+      {[...acceptedByYear.entries()].map(([year, items]) => (
+        <div class="academic-year-group">
+          <div class="academic-year">{year}</div>
+          <ul class="academic-publication-list">
+            {items.map((publication) => {
+              const link = firstLink(publication.links);
+              return (
+                <li class="academic-publication-item">
+                  {link ? (
+                    <a class="academic-publication-title" href={link}>{publication.title}</a>
+                  ) : (
+                    <span class="academic-publication-title">{publication.title}</span>
+                  )}
+                  <span class="academic-authors" set:html={authorHtml(publication.authors)} />
+                  <span class="academic-venue">
+                    {publication.venue}, {publication.type}
+                    {publication.venueMetric ? `, ${publication.venueMetric.label} (${publication.venueMetric.sourceYear}): ${publication.venueMetric.value}` : ''}
+                  </span>
+                  {publication.links && publication.links.length > 0 && (
+                    <span class="academic-publication-links">
+                      {publication.links.map((item) => <a href={item.url}>{item.label}</a>)}
+                    </span>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
         </div>
-      </div>
+      ))}
+    </section>
 
-      <div id="accepted-panel" class="tab-panel" role="tabpanel" aria-labelledby="accepted-tab">
-        <div class="publication-list">
-          {acceptedPublications.map((publication) => <PublicationCard publication={publication} />)}
-        </div>
-      </div>
-      <div id="arxiv-panel" class="tab-panel" role="tabpanel" aria-labelledby="arxiv-tab" hidden>
-        <div class="publication-list">
-          {arxivPublications.map((publication) => <PublicationCard publication={publication} />)}
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <script is:inline>
-    const publicationButtons = Array.from(document.querySelectorAll('[data-tab]'));
-    publicationButtons.forEach((button) => {
-      button.addEventListener('click', () => {
-        publicationButtons.forEach((other) => other.setAttribute('aria-selected', String(other === button)));
-        publicationButtons.forEach((other) => {
-          const panel = document.getElementById(other.dataset.tab);
-          if (panel) panel.hidden = other !== button;
-        });
-      });
-    });
-  </script>
-</BaseLayout>
+    {arxivPublications.length > 0 && (
+      <section class="academic-section">
+        <h2 class="academic-section-title">arXiv Preprints</h2>
+        {[...arxivByYear.entries()].map(([year, items]) => (
+          <div class="academic-year-group">
+            <div class="academic-year">{year}</div>
+            <ul class="academic-publication-list">
+              {items.map((publication) => {
+                const link = firstLink(publication.links);
+                return (
+                  <li class="academic-publication-item">
+                    {link ? (
+                      <a class="academic-publication-title" href={link}>{publication.title}</a>
+                    ) : (
+                      <span class="academic-publication-title">{publication.title}</span>
+                    )}
+                    <span class="academic-authors" set:html={authorHtml(publication.authors)} />
+                    <span class="academic-venue">{publication.venue}, {publication.type}</span>
+                    {publication.links && publication.links.length > 0 && (
+                      <span class="academic-publication-links">
+                        {publication.links.map((item) => <a href={item.url}>{item.label}</a>)}
+                      </span>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))}
+      </section>
+    )}
+  </main>
+</AcademicLayout>

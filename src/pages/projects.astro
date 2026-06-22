@@ -1,45 +1,63 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import SectionHeader from '../components/SectionHeader.astro';
-import ProjectCard from '../components/ProjectCard.astro';
-import { projects } from '../data/projects';
+import AcademicLayout from '../layouts/AcademicLayout.astro';
+import { projects, type Project } from '../data/projects';
 
 const active = projects.filter((project) => project.status === 'active');
 const completed = projects.filter((project) => project.status === 'completed');
 const exploratory = projects.filter((project) => project.status === 'exploratory');
+
+const groups: { title: string; description: string; items: Project[] }[] = [
+  {
+    title: 'Active Projects',
+    description: 'Current lines of work across trustworthy AI, distributed learning, and efficient machine learning.',
+    items: active,
+  },
+  {
+    title: 'Completed Projects',
+    description: 'Completed projects remain visible to show the lab research history.',
+    items: completed,
+  },
+  {
+    title: 'Exploratory Projects',
+    description: 'Early-stage directions and exploratory collaborations.',
+    items: exploratory,
+  },
+].filter((group) => group.items.length > 0);
 ---
 
-<BaseLayout title="Projects" description="Research projects from SAIL with placeholder figures for future visuals.">
-  <section class="page-hero centered">
-    <div class="container">
-      <span class="kicker">Projects</span>
-      <h1 class="page-title mt-6">Research in motion.</h1>
-      <div class="hero-note-grid">
-        <p class="lead">Projects connect SAIL’s research pillars with concrete systems, benchmarks, and application areas.</p>
-      </div>
-    </div>
-  </section>
+<AcademicLayout title="Projects" description="Research projects from SAIL." activeNav="projects">
+  <main class="academic-content">
+    <header class="academic-page-header">
+      <p class="academic-kicker">Projects</p>
+      <h1 class="academic-name">Research in motion.</h1>
+      <p class="academic-section-intro">
+        Projects connect the lab research pillars with concrete systems, benchmarks, and application areas.
+      </p>
+    </header>
 
-  <section class="section-tight">
-    <div class="container stack">
-      <SectionHeader title="Active projects" description="Current lines of work across trustworthy AI, distributed learning, and efficient machine learning." />
-      {active.map((project) => <ProjectCard project={project} />)}
-    </div>
-  </section>
-
-  <section class="section-tight">
-    <div class="container stack">
-      <SectionHeader title="Completed projects" description="Completed projects remain visible to show the lab’s research history." />
-      {completed.map((project) => <ProjectCard project={project} />)}
-    </div>
-  </section>
-
-  {exploratory.length > 0 && (
-    <section class="section-tight">
-      <div class="container stack">
-        <SectionHeader title="Exploratory projects" />
-        {exploratory.map((project) => <ProjectCard project={project} />)}
-      </div>
-    </section>
-  )}
-</BaseLayout>
+    {groups.map((group) => (
+      <section class="academic-section">
+        <h2 class="academic-section-title">{group.title}</h2>
+        <p class="academic-section-intro">{group.description}</p>
+        <div class="academic-projects">
+          {group.items.map((project) => (
+            <article class="academic-project" id={project.slug}>
+              <div class="academic-project-meta">
+                <span>{project.pillar}</span>
+                {project.year && <span>{project.year}</span>}
+              </div>
+              <h3>{project.title}</h3>
+              <p>{project.shortDescription}</p>
+              {project.note && <p>{project.note}</p>}
+              {project.themes.length > 0 && (
+                <div class="academic-chip-row">
+                  {project.themes.map((theme) => <span>{theme}</span>)}
+                </div>
+              )}
+            </article>
+          ))}
+        </div>
+      </section>
+    ))}
+  </main>
+</AcademicLayout>

@@ -1,13 +1,43 @@
 ---
+import { team } from '../data/team';
+import { withBase } from '../utils/paths';
+
 const supabaseRestUrl = 'https://rxnhlmrvwmepuphpithm.supabase.co/rest/v1';
 const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const normalizeName = (value: string) =>
+  value
+    .normalize('NFD')
+    .replace(/\p{Diacritic}/gu, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+
+const legacyPortraits = Object.fromEntries(
+  team
+    .filter((person) => person.image)
+    .map((person) => [normalizeName(person.name), withBase(person.image || '')])
+);
+
+const legacyMembers = team.map((person) => ({
+  name: person.name,
+  role_title: person.role,
+  group_key: person.group,
+  status: person.group === 'alumni' ? 'alumni' : 'active',
+  affiliation: person.affiliation || '',
+  image_url: person.image || '',
+  homepage_url: person.links?.find((link) => link.label === 'Homepage')?.url || '',
+  scholar_url: person.links?.find((link) => link.label === 'Scholar')?.url || '',
+  email: person.links?.find((link) => link.label === 'Email')?.url?.replace(/^mailto:/, '') || '',
+}));
 ---
 
 <div class="academic-team" data-academic-team>
-  <p class="academic-note">Loading the current SAIL directory from Supabase...</p>
+  <p class="academic-note">Loading the current SAIL directory...</p>
 </div>
 
-<script define:vars={{ supabaseRestUrl, supabasePublishableKey }}>
+<script define:vars={{ supabaseRestUrl, supabasePublishableKey, legacyPortraits, legacyMembers, baseUrl }}>
   const headers = {
     apikey: supabasePublishableKey,
     Authorization: `Bearer ${supabasePublishableKey}`,
@@ -15,12 +45,12 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
 
   const groupLabels = {
     professors: 'Faculty',
-    phd: 'PhD',
-    master: 'Master',
-    'research-assistants': 'RA',
-    'undergraduate-ra': 'Undergrad RA',
+    phd: 'PhD Students',
+    master: 'Master Students',
+    'research-assistants': 'Research Assistants',
+    'undergraduate-ra': 'Undergraduate RAs',
     alumni: 'Alumni',
-    collaborators: 'Collaborator',
+    collaborators: 'Collaborators',
   };
 
   const clusterLabels = {
@@ -30,6 +60,7 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
   };
 
   const order = ['professors', 'phd', 'master', 'research-assistants', 'undergraduate-ra', 'collaborators', 'alumni'];
+  const ignoredMemberEmails = new Set(['test@vinuni.edu.vn']);
 
   const escapeHtml = (value) =>
     String(value ?? '').replace(/[&<>"']/g, (char) => ({
@@ -40,48 +71,106 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
       "'": '&#039;',
     }[char]));
 
+  const normalizeName = (value) =>
+    String(value ?? '')
+      .normalize('NFD')
+      .replace(/\p{Diacritic}/gu, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, ' ')
+      .trim();
+
+  const safeUrl = (value) => {
+    if (!value) return '';
+    const text = String(value);
+    if (baseUrl && text.startsWith(`${baseUrl}/`)) return text;
+    if (text.startsWith('/')) return `${baseUrl}${text}`;
+
+    try {
+      const url = new URL(text);
+      return ['http:', 'https:', 'mailto:'].includes(url.protocol) ? url.toString() : '';
+    } catch {
+      return '';
+    }
+  };
+
+  const imageUrl = (value) => {
+    const url = safeUrl(value);
+    if (!url) return '';
+
+    const fileMatch = url.match(/drive\.google\.com\/file\/d\/([^/?]+)/);
+    const idMatch = url.match(/[?&]id=([^&]+)/);
+    const driveId = fileMatch?.[1] || idMatch?.[1];
+    if (driveId) {
+      return `https://drive.google.com/thumbnail?id=${encodeURIComponent(driveId)}&sz=w500`;
+    }
+
+    return url;
+  };
+
+  const initials = (name) =>
+    String(name ?? '')
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part[0])
+      .join('')
+      .toUpperCase() || 'SA';
+
+  const renderLinks = (member) => {
+    const links = [
+      ['Homepage', member.homepage_url],
+      ['Scholar', member.scholar_url],
+      ['Email', member.email ? `mailto:${member.email}` : ''],
+    ]
+      .map(([label, url]) => [label, safeUrl(url)])
+      .filter(([, url]) => url);
+
+    if (!links.length) return '';
+    return `<div class="academic-person-links">${links
+      .map(([label, url]) => `<a href="${escapeHtml(url)}">${escapeHtml(label)}</a>`)
+      .join('')}</div>`;
+  };
+
+  const renderPortrait = (member) => {
+    const fallback = legacyPortraits[normalizeName(member.name)] || '';
+    const portraitUrl = imageUrl(member.image_url) || fallback;
+    if (!portraitUrl) {
+      return `<figure class="academic-person-photo placeholder"><span>${escapeHtml(initials(member.name))}</span></figure>`;
+    }
+    return `<figure class="academic-person-photo"><img src="${escapeHtml(portraitUrl)}" alt="${escapeHtml(member.name)}" loading="lazy" decoding="async" /></figure>`;
+  };
+
   const renderMember = (member) => {
-    const role = groupLabels[member.status === 'alumni' ? 'alumni' : member.group_key] || member.group_key || 'Member';
-    const cluster = clusterLabels[member.cluster_slug] || member.cluster_slug || '';
-    const homepage = member.homepage_url ? ` <a href="${escapeHtml(member.homepage_url)}">Homepage</a>` : '';
-    const scholar = member.scholar_url ? ` <a href="${escapeHtml(member.scholar_url)}">Scholar</a>` : '';
+    const groupKey = member.status === 'alumni' ? 'alumni' : member.group_key;
+    const role = member.role_title || groupLabels[groupKey] || 'Member';
+    const cluster = clusterLabels[member.cluster_slug] || '';
 
     return `
-      <li class="academic-person-item">
-        <span class="academic-person-role">${escapeHtml(role)}</span>
-        <span class="academic-person-text">
-          <strong>${escapeHtml(member.name)}</strong>
-          <span class="academic-person-cluster"> ${escapeHtml(member.role_title || '')}${cluster ? `, ${escapeHtml(cluster)}` : ''}</span>
-          ${homepage}${scholar}
-        </span>
-      </li>
+      <article class="academic-person-card">
+        ${renderPortrait(member)}
+        <div class="academic-person-body">
+          <h3>${escapeHtml(member.name)}</h3>
+          <p>${escapeHtml(role)}</p>
+          ${member.affiliation ? `<span>${escapeHtml(member.affiliation)}</span>` : ''}
+          ${cluster && groupKey !== 'professors' ? `<span>${escapeHtml(cluster)}</span>` : ''}
+          ${renderLinks(member)}
+        </div>
+      </article>
     `;
   };
 
-  async function loadTeam() {
+  const renderDirectory = (members, source = 'supabase') => {
     const root = document.querySelector('[data-academic-team]');
     if (!root) return;
 
-    const query = [
-      'select=name,email,role_title,group_key,cluster_slug,status,homepage_url,scholar_url',
-      'status=in.(active,alumni)',
-      'order=sort_order.asc,name.asc',
-    ].join('&');
-
-    const response = await fetch(`${supabaseRestUrl}/lab_members?${query}`, { headers });
-    if (!response.ok) {
-      root.innerHTML = '<p class="academic-note">Unable to load team directory.</p>';
-      return;
-    }
-
-    const members = await response.json();
-    if (!Array.isArray(members) || members.length === 0) {
+    const cleanMembers = members.filter((member) => !ignoredMemberEmails.has(String(member.email || '').toLowerCase()));
+    if (!cleanMembers.length) {
       root.innerHTML = '<p class="academic-note">Team directory will appear here.</p>';
       return;
     }
 
     const grouped = new Map();
-    members.forEach((member) => {
+    cleanMembers.forEach((member) => {
       const key = member.status === 'alumni' ? 'alumni' : member.group_key;
       if (!grouped.has(key)) grouped.set(key, []);
       grouped.get(key).push(member);
@@ -90,15 +179,40 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
     root.innerHTML = order
       .filter((key) => grouped.has(key))
       .map((key) => `
-        <h3 class="subsection-title">${escapeHtml(groupLabels[key] || key)}</h3>
-        <ul class="academic-people-list">
-          ${grouped.get(key).map(renderMember).join('')}
-        </ul>
+        <section class="academic-team-group">
+          <h2 class="subsection-title">${escapeHtml(groupLabels[key] || key)}</h2>
+          <div class="academic-people-grid">
+            ${grouped.get(key).map(renderMember).join('')}
+          </div>
+        </section>
       `)
-      .join('');
+      .join('') + (source === 'legacy' ? '<p class="academic-note">Showing legacy team data while the live directory is unavailable.</p>' : '');
+  };
+
+  async function loadTeam() {
+    const query = [
+      'select=name,email,role_title,group_key,cluster_slug,status,affiliation,image_url,homepage_url,scholar_url',
+      'status=in.(active,alumni)',
+      'order=sort_order.asc,name.asc',
+    ].join('&');
+
+    const response = await fetch(`${supabaseRestUrl}/lab_members?${query}`, { headers });
+    if (!response.ok) {
+      renderDirectory(legacyMembers, 'legacy');
+      return;
+    }
+
+    const members = await response.json();
+    if (!Array.isArray(members) || members.length === 0) {
+      renderDirectory(legacyMembers, 'legacy');
+      return;
+    }
+
+    renderDirectory(members);
   }
 
   loadTeam().catch((error) => {
     console.warn('Unable to load academic team directory', error);
+    renderDirectory(legacyMembers, 'legacy');
   });
 </script>

@@ -1,69 +1,72 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import SectionHeader from '../components/SectionHeader.astro';
-import PillarCard from '../components/PillarCard.astro';
-import ProjectCard from '../components/ProjectCard.astro';
+import AcademicLayout from '../layouts/AcademicLayout.astro';
 import { researchPillars } from '../data/research';
 import { projects } from '../data/projects';
 import { acceptedPublications } from '../data/publications';
 import { withBase } from '../utils/paths';
 ---
 
-<BaseLayout title="Research" description="SAIL research pillars: trustworthy AI, distributed learning, and efficient machine learning.">
-  <section class="page-hero centered">
-    <div class="container">
-      <span class="kicker">Research</span>
-      <h1 class="page-title mt-6">Trustworthy, distributed, efficient.</h1>
-      <div class="hero-note-grid">
-        <p class="lead">SAIL organizes its work around three pillars connecting AI security, privacy, federated systems, and practical deployment.</p>
-        <p class="hero-note">The page is intentionally editorial and lightweight: no search widgets, no dense sidebars, and no dark background blocks.</p>
+<AcademicLayout title="Research" description="SAIL research pillars: trustworthy AI, distributed learning, and efficient machine learning." activeNav="research">
+  <main class="academic-content">
+    <header class="academic-page-header">
+      <p class="academic-kicker">Research</p>
+      <h1 class="academic-name">Trustworthy, distributed, efficient.</h1>
+      <p class="academic-section-intro">
+        SAIL organizes its work around three connected pillars spanning AI security, privacy, federated systems,
+        communication efficiency, and practical deployment.
+      </p>
+    </header>
+
+    <section class="academic-section">
+      <div class="academic-research-grid">
+        {researchPillars.map((pillar) => (
+          <article class="academic-card">
+            <h3>{pillar.title}</h3>
+            <p>{pillar.description}</p>
+            <ul>
+              {pillar.themes.slice(0, 5).map((theme) => <li>{theme}</li>)}
+            </ul>
+          </article>
+        ))}
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section-tight">
-    <div class="container">
-      <SectionHeader title="Research pillars" description="Three areas frame our current work and connect to projects and publications." />
-      <div class="grid-3">
-        {researchPillars.map((pillar) => <PillarCard pillar={pillar} />)}
-      </div>
-    </div>
-  </section>
+    {researchPillars.map((pillar) => {
+      const relatedProjects = projects.filter((project) => pillar.projectSlugs.includes(project.slug));
+      const relatedPublications = acceptedPublications.filter((publication) =>
+        publication.tags.some((tag) => pillar.publicationKeywords.includes(tag))
+      ).slice(0, 4);
 
-  {researchPillars.map((pillar) => {
-    const relatedProjects = projects.filter((project) => pillar.projectSlugs.includes(project.slug));
-    const relatedPublications = acceptedPublications.filter((publication) =>
-      publication.tags.some((tag) => pillar.publicationKeywords.includes(tag))
-    ).slice(0, 4);
-
-    return (
-      <section class="section-tight" id={`${pillar.slug}-details`}>
-        <div class="container">
-          <SectionHeader title={pillar.title} description={pillar.description} />
-          <div class="grid-2">
-            <div class="content-panel">
-              <h3>Representative questions</h3>
-              <ul class="clean-list">
+      return (
+        <section class="academic-section" id={pillar.slug}>
+          <h2 class="academic-section-title">{pillar.title}</h2>
+          <p class="academic-section-intro">{pillar.description}</p>
+          <div class="academic-two-column">
+            <article>
+              <h3 class="subsection-title">Representative Questions</h3>
+              <ul class="academic-clean-list">
                 {pillar.questions.map((question) => <li>{question}</li>)}
               </ul>
-              <div class="flex flex-wrap gap-2 mt-6">
-                {pillar.themes.map((theme) => <span class="chip">{theme}</span>)}
-              </div>
-            </div>
-            <div class="content-panel">
-              <h3>Selected publications</h3>
-              <div class="mt-4 stack">
+            </article>
+            <article>
+              <h3 class="subsection-title">Selected Publications</h3>
+              <ul class="academic-link-list">
                 {relatedPublications.map((publication) => (
-                  <a class="small-link" href={withBase('/publications/')}>{publication.title} · {publication.year}</a>
+                  <li><a href={withBase('/publications/')}>{publication.title}</a> <span>{publication.year}</span></li>
                 ))}
-              </div>
-            </div>
+              </ul>
+            </article>
           </div>
-          <div class="mt-8 stack">
-            {relatedProjects.slice(0, 2).map((project) => <ProjectCard project={project} idSuffix={pillar.slug} />)}
+          <div class="academic-projects">
+            {relatedProjects.map((project) => (
+              <article class="academic-project">
+                <h3>{project.title}</h3>
+                <p><strong>{project.pillar}</strong>. {project.shortDescription}</p>
+              </article>
+            ))}
           </div>
-        </div>
-      </section>
-    );
-  })}
-</BaseLayout>
+        </section>
+      );
+    })}
+  </main>
+</AcademicLayout>

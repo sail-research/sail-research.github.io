@@ -1,90 +1,72 @@
 ---
 import AcademicLayout from '../layouts/AcademicLayout.astro';
-import AcademicTeamDirectory from '../components/AcademicTeamDirectory.astro';
 import { site } from '../data/site';
 import { newsItems } from '../data/news';
 import { researchPillars } from '../data/research';
 import { projects } from '../data/projects';
-import { acceptedPublications, arxivPublications } from '../data/publications';
+import { acceptedPublications } from '../data/publications';
 import { withBase } from '../utils/paths';
 
-const publications = [...acceptedPublications, ...arxivPublications];
-const publicationsByYear = publications.reduce((groups, publication) => {
-  if (!groups.has(publication.year)) groups.set(publication.year, []);
-  groups.get(publication.year)?.push(publication);
-  return groups;
-}, new Map<number, typeof publications>());
+const latestNews = newsItems.slice(0, 4);
+const featuredProjects = projects.filter((project) => project.status === 'active').slice(0, 3);
+const recentPublications = acceptedPublications.slice(0, 4);
 
 const formatNewsYear = (date: string) => date.match(/\d{4}/)?.[0] ?? date;
-const firstLink = (links: { url: string }[] = []) => links[0]?.url;
-
-const authorHtml = (authors: string[]) =>
-  authors
-    .map((author, index) => (index === 0 ? `<strong>${author}</strong>` : author))
-    .join(', ');
+const localLink = (href: string) => href.startsWith('/') ? withBase(href) : href;
 ---
 
-<AcademicLayout title="Home" description={site.description}>
-  <nav class="academic-navbar" id="top">
-    <div class="academic-navbar-inner">
-      <a class="academic-brand" href="#top" aria-label="SAIL Lab home">
-        <img src={withBase('/logo-placeholder.svg')} alt="SAIL Lab logo" />
-      </a>
-      <button
-        class="academic-menu-button"
-        type="button"
-        aria-label="Toggle navigation"
-        onclick="document.getElementById('academic-nav-links').classList.toggle('open')"
-      >
-        menu
-      </button>
-      <ul class="academic-nav-links" id="academic-nav-links">
-        <li><a href="#news">News</a></li>
-        <li><a href="#research">Research</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#team">Team</a></li>
-        <li><a href="#publications">Publications</a></li>
-      </ul>
-    </div>
-  </nav>
-
+<AcademicLayout title="Home" description={site.description} activeNav="home">
   <main class="academic-content">
     <header class="academic-header">
       <div class="academic-header-grid">
-        <div>
-          <h1 class="academic-name">{site.name}</h1>
-          <p class="academic-title">{site.tagline}</p>
-          <p class="academic-subtitle">{site.affiliation}</p>
-          <p class="academic-meta">VinUniversity, Hanoi, Vietnam</p>
-          <p class="academic-tagline">Robust, private, distributed, and efficient machine learning systems.</p>
-          <div class="academic-social">
-            {site.socialLinks.map((link) => link.url && <a class="academic-pill" href={link.url}>{link.label}</a>)}
-            <a class="academic-pill" href={`mailto:${site.email}`}>Email</a>
-          </div>
+        <h1 class="academic-name">{site.name}</h1>
+        <p class="academic-title">{site.tagline}</p>
+        <p class="academic-subtitle">{site.affiliation}</p>
+        <p class="academic-meta">VinUniversity, Hanoi, Vietnam</p>
+        <p class="academic-tagline">Robust, private, distributed, and efficient machine learning systems.</p>
+        <div class="academic-social">
+          {site.socialLinks.map((link) => link.url && <a class="academic-pill" href={link.url}>{link.label}</a>)}
+          <a class="academic-pill" href={`mailto:${site.email}`}>Email</a>
         </div>
       </div>
 
-      <div class="academic-bio" id="about">
+      <div class="academic-bio">
         <p>
           <strong>SAIL</strong> is the Security and Artificial Intelligence Lab at VinUniversity. We study and build
           machine learning systems that are trustworthy, distributed across real-world settings, and efficient enough
           for practical deployment.
         </p>
         <p>
-          Our research connects trustworthy AI, federated and distributed learning, privacy, robustness, backdoor
-          attacks and defenses, edge AI, communication efficiency, and resource-aware machine learning.
+          The lab connects trustworthy AI, federated and distributed learning, privacy, robustness, backdoor attacks
+          and defenses, edge AI, communication efficiency, and resource-aware machine learning.
         </p>
       </div>
     </header>
 
-    <section class="academic-section" id="news">
-      <h2 class="academic-section-title">News</h2>
+    <section class="academic-section">
+      <h2 class="academic-section-title">Research</h2>
+      <div class="academic-research-grid">
+        {researchPillars.map((pillar) => (
+          <article class="academic-card">
+            <h3>{pillar.title}</h3>
+            <p>{pillar.description}</p>
+            <a class="academic-text-link" href={withBase(`/research/#${pillar.slug}`)}>Read more</a>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="academic-section">
+      <div class="academic-section-heading-row">
+        <h2 class="academic-section-title">News</h2>
+        <a class="academic-text-link" href={withBase('/news/')}>All news</a>
+      </div>
       <ul class="academic-news-list">
-        {newsItems.map((item) => (
+        {latestNews.map((item) => (
           <li class="academic-news-item">
             <span class="academic-news-date">{formatNewsYear(item.date)}</span>
             <span class="academic-news-text">
-              <strong>{item.date}</strong>: {item.link ? <a href={item.link}>{item.title}</a> : item.title}
+              <strong>{item.date}</strong>: {item.link ? <a href={localLink(item.link)}>{item.title}</a> : item.title}
               <span class="academic-news-label"> - {item.label}</span>
               <br />
               {item.summary}
@@ -94,102 +76,47 @@ const authorHtml = (authors: string[]) =>
       </ul>
     </section>
 
-    <section class="academic-section" id="research">
-      <h2 class="academic-section-title">Research</h2>
-      <div class="academic-section-intro">
-        <p>
-          SAIL focuses on three connected research pillars. The common thread is AI that remains reliable under
-          difficult deployment conditions.
-        </p>
+    <section class="academic-section">
+      <div class="academic-section-heading-row">
+        <h2 class="academic-section-title">Projects</h2>
+        <a class="academic-text-link" href={withBase('/projects/')}>All projects</a>
       </div>
-      <div class="academic-research-grid">
-        {researchPillars.map((pillar) => (
-          <article class="academic-card">
-            <h3>{pillar.title}</h3>
-            <p>{pillar.description}</p>
-            <ul>
-              {pillar.themes.slice(0, 4).map((theme) => <li>{theme}</li>)}
-            </ul>
-          </article>
-        ))}
-      </div>
-    </section>
-
-    <section class="academic-section" id="projects">
-      <h2 class="academic-section-title">Projects</h2>
       <div class="academic-projects">
-        {projects.map((project) => (
-          <article class="academic-project">
+        {featuredProjects.map((project) => (
+          <article class="academic-project" id={project.slug}>
             <h3>{project.title}</h3>
             <p>
               <strong>{project.pillar}</strong>{project.year ? `, ${project.year}` : ''}. {project.shortDescription}
             </p>
-            {project.note && <p>{project.note}</p>}
           </article>
         ))}
       </div>
     </section>
 
-    <section class="academic-section" id="team">
+    <section class="academic-section">
+      <div class="academic-section-heading-row">
+        <h2 class="academic-section-title">Recent Publications</h2>
+        <a class="academic-text-link" href={withBase('/publications/')}>All publications</a>
+      </div>
+      <ul class="academic-publication-list compact">
+        {recentPublications.map((publication) => (
+          <li class="academic-publication-item">
+            <span class="academic-publication-title">{publication.title}</span>
+            <span class="academic-authors">
+              <strong>{publication.authors[0]}</strong>{publication.authors.length > 1 ? `, ${publication.authors.slice(1).join(', ')}` : ''}
+            </span>
+            <span class="academic-venue">{publication.venue}, {publication.year}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="academic-section">
       <h2 class="academic-section-title">Team</h2>
       <p class="academic-section-intro">
-        Current lab members, alumni, and collaborators are loaded from the same Supabase directory used by the
-        production Team page.
+        Visit the team page for the full directory of faculty, students, research assistants, alumni, and collaborators.
       </p>
-      <AcademicTeamDirectory />
-    </section>
-
-    <section class="academic-section" id="publications">
-      <h2 class="academic-section-title">Publications</h2>
-      <p class="academic-note">
-        Lab published papers and arXiv preprints. First authors are highlighted.
-      </p>
-      {[...publicationsByYear.entries()].map(([year, items]) => (
-        <div class="academic-year-group">
-          <div class="academic-year">{year}</div>
-          <ul class="academic-publication-list">
-            {items.map((publication) => {
-              const link = firstLink(publication.links);
-              return (
-                <li class="academic-publication-item">
-                  {link ? (
-                    <a class="academic-publication-title" href={link}>{publication.title}</a>
-                  ) : (
-                    <span class="academic-publication-title">{publication.title}</span>
-                  )}
-                  <span class="academic-authors" set:html={authorHtml(publication.authors)} />
-                  <span class="academic-venue">
-                    {publication.venue}, {publication.type}{publication.venueMetric ? `, ${publication.venueMetric.label} (${publication.venueMetric.sourceYear}): ${publication.venueMetric.value}` : ''}
-                  </span>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      ))}
-    </section>
-
-    <section class="academic-section" id="contact">
-      <h2 class="academic-section-title">Contact</h2>
-      <div class="academic-contact">
-        <p>
-          Email: <a href={`mailto:${site.email}`}>{site.email}</a>
-          <br />
-          Address: {site.address.join(', ')}
-        </p>
-      </div>
+      <a class="academic-pill" href={withBase('/team/')}>View team</a>
     </section>
   </main>
-
-  <footer class="academic-footer">
-    &copy; 2026 {site.shortName} Lab. Built as a local template preview.
-  </footer>
-
-  <script is:inline>
-    document.querySelectorAll('.academic-nav-links a').forEach((link) => {
-      link.addEventListener('click', () => {
-        document.getElementById('academic-nav-links')?.classList.remove('open');
-      });
-    });
-  </script>
 </AcademicLayout>

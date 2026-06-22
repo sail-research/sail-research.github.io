@@ -1,16 +1,20 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import TeamDirectory from '../components/TeamDirectory.astro';
+import AcademicLayout from '../layouts/AcademicLayout.astro';
+import AcademicTeamDirectory from '../components/AcademicTeamDirectory.astro';
 ---
 
-<BaseLayout title="Team" description="People at the Security and Artificial Intelligence Lab, VinUniversity.">
-  <section class="page-hero">
-    <div class="container">
-      <span class="kicker">Team</span>
-      <h1 class="page-title mt-6"><span class="gradient-text">People behind SAIL.</span></h1>
-      <p class="lead">A compact directory of the lab professor, students, research assistants, alumni, and collaborators.</p>
-    </div>
-  </section>
+<AcademicLayout title="Team" description="People at the Security and Artificial Intelligence Lab, VinUniversity." activeNav="team">
+  <main class="academic-content">
+    <header class="academic-page-header">
+      <p class="academic-kicker">Team</p>
+      <h1 class="academic-name">People behind SAIL.</h1>
+      <p class="academic-section-intro">
+        Faculty, students, research assistants, alumni, and collaborators in the SAIL research community.
+      </p>
+    </header>
 
-  <TeamDirectory />
-</BaseLayout>
+    <section class="academic-section">
+      <AcademicTeamDirectory />
+    </section>
+  </main>
+</AcademicLayout>

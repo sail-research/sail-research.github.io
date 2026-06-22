@@ -6,10 +6,19 @@ import { withBase } from '../utils/paths';
 interface Props {
   title?: string;
   description?: string;
+  activeNav?: string;
 }
 
-const { title, description = site.description } = Astro.props;
+const { title, description = site.description, activeNav = 'home' } = Astro.props;
 const pageTitle = title ? `${title} - ${site.shortName}` : `${site.shortName} - ${site.tagline}`;
+const navItems = [
+  { key: 'home', label: 'Home', href: '/' },
+  { key: 'news', label: 'News', href: '/news/' },
+  { key: 'research', label: 'Research', href: '/research/' },
+  { key: 'projects', label: 'Projects', href: '/projects/' },
+  { key: 'team', label: 'Team', href: '/team/' },
+  { key: 'publications', label: 'Publications', href: '/publications/' },
+];
 ---
 
 <!doctype html>
@@ -25,6 +34,41 @@ const pageTitle = title ? `${title} - ${site.shortName}` : `${site.shortName} - 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,650&display=swap" rel="stylesheet" />
   </head>
   <body>
+    <nav class="academic-navbar" id="top">
+      <div class="academic-navbar-inner">
+        <a class="academic-brand" href={withBase('/')} aria-label="SAIL Lab home">
+          <img src={withBase('/logo-placeholder.svg')} alt="SAIL Lab logo" />
+        </a>
+        <button
+          class="academic-menu-button"
+          type="button"
+          aria-label="Toggle navigation"
+          onclick="document.getElementById('academic-nav-links').classList.toggle('open')"
+        >
+          menu
+        </button>
+        <ul class="academic-nav-links" id="academic-nav-links">
+          {navItems.map((item) => (
+            <li>
+              <a href={withBase(item.href)} aria-current={activeNav === item.key ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </nav>
     <slot />
+    <footer class="academic-footer">
+      &copy; 2026 {site.shortName} Lab.
+      <a href={`mailto:${site.email}`}>{site.email}</a>
+    </footer>
+    <script is:inline>
+      document.querySelectorAll('.academic-nav-links a').forEach((link) => {
+        link.addEventListener('click', () => {
+          document.getElementById('academic-nav-links')?.classList.remove('open');
+        });
+      });
+    </script>
   </body>
 </html>
