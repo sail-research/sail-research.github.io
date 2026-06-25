@@ -17,7 +17,6 @@ const recentPublications = acceptedPublications.slice(0, 4);
         <p class="academic-title">{site.tagline}</p>
         <p class="academic-subtitle">{site.affiliation}</p>
         <p class="academic-meta">VinUniversity, Hanoi, Vietnam</p>
-        <p class="academic-tagline">Robust, private, distributed, and efficient machine learning systems.</p>
         <div class="academic-social">
           {site.socialLinks.map((link) => link.url && <a class="academic-pill" href={link.url}>{link.label}</a>)}
           <a class="academic-pill" href={`mailto:${site.email}`}>Email</a>
@@ -26,10 +25,7 @@ const recentPublications = acceptedPublications.slice(0, 4);
 
       <div class="academic-bio">
         <p>
-          Our research group is situated within
-          <a href="https://vinuni.edu.vn/college-of-engineering-computer-science/">
-            VinUniversity's College of Engineering and Computer Science
-          </a>.
+          Our research group is situated within <a href="https://vinuni.edu.vn/college-of-engineering-computer-science/">VinUniversity's College of Engineering and Computer Science</a>.
           We specialize in trustworthy, distributed, and efficient AI, with a core focus on developing machine
           learning systems that remain robust, private, scalable, and practical in real-world settings. Our research
           encompasses federated learning, privacy-preserving machine learning, backdoor attacks and defenses,
