@@ -44,6 +44,7 @@ const metricKey = (publication: Pick<Publication, 'venue' | 'year'>) => `${publi
 
 const venueYearMetrics: Record<string, PublicationVenueMetric> = {
   'AAAI 2026::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'A*' },
+  'ECCV 2026::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'A*' },
   'CVPR 2026::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'A*' },
   'CVPR 2026 Findings::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'A* (CVPR)' },
   'ICLR 2026 Workshop on Principled Design for Trustworthy AI::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'Workshop (ICLR A*)' },
@@ -71,6 +72,15 @@ const venueYearMetrics: Record<string, PublicationVenueMetric> = {
 };
 
 export const publications: Publication[] = [
+  {
+    title: 'H-SFP: Hierarchical Federated Learning with Decoupled Split-Model Prototyping',
+    authors: ['Dung Tran', 'Binh Ha Nguyen', 'Duong Nguyen', 'Dinh Nguyen', 'Kok-Seng Wong'],
+    venue: 'ECCV 2026',
+    year: 2026,
+    status: 'accepted',
+    type: 'conference',
+    tags: ['Distributed Learning', 'Federated learning', 'Split learning', 'Edge AI'],
+  },
   {
     title: 'Clean-Label Physical Backdoor Attacks with Data Distillation',
     authors: ['Thinh Dao', 'Kok-Seng Wong', 'Khoa D. Doan'],
@@ -374,6 +384,26 @@ export const publications: Publication[] = [
     type: 'journal',
     tags: ['Trustworthy AI', 'Privacy', 'Secure computation'],
     links: [{ label: 'Paper', url: 'https://ieeexplore.ieee.org/document/9514309' }],
+  },
+  {
+    title: 'Rethinking Molecular Graph Backdoors under Chemistry-aware Admission',
+    authors: ['Thinh T. H. Nguyen', 'Sze Jue Yang', 'Khoa D. Doan', 'Chee Seng Chan', 'Kok-Seng Wong'],
+    venue: 'arXiv preprint',
+    year: 2026,
+    status: 'arxiv',
+    type: 'preprint',
+    tags: ['Trustworthy AI', 'Backdoor attacks and defenses', 'Molecular graphs'],
+    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2606.23361' }],
+  },
+  {
+    title: 'When Generator Replay Degrades: Projected Rehearsal Orchestration for Heterogeneous Federated Class-Incremental Learning',
+    authors: ['Thinh T. H. Nguyen', 'Khoa D. Doan', 'Binh T. Nguyen', 'Danh Le-Phuoc', 'Kok-Seng Wong'],
+    venue: 'arXiv preprint',
+    year: 2026,
+    status: 'arxiv',
+    type: 'preprint',
+    tags: ['Distributed Learning', 'Federated learning', 'Continual learning'],
+    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2606.15695' }],
   },
   {
     title: 'FLAT: Latent-Driven Arbitrary-Target Backdoor Attacks in Federated Learning',

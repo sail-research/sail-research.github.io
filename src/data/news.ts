@@ -8,6 +8,29 @@ export interface NewsItem {
 
 export const newsItems: NewsItem[] = [
   {
+    date: 'June 22, 2026',
+    label: 'arXiv preprint',
+    title: 'Rethinking Molecular Graph Backdoors released on arXiv',
+    summary:
+      'Rethinking Molecular Graph Backdoors under Chemistry-aware Admission is now available on arXiv. The work studies chemistry-aware admission checks and admission-aware molecular graph backdoor attacks.',
+    link: 'https://arxiv.org/abs/2606.23361',
+  },
+  {
+    date: 'June 2026',
+    label: 'Paper accepted',
+    title: 'H-SFP provisionally accepted to ECCV 2026',
+    summary:
+      'H-SFP: Hierarchical Federated Learning with Decoupled Split-Model Prototyping has been provisionally accepted to ECCV 2026. Congratulations to Dung Tran, Nguyen Binh Ha, Duong Nguyen, Dinh Nguyen, and Prof. Kok-Seng Wong.',
+  },
+  {
+    date: 'June 14, 2026',
+    label: 'arXiv preprint',
+    title: 'Projected Rehearsal Orchestration released on arXiv',
+    summary:
+      'When Generator Replay Degrades: Projected Rehearsal Orchestration for Heterogeneous Federated Class-Incremental Learning is now available on arXiv.',
+    link: 'https://arxiv.org/abs/2606.15695',
+  },
+  {
     date: 'May 2026',
     label: 'Professional service',
     title: 'ICML 2026 reviewing recognition',
