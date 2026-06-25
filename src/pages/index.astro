@@ -1,18 +1,12 @@
 ---
 import AcademicLayout from '../layouts/AcademicLayout.astro';
 import { site } from '../data/site';
-import { newsItems } from '../data/news';
-import { researchPillars } from '../data/research';
 import { projects } from '../data/projects';
 import { acceptedPublications } from '../data/publications';
 import { withBase } from '../utils/paths';
 
-const latestNews = newsItems.slice(0, 4);
 const featuredProjects = projects.filter((project) => project.status === 'active').slice(0, 3);
 const recentPublications = acceptedPublications.slice(0, 4);
-
-const formatNewsYear = (date: string) => date.match(/\d{4}/)?.[0] ?? date;
-const localLink = (href: string) => href.startsWith('/') ? withBase(href) : href;
 ---
 
 <AcademicLayout title="Home" description={site.description} activeNav="home">
@@ -32,49 +26,18 @@ const localLink = (href: string) => href.startsWith('/') ? withBase(href) : href
 
       <div class="academic-bio">
         <p>
-          <strong>SAIL</strong> is the Security and Artificial Intelligence Lab at VinUniversity. We study and build
-          machine learning systems that are trustworthy, distributed across real-world settings, and efficient enough
-          for practical deployment.
-        </p>
-        <p>
-          The lab connects trustworthy AI, federated and distributed learning, privacy, robustness, backdoor attacks
-          and defenses, edge AI, communication efficiency, and resource-aware machine learning.
+          Our research group is situated within
+          <a href="https://vinuni.edu.vn/college-of-engineering-computer-science/">
+            VinUniversity's College of Engineering and Computer Science
+          </a>.
+          We specialize in trustworthy, distributed, and efficient AI, with a core focus on developing machine
+          learning systems that remain robust, private, scalable, and practical in real-world settings. Our research
+          encompasses federated learning, privacy-preserving machine learning, backdoor attacks and defenses,
+          communication-efficient learning, edge AI, continual learning, and resource-aware AI to enhance security,
+          privacy, reliability, efficiency, and fairness.
         </p>
       </div>
     </header>
-
-    <section class="academic-section">
-      <h2 class="academic-section-title">Research</h2>
-      <div class="academic-research-grid">
-        {researchPillars.map((pillar) => (
-          <article class="academic-card">
-            <h3>{pillar.title}</h3>
-            <p>{pillar.description}</p>
-            <a class="academic-text-link" href={withBase(`/research/#${pillar.slug}`)}>Read more</a>
-          </article>
-        ))}
-      </div>
-    </section>
-
-    <section class="academic-section">
-      <div class="academic-section-heading-row">
-        <h2 class="academic-section-title">News</h2>
-        <a class="academic-text-link" href={withBase('/news/')}>All news</a>
-      </div>
-      <ul class="academic-news-list">
-        {latestNews.map((item) => (
-          <li class="academic-news-item">
-            <span class="academic-news-date">{formatNewsYear(item.date)}</span>
-            <span class="academic-news-text">
-              <strong>{item.date}</strong>: {item.link ? <a href={localLink(item.link)}>{item.title}</a> : item.title}
-              <span class="academic-news-label"> - {item.label}</span>
-              <br />
-              {item.summary}
-            </span>
-          </li>
-        ))}
-      </ul>
-    </section>
 
     <section class="academic-section">
       <div class="academic-section-heading-row">
