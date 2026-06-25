@@ -1,6 +1,6 @@
 ---
 import AcademicLayout from '../layouts/AcademicLayout.astro';
-import { acceptedPublications, arxivPublications, type Publication } from '../data/publications';
+import { allPublications, type Publication } from '../data/publications';
 
 const groupByYear = (items: Publication[]) =>
   items.reduce((groups, publication) => {
@@ -9,13 +9,16 @@ const groupByYear = (items: Publication[]) =>
     return groups;
   }, new Map<number, Publication[]>());
 
-const acceptedByYear = groupByYear(acceptedPublications);
-const arxivByYear = groupByYear(arxivPublications);
+const publicationsByYear = groupByYear(allPublications);
 const firstLink = (links = []) => links[0]?.url;
 const authorHtml = (authors: string[]) =>
   authors.map((author, index) => (index === 0 ? `<strong>${author}</strong>` : author)).join(', ');
 const venueText = (publication: Publication) => {
-  const parts = [`${publication.venue}, ${publication.type}`];
+  const baseVenue =
+    publication.type === 'preprint' && publication.venue.toLowerCase().includes('preprint')
+      ? publication.venue
+      : `${publication.venue}, ${publication.type}`;
+  const parts = [baseVenue];
   if (publication.venueMetric) {
     parts.push(
       `${publication.venueMetric.label} (${publication.venueMetric.sourceYear}): ${publication.venueMetric.value}`,
@@ -37,8 +40,8 @@ const venueText = (publication: Publication) => {
     </header>
 
     <section class="academic-section">
-      <h2 class="academic-section-title">Accepted Papers</h2>
-      {[...acceptedByYear.entries()].map(([year, items]) => (
+      <h2 class="academic-section-title">Lab Published Papers</h2>
+      {[...publicationsByYear.entries()].map(([year, items]) => (
         <div class="academic-year-group">
           <div class="academic-year">{year}</div>
           <ul class="academic-publication-list">
@@ -65,37 +68,5 @@ const venueText = (publication: Publication) => {
         </div>
       ))}
     </section>
-
-    {arxivPublications.length > 0 && (
-      <section class="academic-section">
-        <h2 class="academic-section-title">arXiv Preprints</h2>
-        {[...arxivByYear.entries()].map(([year, items]) => (
-          <div class="academic-year-group">
-            <div class="academic-year">{year}</div>
-            <ul class="academic-publication-list">
-              {items.map((publication) => {
-                const link = firstLink(publication.links);
-                return (
-                  <li class="academic-publication-item">
-                    {link ? (
-                      <a class="academic-publication-title" href={link}>{publication.title}</a>
-                    ) : (
-                      <span class="academic-publication-title">{publication.title}</span>
-                    )}
-                    <span class="academic-authors" set:html={authorHtml(publication.authors)} />
-                    <span class="academic-venue">{venueText(publication)}</span>
-                    {publication.links && publication.links.length > 0 && (
-                      <span class="academic-publication-links">
-                        {publication.links.map((item) => <a href={item.url}>{item.label}</a>)}
-                      </span>
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        ))}
-      </section>
-    )}
   </main>
 </AcademicLayout>

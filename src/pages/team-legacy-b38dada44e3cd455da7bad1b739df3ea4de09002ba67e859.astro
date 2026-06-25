@@ -78,7 +78,7 @@ const collaborators = getPeopleByGroup('collaborators');
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" hidden>
     <div class="container">
       <SectionHeader title="Collaborators" description="" />
       <div class="person-grid" hidden={collaborators.length === 0}>{collaborators.map((person) => <PersonCard person={person} />)}</div>

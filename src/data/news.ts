@@ -8,6 +8,14 @@ export interface NewsItem {
 
 export const newsItems: NewsItem[] = [
   {
+    date: 'June 2026',
+    label: 'Paper accepted',
+    title: 'WiFi-Mamba accepted to ICML 2026',
+    summary:
+      'Interleaved Selective State Space Models for Efficient WiFi-Based 3D Multi-Person Pose Estimation has been accepted to ICML 2026. Congratulations to Quang-Anh N. D. and Prof. Kok-Seng Wong.',
+    link: 'https://icml.cc/virtual/2026/poster/64025',
+  },
+  {
     date: 'June 22, 2026',
     label: 'arXiv preprint',
     title: 'Rethinking Molecular Graph Backdoors released on arXiv',

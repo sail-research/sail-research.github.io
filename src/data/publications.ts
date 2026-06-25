@@ -21,6 +21,7 @@ export interface Publication {
   status: PublicationStatus;
   type: PublicationType;
   tags: string[];
+  displayOrder?: number;
   venueMetric?: PublicationVenueMetric;
   links?: PublicationLink[];
   sourceNote?: string;
@@ -44,6 +45,7 @@ const metricKey = (publication: Pick<Publication, 'venue' | 'year'>) => `${publi
 
 const venueYearMetrics: Record<string, PublicationVenueMetric> = {
   'AAAI 2026::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'A*' },
+  'ICML 2026::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'A*' },
   'ECCV 2026::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'A*' },
   'CVPR 2026::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'A*' },
   'CVPR 2026 Findings::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'A* (CVPR)' },
@@ -80,6 +82,7 @@ export const publications: Publication[] = [
     status: 'accepted',
     type: 'conference',
     tags: ['Distributed Learning', 'Federated learning', 'Split learning', 'Edge AI'],
+    displayOrder: 80,
   },
   {
     title: 'Clean-Label Physical Backdoor Attacks with Data Distillation',
@@ -89,6 +92,7 @@ export const publications: Publication[] = [
     status: 'accepted',
     type: 'conference',
     tags: ['Trustworthy AI', 'Robustness', 'Backdoor attacks and defenses'],
+    displayOrder: 10,
     links: [
       { label: 'AAAI', url: 'https://ojs.aaai.org/index.php/AAAI/article/view/37349' },
       { label: 'arXiv', url: 'https://arxiv.org/abs/2407.19203' },
@@ -102,6 +106,7 @@ export const publications: Publication[] = [
     status: 'accepted',
     type: 'conference',
     tags: ['Distributed Learning', 'Federated learning', 'Domain generalization', 'Efficient ML'],
+    displayOrder: 20,
     links: [
       { label: 'CVF', url: 'https://openaccess.thecvf.com/content/CVPR2026/papers/Nguyen_HFedATM_Hierarchical_Federated_Domain_Generalization_via_Optimal_Transport_and_Regularized_CVPR_2026_paper.pdf' },
       { label: 'arXiv', url: 'https://arxiv.org/abs/2508.05135' },
@@ -115,6 +120,7 @@ export const publications: Publication[] = [
     status: 'accepted',
     type: 'conference',
     tags: ['Distributed Learning', 'Personalized federated learning', 'Continual learning'],
+    displayOrder: 40,
     links: [
       { label: 'CVF', url: 'https://openaccess.thecvf.com/content/CVPR2026F/papers/Nguyen_Onboarding_Without_Forgetting_Hypernetwork_Personalization_with_Data-Free_Replay_for_Personalized_CVPRF_2026_paper.pdf' },
       { label: 'arXiv', url: 'https://arxiv.org/abs/2508.05157' },
@@ -129,7 +135,19 @@ export const publications: Publication[] = [
     status: 'accepted',
     type: 'conference',
     tags: ['Efficient ML', 'Continual learning', 'Memory efficiency'],
+    displayOrder: 30,
     links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2603.13804' }],
+  },
+  {
+    title: 'Interleaved Selective State Space Models for Efficient WiFi-Based 3D Multi-Person Pose Estimation',
+    authors: ['Quang-Anh N. D.', 'Kok-Seng Wong'],
+    venue: 'ICML 2026',
+    year: 2026,
+    status: 'accepted',
+    type: 'conference',
+    tags: ['Efficient ML', 'WiFi sensing', 'State space models', 'Human pose estimation'],
+    displayOrder: 50,
+    links: [{ label: 'ICML', url: 'https://icml.cc/virtual/2026/poster/64025' }],
   },
   {
     title: 'BackFed: A Standardized and Efficient Benchmark Framework for Evaluating Backdoor Attacks in Federated Learning',
@@ -139,6 +157,7 @@ export const publications: Publication[] = [
     status: 'accepted',
     type: 'workshop',
     tags: ['Trustworthy AI', 'Federated learning', 'Benchmarking'],
+    displayOrder: 60,
     links: [{ label: 'OpenReview', url: 'https://openreview.net/forum?id=0hHnZeXr9k' }],
   },
   {
@@ -393,6 +412,7 @@ export const publications: Publication[] = [
     status: 'arxiv',
     type: 'preprint',
     tags: ['Trustworthy AI', 'Backdoor attacks and defenses', 'Molecular graphs'],
+    displayOrder: 70,
     links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2606.23361' }],
   },
   {
@@ -403,6 +423,7 @@ export const publications: Publication[] = [
     status: 'arxiv',
     type: 'preprint',
     tags: ['Distributed Learning', 'Federated learning', 'Continual learning'],
+    displayOrder: 90,
     links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2606.15695' }],
   },
   {
@@ -452,9 +473,13 @@ const statusRank: Record<PublicationType, number> = {
 export const sortPublications = (items: Publication[]) =>
   [...items].sort((a, b) => {
     if (b.year !== a.year) return b.year - a.year;
+    if ((a.displayOrder ?? Number.POSITIVE_INFINITY) !== (b.displayOrder ?? Number.POSITIVE_INFINITY)) {
+      return (a.displayOrder ?? Number.POSITIVE_INFINITY) - (b.displayOrder ?? Number.POSITIVE_INFINITY);
+    }
     if (statusRank[a.type] !== statusRank[b.type]) return statusRank[a.type] - statusRank[b.type];
     return a.title.localeCompare(b.title);
   });
 
+export const allPublications = sortPublications(publications);
 export const acceptedPublications = sortPublications(publications.filter((publication) => publication.status === 'accepted'));
 export const arxivPublications = sortPublications(publications.filter((publication) => publication.status === 'arxiv'));
