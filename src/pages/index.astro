@@ -1,12 +1,11 @@
 ---
 import AcademicLayout from '../layouts/AcademicLayout.astro';
 import { site } from '../data/site';
-import { projects } from '../data/projects';
-import { acceptedPublications } from '../data/publications';
+import { newsItems } from '../data/news';
 import { withBase } from '../utils/paths';
 
-const featuredProjects = projects.filter((project) => project.status === 'active').slice(0, 3);
-const recentPublications = acceptedPublications.slice(0, 4);
+const formatNewsYear = (date: string) => date.match(/\d{4}/)?.[0] ?? date;
+const localLink = (href: string) => href.startsWith('/') ? withBase(href) : href;
 ---
 
 <AcademicLayout title="Home" description={site.description} activeNav="home">
@@ -36,35 +35,17 @@ const recentPublications = acceptedPublications.slice(0, 4);
     </header>
 
     <section class="academic-section">
-      <div class="academic-section-heading-row">
-        <h2 class="academic-section-title">Projects</h2>
-        <a class="academic-text-link" href={withBase('/projects/')}>All projects</a>
-      </div>
-      <div class="academic-projects">
-        {featuredProjects.map((project) => (
-          <article class="academic-project" id={project.slug}>
-            <h3>{project.title}</h3>
-            <p>
-              <strong>{project.pillar}</strong>{project.year ? `, ${project.year}` : ''}. {project.shortDescription}
-            </p>
-          </article>
-        ))}
-      </div>
-    </section>
-
-    <section class="academic-section">
-      <div class="academic-section-heading-row">
-        <h2 class="academic-section-title">Recent Publications</h2>
-        <a class="academic-text-link" href={withBase('/publications/')}>All publications</a>
-      </div>
-      <ul class="academic-publication-list compact">
-        {recentPublications.map((publication) => (
-          <li class="academic-publication-item">
-            <span class="academic-publication-title">{publication.title}</span>
-            <span class="academic-authors">
-              <strong>{publication.authors[0]}</strong>{publication.authors.length > 1 ? `, ${publication.authors.slice(1).join(', ')}` : ''}
+      <h2 class="academic-section-title">News</h2>
+      <ul class="academic-news-list">
+        {newsItems.map((item) => (
+          <li class="academic-news-item">
+            <span class="academic-news-date">{formatNewsYear(item.date)}</span>
+            <span class="academic-news-text">
+              <strong>{item.date}</strong>: {item.link ? <a href={localLink(item.link)}>{item.title}</a> : item.title}
+              <span class="academic-news-label"> - {item.label}</span>
+              <br />
+              {item.summary}
             </span>
-            <span class="academic-venue">{publication.venue}, {publication.year}</span>
           </li>
         ))}
       </ul>

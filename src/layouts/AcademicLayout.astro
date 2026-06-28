@@ -13,7 +13,6 @@ const { title, description = site.description, activeNav = 'home' } = Astro.prop
 const pageTitle = title ? `${title} - ${site.shortName}` : `${site.shortName} - ${site.tagline}`;
 const navItems = [
   { key: 'home', label: 'Home', href: '/' },
-  { key: 'news', label: 'News', href: '/news/' },
   { key: 'research', label: 'Research', href: '/research/' },
   { key: 'projects', label: 'Projects', href: '/projects/' },
   { key: 'team', label: 'Team', href: '/team/' },
