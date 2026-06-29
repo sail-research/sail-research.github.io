@@ -4,6 +4,7 @@ export type TeamGroup =
   | 'master'
   | 'research-assistants'
   | 'undergraduate-ra'
+  | 'undergraduate-interns'
   | 'alumni'
   | 'collaborators';
 

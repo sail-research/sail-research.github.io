@@ -49,6 +49,7 @@ const legacyMembers = team.map((person) => ({
     master: 'Master Students',
     'research-assistants': 'Research Assistants',
     'undergraduate-ra': 'Undergraduate RAs',
+    'undergraduate-interns': 'Undergraduate Interns',
     alumni: 'Alumni',
     collaborators: 'Collaborators',
   };
@@ -59,7 +60,7 @@ const legacyMembers = team.map((person) => ({
     'efficient-machine-learning': 'Efficient ML',
   };
 
-  const order = ['professors', 'phd', 'master', 'research-assistants', 'undergraduate-ra', 'alumni'];
+  const order = ['professors', 'phd', 'master', 'research-assistants', 'undergraduate-ra', 'undergraduate-interns', 'alumni'];
   const ignoredMemberEmails = new Set(['test@vinuni.edu.vn']);
 
   const escapeHtml = (value) =>
@@ -140,8 +141,14 @@ const legacyMembers = team.map((person) => ({
     return `<figure class="academic-person-photo"><img src="${escapeHtml(portraitUrl)}" alt="${escapeHtml(member.name)}" loading="lazy" decoding="async" /></figure>`;
   };
 
+  const displayGroupKey = (member) => {
+    if (member.status === 'alumni') return 'alumni';
+    if (member.role_title === 'Undergraduate Intern') return 'undergraduate-interns';
+    return member.group_key;
+  };
+
   const renderMember = (member) => {
-    const groupKey = member.status === 'alumni' ? 'alumni' : member.group_key;
+    const groupKey = displayGroupKey(member);
     const role = member.role_title || groupLabels[groupKey] || 'Member';
     const cluster = clusterLabels[member.cluster_slug] || '';
 
@@ -171,7 +178,7 @@ const legacyMembers = team.map((person) => ({
 
     const grouped = new Map();
     cleanMembers.forEach((member) => {
-      const key = member.status === 'alumni' ? 'alumni' : member.group_key;
+      const key = displayGroupKey(member);
       if (!grouped.has(key)) grouped.set(key, []);
       grouped.get(key).push(member);
     });

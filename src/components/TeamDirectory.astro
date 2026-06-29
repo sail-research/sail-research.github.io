@@ -44,6 +44,7 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
     <div class="tabs" role="tablist" aria-label="Research assistant groups">
       <button class="tab-button" type="button" role="tab" aria-selected="true" aria-controls="ra-panel" id="ra-tab" data-tab="ra-panel">Research Assistants</button>
       <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="undergrad-ra-panel" id="undergrad-ra-tab" data-tab="undergrad-ra-panel">Undergraduate Student RAs</button>
+      <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="undergrad-intern-panel" id="undergrad-intern-tab" data-tab="undergrad-intern-panel">Undergraduate Interns</button>
     </div>
     <div id="ra-panel" class="tab-panel" role="tabpanel" aria-labelledby="ra-tab">
       <div class="person-grid" data-supabase-group="research-assistants" hidden></div>
@@ -55,6 +56,12 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
       <div class="person-grid" data-supabase-group="undergraduate-ra" hidden></div>
       <div data-empty-for="undergraduate-ra">
         <EmptyState title="No undergraduate RA profiles listed yet" message="This section will be updated when profiles are available." />
+      </div>
+    </div>
+    <div id="undergrad-intern-panel" class="tab-panel" role="tabpanel" aria-labelledby="undergrad-intern-tab" hidden>
+      <div class="person-grid" data-supabase-group="undergraduate-interns" hidden></div>
+      <div data-empty-for="undergraduate-interns">
+        <EmptyState title="No undergraduate intern profiles listed yet" message="This section will be updated when profiles are available." />
       </div>
     </div>
   </div>
@@ -187,6 +194,12 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
     </article>
   `;
 
+  const displayGroup = (member) => {
+    if (member.status === 'alumni') return 'alumni';
+    if (member.role_title === 'Undergraduate Intern') return 'undergraduate-interns';
+    return member.group_key;
+  };
+
   async function loadApprovedMembers() {
     const query = [
       'select=name,email,role_title,group_key,cluster_slug,affiliation,image_url,homepage_url,scholar_url,linkedin_url,research_interests,status',
@@ -202,7 +215,7 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
     members.forEach((member) => {
       if (ignoredMemberEmails.has(String(member.email || '').toLowerCase())) return;
 
-      const group = member.status === 'alumni' ? 'alumni' : member.group_key;
+      const group = displayGroup(member);
       const container = document.querySelector(`[data-supabase-group="${CSS.escape(group)}"]`);
       if (!container) return;
 
