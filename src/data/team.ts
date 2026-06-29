@@ -223,7 +223,7 @@ export const team: Person[] = [
     role: 'Research Assistant, now Resident at FPT Software AI Residency',
     group: 'alumni',
     affiliation: 'SAIL Alumni',
-    image: '/team/21cuong.lc.jpeg',
+    image: '/team/le-chi-cuong-2026.jpg',
   },
   {
     name: 'Khoa D. Doan',
