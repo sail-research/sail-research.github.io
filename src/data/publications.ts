@@ -21,7 +21,7 @@ export interface Publication {
   status: PublicationStatus;
   type: PublicationType;
   tags: string[];
-  displayOrder?: number;
+  sortDate?: string;
   venueMetric?: PublicationVenueMetric;
   links?: PublicationLink[];
   sourceNote?: string;
@@ -82,7 +82,7 @@ export const publications: Publication[] = [
     status: 'accepted',
     type: 'conference',
     tags: ['Distributed Learning', 'Federated learning', 'Split learning', 'Edge AI'],
-    displayOrder: 80,
+    sortDate: '2026-06-18',
   },
   {
     title: 'Clean-Label Physical Backdoor Attacks with Data Distillation',
@@ -92,7 +92,7 @@ export const publications: Publication[] = [
     status: 'accepted',
     type: 'conference',
     tags: ['Trustworthy AI', 'Robustness', 'Backdoor attacks and defenses'],
-    displayOrder: 10,
+    sortDate: '2026-01-01',
     links: [
       { label: 'AAAI', url: 'https://ojs.aaai.org/index.php/AAAI/article/view/37349' },
       { label: 'arXiv', url: 'https://arxiv.org/abs/2407.19203' },
@@ -106,7 +106,7 @@ export const publications: Publication[] = [
     status: 'accepted',
     type: 'conference',
     tags: ['Distributed Learning', 'Federated learning', 'Domain generalization', 'Efficient ML'],
-    displayOrder: 20,
+    sortDate: '2026-02-15',
     links: [
       { label: 'CVF', url: 'https://openaccess.thecvf.com/content/CVPR2026/papers/Nguyen_HFedATM_Hierarchical_Federated_Domain_Generalization_via_Optimal_Transport_and_Regularized_CVPR_2026_paper.pdf' },
       { label: 'arXiv', url: 'https://arxiv.org/abs/2508.05135' },
@@ -120,7 +120,7 @@ export const publications: Publication[] = [
     status: 'accepted',
     type: 'conference',
     tags: ['Distributed Learning', 'Personalized federated learning', 'Continual learning'],
-    displayOrder: 40,
+    sortDate: '2026-02-10',
     links: [
       { label: 'CVF', url: 'https://openaccess.thecvf.com/content/CVPR2026F/papers/Nguyen_Onboarding_Without_Forgetting_Hypernetwork_Personalization_with_Data-Free_Replay_for_Personalized_CVPRF_2026_paper.pdf' },
       { label: 'arXiv', url: 'https://arxiv.org/abs/2508.05157' },
@@ -135,7 +135,7 @@ export const publications: Publication[] = [
     status: 'accepted',
     type: 'conference',
     tags: ['Efficient ML', 'Continual learning', 'Memory efficiency'],
-    displayOrder: 30,
+    sortDate: '2026-02-10',
     links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2603.13804' }],
   },
   {
@@ -146,7 +146,7 @@ export const publications: Publication[] = [
     status: 'accepted',
     type: 'conference',
     tags: ['Efficient ML', 'WiFi sensing', 'State space models', 'Human pose estimation'],
-    displayOrder: 50,
+    sortDate: '2026-07-08',
     links: [{ label: 'ICML', url: 'https://icml.cc/virtual/2026/poster/64025' }],
   },
   {
@@ -157,7 +157,7 @@ export const publications: Publication[] = [
     status: 'accepted',
     type: 'workshop',
     tags: ['Trustworthy AI', 'Federated learning', 'Benchmarking'],
-    displayOrder: 60,
+    sortDate: '2026-03-01',
     links: [{ label: 'OpenReview', url: 'https://openreview.net/forum?id=0hHnZeXr9k' }],
   },
   {
@@ -412,7 +412,7 @@ export const publications: Publication[] = [
     status: 'arxiv',
     type: 'preprint',
     tags: ['Trustworthy AI', 'Backdoor attacks and defenses', 'Molecular graphs'],
-    displayOrder: 70,
+    sortDate: '2026-06-22',
     links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2606.23361' }],
   },
   {
@@ -423,7 +423,7 @@ export const publications: Publication[] = [
     status: 'arxiv',
     type: 'preprint',
     tags: ['Distributed Learning', 'Federated learning', 'Continual learning'],
-    displayOrder: 90,
+    sortDate: '2026-06-14',
     links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2606.15695' }],
   },
   {
@@ -470,12 +470,12 @@ const statusRank: Record<PublicationType, number> = {
   preprint: 3,
 };
 
+const sortDateValue = (publication: Publication) => publication.sortDate ? Date.parse(publication.sortDate) : 0;
+
 export const sortPublications = (items: Publication[]) =>
   [...items].sort((a, b) => {
     if (b.year !== a.year) return b.year - a.year;
-    if ((a.displayOrder ?? Number.POSITIVE_INFINITY) !== (b.displayOrder ?? Number.POSITIVE_INFINITY)) {
-      return (a.displayOrder ?? Number.POSITIVE_INFINITY) - (b.displayOrder ?? Number.POSITIVE_INFINITY);
-    }
+    if (sortDateValue(b) !== sortDateValue(a)) return sortDateValue(b) - sortDateValue(a);
     if (statusRank[a.type] !== statusRank[b.type]) return statusRank[a.type] - statusRank[b.type];
     return a.title.localeCompare(b.title);
   });

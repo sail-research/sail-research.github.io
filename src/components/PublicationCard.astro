@@ -5,21 +5,7 @@ interface Props {
 }
 const { publication } = Astro.props;
 
-const escapeHtml = (value: string) =>
-  value.replace(/[&<>"']/g, (char) => ({
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#039;',
-  }[char] ?? char));
-
-const authorHtml = publication.authors
-  .map((author, index) => {
-    const escaped = escapeHtml(author);
-    return index === 0 ? `<span class="author-highlight">${escaped}</span>` : escaped;
-  })
-  .join(', ');
+const authorText = publication.authors.join(', ');
 const typeLabel = publication.type.charAt(0).toUpperCase() + publication.type.slice(1);
 ---
 
@@ -33,7 +19,7 @@ const typeLabel = publication.type.charAt(0).toUpperCase() + publication.type.sl
       )}
     </div>
     <h3>{publication.title}</h3>
-    <p class="pub-authors" set:html={authorHtml}></p>
+    <p class="pub-authors">{authorText}</p>
     <div class="pub-meta" aria-label="Publication tags">
       {publication.tags.map((tag) => <span class="chip">{tag}</span>)}
     </div>

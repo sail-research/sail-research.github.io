@@ -11,8 +11,7 @@ const groupByYear = (items: Publication[]) =>
 
 const publicationsByYear = groupByYear(allPublications);
 const firstLink = (links = []) => links[0]?.url;
-const authorHtml = (authors: string[]) =>
-  authors.map((author, index) => (index === 0 ? `<strong>${author}</strong>` : author)).join(', ');
+const authorText = (authors: string[]) => authors.join(', ');
 const venueText = (publication: Publication) => {
   const baseVenue =
     publication.type === 'preprint' && publication.venue.toLowerCase().includes('preprint')
@@ -58,7 +57,7 @@ const venueText = (publication: Publication) => {
                   ) : (
                     <span class="academic-publication-title">{publication.title}</span>
                   )}
-                  <span class="academic-authors" set:html={authorHtml(publication.authors)} />
+                  <span class="academic-authors">{authorText(publication.authors)}</span>
                   <span class="academic-venue">{venueText(publication)}</span>
                   {publication.links && publication.links.length > 0 && (
                     <span class="academic-publication-links">

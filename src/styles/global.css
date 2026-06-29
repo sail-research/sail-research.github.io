@@ -644,7 +644,7 @@ main {
   position: relative;
   margin: 0;
   width: 100%;
-  aspect-ratio: 1 / 0.95;
+  aspect-ratio: 1 / 1;
   border-radius: 1rem;
   overflow: hidden;
   border: 1px solid var(--border);
@@ -819,11 +819,6 @@ main {
   margin: 0.55rem 0 0;
   color: var(--muted);
   font-size: 0.94rem;
-}
-
-.author-highlight {
-  color: var(--primary);
-  font-weight: 760;
 }
 
 .pub-year {
