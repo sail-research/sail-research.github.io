@@ -7,9 +7,10 @@ interface Props {
   title?: string;
   description?: string;
   activeNav?: string;
+  robots?: string;
 }
 
-const { title, description = site.description, activeNav = 'home' } = Astro.props;
+const { title, description = site.description, activeNav = 'home', robots } = Astro.props;
 const pageTitle = title ? `${title} - ${site.shortName}` : `${site.shortName} - ${site.tagline}`;
 const navItems = [
   { key: 'home', label: 'Home', href: '/' },
@@ -26,6 +27,7 @@ const navItems = [
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    {robots && <meta name="robots" content={robots} />}
     <title>{pageTitle}</title>
     <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />

@@ -3,6 +3,7 @@ dist/
 .astro/
 archive/
 .astro-preview*.log
+.astro-*.log
 .DS_Store
 .env
 .env.*

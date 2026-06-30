@@ -1,0 +1,44 @@
+---
+import AcademicLayout from '../../layouts/AcademicLayout.astro';
+import { withBase } from '../../utils/paths';
+
+const supabaseUrl = 'https://rxnhlmrvwmepuphpithm.supabase.co';
+const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<AcademicLayout
+  title="Certificate Verification"
+  description="Verify a SAIL undergraduate training certificate."
+  activeNav="training"
+  robots="noindex,nofollow"
+>
+  <main class="academic-content training-shell">
+    <header class="academic-page-header training-header">
+      <p class="academic-kicker">Certificate</p>
+      <h1 class="academic-name">Verify credential.</h1>
+      <p class="academic-section-intro">Enter a SAIL certificate code to confirm its status.</p>
+    </header>
+
+    <section class="training-panel certificate-panel">
+      <form class="training-form certificate-search" data-certificate-form>
+        <label>
+          <span>Certificate code</span>
+          <input name="code" type="text" placeholder="SAIL-UG-2026-XXXXXXXX" required />
+        </label>
+        <button class="training-button primary" type="submit">Verify</button>
+      </form>
+      <div class="training-status" data-certificate-status role="status">Waiting for certificate code...</div>
+      <div data-certificate-result></div>
+    </section>
+  </main>
+
+  <script is:inline define:vars={{ supabaseUrl, supabasePublishableKey, baseUrl }}>
+    window.SAIL_CERTIFICATE_CONFIG = {
+      supabaseUrl,
+      supabasePublishableKey,
+      baseUrl,
+    };
+  </script>
+  <script type="module" src={withBase('/scripts/training-certificate.js')}></script>
+</AcademicLayout>

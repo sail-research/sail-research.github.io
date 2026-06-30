@@ -10,7 +10,11 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      filter: (page) => !page.endsWith('/register/') && !page.includes('/team-preview-') && !page.includes('/team-legacy-'),
+      filter: (page) =>
+        !page.endsWith('/register/') &&
+        !page.includes('/training/') &&
+        !page.includes('/team-preview-') &&
+        !page.includes('/team-legacy-'),
     }),
   ],
 });

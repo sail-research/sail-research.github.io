@@ -1,0 +1,185 @@
+---
+import AcademicLayout from '../../layouts/AcademicLayout.astro';
+import { site } from '../../data/site';
+import { withBase } from '../../utils/paths';
+
+const supabaseUrl = 'https://rxnhlmrvwmepuphpithm.supabase.co';
+const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<AcademicLayout
+  title="Training"
+  description="Private SAIL undergraduate training portal."
+  activeNav="training"
+  robots="noindex,nofollow"
+>
+  <main class="academic-content training-shell">
+    <header class="academic-page-header training-header">
+      <p class="academic-kicker">Private Training</p>
+      <h1 class="academic-name">Undergraduate onboarding.</h1>
+      <p class="academic-section-intro">
+        Login with email to enroll, submit module work, and track review status.
+      </p>
+      <div class="training-status" data-training-status role="status">Loading training portal...</div>
+    </header>
+
+    <section class="training-panel" data-panel="login" hidden>
+      <div>
+        <h2>Email login</h2>
+        <p>Use the email address assigned to your private invite.</p>
+      </div>
+      <form class="training-form" data-login-form>
+        <label>
+          <span>Email</span>
+          <input name="email" type="email" autocomplete="email" placeholder="name@vinuni.edu.vn" required />
+        </label>
+        <button class="training-button primary" type="submit">Send magic link</button>
+      </form>
+    </section>
+
+    <section class="training-panel" data-panel="enroll" hidden>
+      <div>
+        <h2>Enrollment</h2>
+        <p data-invite-summary>Checking invite...</p>
+      </div>
+      <form class="training-form" data-enroll-form>
+        <label>
+          <span>Full name</span>
+          <input name="full_name" type="text" autocomplete="name" required />
+        </label>
+        <label>
+          <span>Affiliation</span>
+          <input name="affiliation" type="text" value="VinUniversity" />
+        </label>
+        <button class="training-button primary" type="submit">Enroll</button>
+      </form>
+    </section>
+
+    <section class="training-panel" data-panel="blocked" hidden>
+      <div>
+        <h2>Access required</h2>
+        <p data-blocked-message>This portal requires a valid private invite link.</p>
+      </div>
+      <button class="training-button" type="button" data-logout-button>Sign out</button>
+    </section>
+
+    <section data-panel="student" hidden>
+      <div class="training-toolbar">
+        <div>
+          <p class="training-eyebrow">Student dashboard</p>
+          <h2 data-student-title>Training track</h2>
+          <p data-student-meta></p>
+        </div>
+        <button class="training-button" type="button" data-logout-button>Sign out</button>
+      </div>
+
+      <div class="training-stats" data-student-stats></div>
+      <div class="training-grid" data-student-modules></div>
+      <div class="training-grid single" data-student-project></div>
+      <div class="training-panel certificate-panel" data-student-certificate hidden></div>
+    </section>
+
+    <section data-panel="admin" hidden>
+      <div class="training-toolbar">
+        <div>
+          <p class="training-eyebrow">Admin dashboard</p>
+          <h2>Training operations</h2>
+          <p data-admin-meta></p>
+        </div>
+        <button class="training-button" type="button" data-logout-button>Sign out</button>
+      </div>
+
+      <div class="training-admin-grid">
+        <section class="training-panel" data-admin-only>
+          <h3>Create invite</h3>
+          <form class="training-form" data-invite-form>
+            <label>
+              <span>Track</span>
+              <select name="track_id" required data-track-select></select>
+            </label>
+            <label>
+              <span>Assigned email</span>
+              <input name="email_allowed" type="email" placeholder="optional@vinuni.edu.vn" />
+            </label>
+            <label>
+              <span>Expires at</span>
+              <input name="expires_at" type="datetime-local" />
+            </label>
+            <label>
+              <span>Max uses</span>
+              <input name="max_uses" type="number" min="1" max="50" value="1" />
+            </label>
+            <button class="training-button primary" type="submit">Create invite</button>
+          </form>
+          <div class="training-copy-box" data-invite-output hidden></div>
+        </section>
+
+        <section class="training-panel" data-admin-only>
+          <h3>Create mini-project</h3>
+          <form class="training-form" data-project-form>
+            <label>
+              <span>Title</span>
+              <input name="title" type="text" required />
+            </label>
+            <label>
+              <span>Pillar</span>
+              <select name="pillar" required>
+                <option value="trustworthy_ai">Trustworthy AI</option>
+                <option value="distributed_learning">Distributed Learning</option>
+                <option value="efficient_ml">Efficient ML</option>
+                <option value="deep_learning">Deep Learning</option>
+              </select>
+            </label>
+            <label>
+              <span>Difficulty</span>
+              <select name="difficulty" required>
+                <option value="standard">Standard</option>
+                <option value="intro">Intro</option>
+                <option value="advanced">Advanced</option>
+              </select>
+            </label>
+            <label>
+              <span>Material URL</span>
+              <input name="material_url" type="url" placeholder="https://drive.google.com/..." />
+            </label>
+            <label class="wide">
+              <span>Description</span>
+              <textarea name="description" rows="3" required></textarea>
+            </label>
+            <label class="wide">
+              <span>Expected output</span>
+              <textarea name="expected_output" rows="3"></textarea>
+            </label>
+            <button class="training-button primary" type="submit">Create project</button>
+          </form>
+        </section>
+      </div>
+
+      <section class="training-panel">
+        <div class="training-section-heading">
+          <h3>Enrollments</h3>
+          <button class="training-button compact" type="button" data-refresh-admin>Refresh</button>
+        </div>
+        <div class="training-table-wrap" data-admin-enrollments></div>
+      </section>
+
+      <section class="training-panel">
+        <h3>Submissions waiting review</h3>
+        <div class="training-stack" data-admin-submissions></div>
+      </section>
+    </section>
+  </main>
+
+  <script is:inline define:vars={{ supabaseUrl, supabasePublishableKey, baseUrl, siteUrl: site.url }}>
+    window.SAIL_TRAINING_CONFIG = {
+      supabaseUrl,
+      supabasePublishableKey,
+      baseUrl,
+      siteUrl,
+      trainingPath: `${baseUrl}/training/`,
+      certificatePath: `${baseUrl}/training/certificates/`,
+    };
+  </script>
+  <script type="module" src={withBase('/scripts/training-portal.js')}></script>
+</AcademicLayout>
