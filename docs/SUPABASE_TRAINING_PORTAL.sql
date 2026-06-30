@@ -908,6 +908,28 @@ grant select, insert, update, delete on
   public.training_certificates
 to authenticated;
 
+grant select, insert, update, delete on
+  public.training_tracks,
+  public.training_profiles,
+  public.training_invites,
+  public.training_modules,
+  public.training_lessons,
+  public.training_projects,
+  public.training_enrollments,
+  public.training_submissions,
+  public.training_reviews,
+  public.training_certificates
+to service_role;
+
+grant execute on function public.get_training_invite(text) to service_role;
+grant execute on function public.verify_training_certificate(text) to service_role;
+grant execute on function public.enroll_training(text, text, text) to service_role;
+grant execute on function public.submit_training_work(uuid, uuid, uuid, text, text) to service_role;
+grant execute on function public.review_training_submission(uuid, public.training_result, text) to service_role;
+grant execute on function public.set_training_final_result(uuid, public.training_result) to service_role;
+grant execute on function public.training_has_role(public.training_role[]) to service_role;
+grant execute on function public.training_current_profile_id() to service_role;
+
 insert into public.training_tracks (
   slug,
   title,

@@ -588,11 +588,12 @@ async function reviewSubmission(event) {
 async function sendMagicLink(event) {
   event.preventDefault();
   const email = formValue(loginForm, 'email').toLowerCase();
+  const redirectUrl = `${window.location.origin}${config.trainingPath}${state.inviteToken ? `?invite=${encodeURIComponent(state.inviteToken)}` : ''}`;
   setStatus('Sending login email...');
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: window.location.href,
+      emailRedirectTo: redirectUrl,
     },
   });
 
