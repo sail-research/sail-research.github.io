@@ -811,6 +811,24 @@ p {
   grid-column: 1 / -1;
 }
 
+.training-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.training-checkbox {
+  grid-template-columns: auto 1fr;
+  align-items: center;
+}
+
+.training-checkbox input {
+  width: 18px;
+  min-height: 18px;
+  accent-color: var(--accent);
+}
+
 .training-form span {
   color: var(--text-soft);
   font-size: 13px;
@@ -829,6 +847,12 @@ p {
   background: #ffffff;
   font: inherit;
   font-size: 14px;
+}
+
+.training-form .training-checkbox input {
+  width: 18px;
+  min-height: 18px;
+  padding: 0;
 }
 
 .training-form textarea {
@@ -884,6 +908,66 @@ p {
   margin: 16px 0 20px;
 }
 
+.training-roadmap {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 20px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.training-roadmap-step {
+  flex: 1 0 150px;
+  display: grid;
+  gap: 4px;
+  min-width: 150px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.training-roadmap-step span {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  color: var(--accent-dark);
+  background: var(--accent-soft);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.training-roadmap-step strong {
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.25;
+}
+
+.training-roadmap-step small {
+  color: var(--text-soft);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.training-roadmap-step.excellent,
+.training-roadmap-step.pass {
+  border-color: rgba(26, 5, 162, 0.2);
+  background: var(--accent-soft);
+}
+
+.training-roadmap-step.revision,
+.training-roadmap-step.submitted {
+  border-color: rgba(244, 124, 50, 0.28);
+  background: #fff8f2;
+}
+
+.training-roadmap-step.fail {
+  border-color: rgba(190, 58, 20, 0.22);
+  background: #fff2ec;
+}
+
 .training-stat {
   padding: 14px;
 }
@@ -911,6 +995,15 @@ p {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
   margin-top: 14px;
+}
+
+.module-dashboard-grid {
+  align-items: start;
+  margin-top: 18px;
+}
+
+.module-editor {
+  margin-top: 0;
 }
 
 .training-grid.single {
@@ -1077,6 +1170,66 @@ p {
   margin-top: 12px;
 }
 
+.training-module-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: start;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-soft);
+}
+
+.training-module-row h4 {
+  margin: 0;
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+.training-module-row p {
+  margin: 4px 0 0;
+  color: var(--text-soft);
+  font-size: 13px;
+}
+
+.training-module-row small {
+  display: block;
+  margin-top: 6px;
+  color: var(--text-faint);
+  font-size: 12px;
+}
+
+.training-filter-row {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.35fr) minmax(220px, 0.65fr);
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.training-filter-row label {
+  display: grid;
+  gap: 5px;
+}
+
+.training-filter-row span {
+  color: var(--text-soft);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.training-filter-row select {
+  width: 100%;
+  min-height: 40px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  background: #ffffff;
+  font: inherit;
+  font-size: 14px;
+}
+
 .training-review-card {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(260px, 0.7fr);
@@ -1133,6 +1286,7 @@ p {
   }
 
   .training-form,
+  .training-filter-row,
   .certificate-search {
     grid-template-columns: 1fr;
   }

@@ -75,6 +75,7 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
       </div>
 
       <div class="training-stats" data-student-stats></div>
+      <div class="training-roadmap" data-student-roadmap></div>
       <div class="training-grid" data-student-modules></div>
       <div class="training-grid single" data-student-project></div>
       <div class="training-panel certificate-panel" data-student-certificate hidden></div>
@@ -156,6 +157,109 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
         </section>
       </div>
 
+      <section class="training-panel" data-admin-only>
+        <div class="training-section-heading">
+          <div>
+            <h3>Module dashboard</h3>
+            <p>Manage the training roadmap, lesson materials, and module order.</p>
+          </div>
+          <button class="training-button compact" type="button" data-refresh-modules>Refresh modules</button>
+        </div>
+
+        <div class="training-admin-grid module-dashboard-grid">
+          <form class="training-form module-editor" data-module-form>
+            <input name="module_id" type="hidden" />
+            <label>
+              <span>Track</span>
+              <select name="track_id" required data-module-track-select></select>
+            </label>
+            <label>
+              <span>Pillar</span>
+              <select name="pillar" required>
+                <option value="math">Math</option>
+                <option value="deep_learning">Deep Learning</option>
+                <option value="trustworthy_ai">Trustworthy AI</option>
+                <option value="distributed_learning">Distributed Learning</option>
+                <option value="efficient_ml">Efficient ML</option>
+                <option value="project">Mini-project</option>
+              </select>
+            </label>
+            <label>
+              <span>Title</span>
+              <input name="title" type="text" required />
+            </label>
+            <label>
+              <span>Slug</span>
+              <input name="slug" type="text" placeholder="auto-from-title" />
+            </label>
+            <label>
+              <span>Order</span>
+              <input name="order_index" type="number" step="10" value="10" />
+            </label>
+            <label>
+              <span>Visibility</span>
+              <select name="is_active">
+                <option value="true">Visible</option>
+                <option value="false">Hidden</option>
+              </select>
+            </label>
+            <label class="wide">
+              <span>Description</span>
+              <textarea name="description" rows="3"></textarea>
+            </label>
+            <label class="training-checkbox wide">
+              <input name="is_required" type="checkbox" checked />
+              <span>Required module</span>
+            </label>
+            <div class="training-form-actions wide">
+              <button class="training-button primary" type="submit">Save module</button>
+              <button class="training-button" type="button" data-reset-module-form>New module</button>
+            </div>
+          </form>
+
+          <div class="training-stack" data-module-list></div>
+        </div>
+
+        <div class="training-admin-grid module-dashboard-grid">
+          <form class="training-form module-editor" data-lesson-form>
+            <input name="lesson_id" type="hidden" />
+            <label>
+              <span>Module</span>
+              <select name="module_id" required data-lesson-module-select></select>
+            </label>
+            <label>
+              <span>Order</span>
+              <input name="order_index" type="number" step="10" value="10" />
+            </label>
+            <label>
+              <span>Lesson title</span>
+              <input name="title" type="text" required />
+            </label>
+            <label>
+              <span>Material URL</span>
+              <input name="material_url" type="url" placeholder="https://drive.google.com/..." />
+            </label>
+            <label class="wide">
+              <span>Description</span>
+              <textarea name="description" rows="3"></textarea>
+            </label>
+            <label>
+              <span>Visibility</span>
+              <select name="is_active">
+                <option value="true">Visible</option>
+                <option value="false">Hidden</option>
+              </select>
+            </label>
+            <div class="training-form-actions wide">
+              <button class="training-button primary" type="submit">Save lesson</button>
+              <button class="training-button" type="button" data-reset-lesson-form>New lesson</button>
+            </div>
+          </form>
+
+          <div class="training-stack" data-lesson-list></div>
+        </div>
+      </section>
+
       <section class="training-panel">
         <div class="training-section-heading">
           <h3>Enrollments</h3>
@@ -165,7 +269,28 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
       </section>
 
       <section class="training-panel">
-        <h3>Submissions waiting review</h3>
+        <div class="training-section-heading">
+          <div>
+            <h3>Submission review</h3>
+            <p>Filter by module or mini-project before reviewing Drive links.</p>
+          </div>
+        </div>
+        <div class="training-filter-row">
+          <label>
+            <span>Status</span>
+            <select data-submission-status-filter>
+              <option value="unreviewed">Waiting review</option>
+              <option value="reviewed">Reviewed</option>
+              <option value="all">All submissions</option>
+            </select>
+          </label>
+          <label>
+            <span>Module/project</span>
+            <select data-submission-target-filter>
+              <option value="all">All modules and projects</option>
+            </select>
+          </label>
+        </div>
         <div class="training-stack" data-admin-submissions></div>
       </section>
     </section>

@@ -14,9 +14,13 @@ const state = {
   profile: null,
   inviteToken: new URLSearchParams(window.location.search).get('invite')?.trim() || '',
   tracks: [],
+  modules: [],
+  lessons: [],
   projects: [],
   enrollments: [],
   profiles: [],
+  adminSubmissions: [],
+  adminReviews: [],
 };
 
 const panels = Object.fromEntries([...document.querySelectorAll('[data-panel]')].map((panel) => [panel.dataset.panel, panel]));
@@ -28,6 +32,7 @@ const blockedMessage = document.querySelector('[data-blocked-message]');
 const studentTitle = document.querySelector('[data-student-title]');
 const studentMeta = document.querySelector('[data-student-meta]');
 const studentStats = document.querySelector('[data-student-stats]');
+const studentRoadmap = document.querySelector('[data-student-roadmap]');
 const studentModules = document.querySelector('[data-student-modules]');
 const studentProject = document.querySelector('[data-student-project]');
 const studentCertificate = document.querySelector('[data-student-certificate]');
@@ -38,6 +43,14 @@ const projectForm = document.querySelector('[data-project-form]');
 const trackSelect = document.querySelector('[data-track-select]');
 const adminEnrollments = document.querySelector('[data-admin-enrollments]');
 const adminSubmissions = document.querySelector('[data-admin-submissions]');
+const moduleForm = document.querySelector('[data-module-form]');
+const lessonForm = document.querySelector('[data-lesson-form]');
+const moduleTrackSelect = document.querySelector('[data-module-track-select]');
+const lessonModuleSelect = document.querySelector('[data-lesson-module-select]');
+const moduleList = document.querySelector('[data-module-list]');
+const lessonList = document.querySelector('[data-lesson-list]');
+const submissionStatusFilter = document.querySelector('[data-submission-status-filter]');
+const submissionTargetFilter = document.querySelector('[data-submission-target-filter]');
 
 function showPanel(name) {
   Object.entries(panels).forEach(([key, panel]) => {
@@ -82,6 +95,22 @@ function normalizeResult(value) {
 
 function normalizeStatus(value) {
   return String(value || 'open').replace(/_/g, ' ');
+}
+
+function labelPillar(value) {
+  const labels = {
+    math: 'Math',
+    deep_learning: 'Deep Learning',
+    trustworthy_ai: 'Trustworthy AI',
+    distributed_learning: 'Distributed Learning',
+    efficient_ml: 'Efficient ML',
+    project: 'Mini-project',
+  };
+  return labels[value] || normalizeStatus(value);
+}
+
+function booleanValue(value) {
+  return value === true || value === 'true';
 }
 
 function formatDate(value) {
@@ -175,9 +204,11 @@ async function loadTracks() {
     .order('created_at', { ascending: true });
   if (error) throw error;
   state.tracks = data || [];
-  trackSelect.innerHTML = state.tracks
+  const options = state.tracks
     .map((track) => `<option value="${escapeHtml(track.id)}">${escapeHtml(track.title)}</option>`)
     .join('');
+  trackSelect.innerHTML = options;
+  moduleTrackSelect.innerHTML = options;
 }
 
 async function loadProjects() {
@@ -187,6 +218,29 @@ async function loadProjects() {
     .order('created_at', { ascending: false });
   if (error) throw error;
   state.projects = data || [];
+}
+
+async function loadModuleCatalog() {
+  const { data: modules, error: moduleError } = await supabase
+    .from('training_modules')
+    .select('*')
+    .order('order_index', { ascending: true });
+  if (moduleError) throw moduleError;
+
+  state.modules = modules || [];
+  const moduleIds = state.modules.map((module) => module.id);
+  if (!moduleIds.length) {
+    state.lessons = [];
+    return;
+  }
+
+  const { data: lessons, error: lessonError } = await supabase
+    .from('training_lessons')
+    .select('*')
+    .in('module_id', moduleIds)
+    .order('order_index', { ascending: true });
+  if (lessonError) throw lessonError;
+  state.lessons = lessons || [];
 }
 
 async function loadStudentDashboard() {
@@ -285,13 +339,26 @@ function renderStudentDashboard(data) {
     <div class="training-stat"><strong>${normalizeResult(enrollment.final_result)}</strong><span>final result</span></div>
   `;
 
+  studentRoadmap.innerHTML = modules.map((module, index) => {
+    const submission = latestSubmission(submissions, 'module_id', module.id);
+    const review = submission ? latestReview(reviews, submission.id) : null;
+    const status = review?.result || (submission ? 'submitted' : 'open');
+    return `
+      <div class="training-roadmap-step ${escapeHtml(status)}">
+        <span>${index + 1}</span>
+        <strong>${escapeHtml(module.title)}</strong>
+        <small>${escapeHtml(normalizeResult(status))}</small>
+      </div>
+    `;
+  }).join('');
+
   studentModules.innerHTML = modules.map((module) => {
     const moduleLessons = lessons.filter((lesson) => lesson.module_id === module.id);
     const submission = latestSubmission(submissions, 'module_id', module.id);
     const review = submission ? latestReview(reviews, submission.id) : null;
     return renderWorkCard({
       title: module.title,
-      eyebrow: module.pillar.replace(/_/g, ' '),
+      eyebrow: labelPillar(module.pillar),
       description: module.description,
       lessons: moduleLessons,
       submission,
@@ -414,6 +481,7 @@ async function submitWork(event) {
 async function loadAdminDashboard() {
   setStatus('Loading admin dashboard...');
   await Promise.all([loadTracks(), loadProjects()]);
+  await loadModuleCatalog();
 
   const [{ data: profiles, error: profilesError }, { data: enrollments, error: enrollmentsError }, { data: submissions, error: submissionsError }] =
     await Promise.all([
@@ -440,12 +508,187 @@ async function loadAdminDashboard() {
 
   state.profiles = profiles || [];
   state.enrollments = enrollments || [];
+  state.adminSubmissions = submissions || [];
+  state.adminReviews = reviews || [];
   syncAdminOnly();
   adminMeta.textContent = `Signed in as ${state.profile.email}. Role: ${state.profile.role}.`;
+  renderModuleManager();
   renderAdminEnrollments({ enrollments: state.enrollments, profiles: state.profiles, tracks: state.tracks, projects: state.projects, certificates: certificates || [] });
-  renderAdminSubmissions({ submissions: submissions || [], reviews: reviews || [], enrollments: state.enrollments, profiles: state.profiles });
+  renderSubmissionFilters();
+  renderAdminSubmissions();
   showPanel('admin');
   setStatus('Admin dashboard loaded.', 'success');
+}
+
+function resetModuleForm() {
+  moduleForm.reset();
+  moduleForm.elements.module_id.value = '';
+  moduleForm.elements.order_index.value = '10';
+  moduleForm.elements.is_required.checked = true;
+  moduleForm.querySelector('button[type="submit"]').textContent = 'Save module';
+}
+
+function resetLessonForm() {
+  lessonForm.reset();
+  lessonForm.elements.lesson_id.value = '';
+  lessonForm.elements.order_index.value = '10';
+  lessonForm.querySelector('button[type="submit"]').textContent = 'Save lesson';
+}
+
+function renderModuleManager() {
+  if (!canManageTraining()) return;
+
+  const trackById = new Map(state.tracks.map((track) => [track.id, track]));
+  const lessonCount = new Map();
+  state.lessons.forEach((lesson) => {
+    lessonCount.set(lesson.module_id, (lessonCount.get(lesson.module_id) || 0) + 1);
+  });
+
+  lessonModuleSelect.innerHTML = state.modules
+    .map((module) => `<option value="${escapeHtml(module.id)}">${escapeHtml(module.title)}</option>`)
+    .join('');
+
+  moduleList.innerHTML = state.modules.length
+    ? state.modules.map((module) => `
+      <article class="training-module-row">
+        <div>
+          <p class="training-eyebrow">${escapeHtml(labelPillar(module.pillar))}</p>
+          <h4>${escapeHtml(module.title)}</h4>
+          <p>${escapeHtml(module.description || 'No description yet.')}</p>
+          <small>${escapeHtml(trackById.get(module.track_id)?.title || 'Track')} - order ${escapeHtml(module.order_index)} - ${lessonCount.get(module.id) || 0} lessons - ${module.is_active ? 'visible' : 'hidden'}</small>
+        </div>
+        <button class="training-button compact" type="button" data-edit-module="${escapeHtml(module.id)}">Edit</button>
+      </article>
+    `).join('')
+    : '<p class="training-muted">No modules yet.</p>';
+
+  lessonList.innerHTML = state.lessons.length
+    ? state.lessons.map((lesson) => {
+      const module = state.modules.find((item) => item.id === lesson.module_id);
+      return `
+        <article class="training-module-row">
+          <div>
+            <p class="training-eyebrow">${escapeHtml(module?.title || 'Module')}</p>
+            <h4>${escapeHtml(lesson.title)}</h4>
+            <p>${escapeHtml(lesson.description || 'No description yet.')}</p>
+            ${lesson.material_url ? `<a class="training-link" href="${escapeHtml(lesson.material_url)}">Open material</a>` : ''}
+            <small>order ${escapeHtml(lesson.order_index)} - ${lesson.is_active ? 'visible' : 'hidden'}</small>
+          </div>
+          <button class="training-button compact" type="button" data-edit-lesson="${escapeHtml(lesson.id)}">Edit</button>
+        </article>
+      `;
+    }).join('')
+    : '<p class="training-muted">No lessons yet.</p>';
+
+  document.querySelectorAll('[data-edit-module]').forEach((button) => {
+    button.addEventListener('click', () => editModule(button.dataset.editModule));
+  });
+  document.querySelectorAll('[data-edit-lesson]').forEach((button) => {
+    button.addEventListener('click', () => editLesson(button.dataset.editLesson));
+  });
+}
+
+function editModule(moduleId) {
+  const module = state.modules.find((item) => item.id === moduleId);
+  if (!module) return;
+  moduleForm.elements.module_id.value = module.id;
+  moduleForm.elements.track_id.value = module.track_id;
+  moduleForm.elements.pillar.value = module.pillar;
+  moduleForm.elements.title.value = module.title || '';
+  moduleForm.elements.slug.value = module.slug || '';
+  moduleForm.elements.order_index.value = module.order_index || 0;
+  moduleForm.elements.description.value = module.description || '';
+  moduleForm.elements.is_required.checked = Boolean(module.is_required);
+  moduleForm.elements.is_active.value = String(Boolean(module.is_active));
+  moduleForm.querySelector('button[type="submit"]').textContent = 'Update module';
+  moduleForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function editLesson(lessonId) {
+  const lesson = state.lessons.find((item) => item.id === lessonId);
+  if (!lesson) return;
+  lessonForm.elements.lesson_id.value = lesson.id;
+  lessonForm.elements.module_id.value = lesson.module_id;
+  lessonForm.elements.title.value = lesson.title || '';
+  lessonForm.elements.material_url.value = lesson.material_url || '';
+  lessonForm.elements.order_index.value = lesson.order_index || 0;
+  lessonForm.elements.description.value = lesson.description || '';
+  lessonForm.elements.is_active.value = String(Boolean(lesson.is_active));
+  lessonForm.querySelector('button[type="submit"]').textContent = 'Update lesson';
+  lessonForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+async function saveModule(event) {
+  event.preventDefault();
+  setStatus('Saving module...');
+  const moduleId = formValue(moduleForm, 'module_id');
+  const title = formValue(moduleForm, 'title');
+  const payload = {
+    track_id: formValue(moduleForm, 'track_id'),
+    title,
+    slug: formValue(moduleForm, 'slug') || slugify(title),
+    pillar: formValue(moduleForm, 'pillar'),
+    order_index: Number(formValue(moduleForm, 'order_index') || 0),
+    description: nullable(formValue(moduleForm, 'description')),
+    is_required: moduleForm.elements.is_required.checked,
+    is_active: booleanValue(formValue(moduleForm, 'is_active')),
+  };
+
+  try {
+    if (moduleId) {
+      throwIfError(await supabase.from('training_modules').update(payload).eq('id', moduleId));
+    } else {
+      throwIfError(await supabase.from('training_modules').insert(payload));
+    }
+    resetModuleForm();
+    await loadModuleCatalog();
+    renderModuleManager();
+    renderSubmissionFilters();
+    renderAdminSubmissions();
+    setStatus('Module saved.', 'success');
+  } catch (error) {
+    setStatus(error.message || 'Unable to save module.', 'error');
+  }
+}
+
+async function saveLesson(event) {
+  event.preventDefault();
+  setStatus('Saving lesson...');
+  const lessonId = formValue(lessonForm, 'lesson_id');
+  const payload = {
+    module_id: formValue(lessonForm, 'module_id'),
+    title: formValue(lessonForm, 'title'),
+    material_url: nullable(formValue(lessonForm, 'material_url')),
+    description: nullable(formValue(lessonForm, 'description')),
+    order_index: Number(formValue(lessonForm, 'order_index') || 0),
+    is_active: booleanValue(formValue(lessonForm, 'is_active')),
+  };
+
+  try {
+    if (lessonId) {
+      throwIfError(await supabase.from('training_lessons').update(payload).eq('id', lessonId));
+    } else {
+      throwIfError(await supabase.from('training_lessons').insert(payload));
+    }
+    resetLessonForm();
+    await loadModuleCatalog();
+    renderModuleManager();
+    setStatus('Lesson saved.', 'success');
+  } catch (error) {
+    setStatus(error.message || 'Unable to save lesson.', 'error');
+  }
+}
+
+function renderSubmissionFilters() {
+  const currentValue = submissionTargetFilter.value || 'all';
+  const options = ['<option value="all">All modules and projects</option>']
+    .concat(state.modules.map((module) => `<option value="module:${escapeHtml(module.id)}">${escapeHtml(module.title)}</option>`))
+    .concat(state.projects.map((project) => `<option value="project:${escapeHtml(project.id)}">${escapeHtml(project.title)}</option>`));
+
+  submissionTargetFilter.innerHTML = options.join('');
+  if ([...submissionTargetFilter.options].some((option) => option.value === currentValue)) {
+    submissionTargetFilter.value = currentValue;
+  }
 }
 
 function renderAdminEnrollments({ enrollments, profiles, tracks, projects, certificates }) {
@@ -504,24 +747,42 @@ function renderAdminEnrollments({ enrollments, profiles, tracks, projects, certi
   }
 }
 
-function renderAdminSubmissions({ submissions, reviews, enrollments, profiles }) {
-  const enrollmentById = new Map(enrollments.map((enrollment) => [enrollment.id, enrollment]));
-  const profileById = new Map(profiles.map((profile) => [profile.id, profile]));
-  const openSubmissions = submissions.filter((submission) => !reviews.some((review) => review.submission_id === submission.id));
+function renderAdminSubmissions() {
+  const enrollmentById = new Map(state.enrollments.map((enrollment) => [enrollment.id, enrollment]));
+  const profileById = new Map(state.profiles.map((profile) => [profile.id, profile]));
+  const moduleById = new Map(state.modules.map((module) => [module.id, module]));
+  const projectById = new Map(state.projects.map((project) => [project.id, project]));
+  const reviewedSubmissionIds = new Set(state.adminReviews.map((review) => review.submission_id));
+  const statusFilter = submissionStatusFilter.value || 'unreviewed';
+  const targetFilter = submissionTargetFilter.value || 'all';
+  const filteredSubmissions = state.adminSubmissions.filter((submission) => {
+    const isReviewed = reviewedSubmissionIds.has(submission.id);
+    if (statusFilter === 'unreviewed' && isReviewed) return false;
+    if (statusFilter === 'reviewed' && !isReviewed) return false;
+    if (targetFilter.startsWith('module:')) return submission.module_id === targetFilter.slice('module:'.length);
+    if (targetFilter.startsWith('project:')) return submission.project_id === targetFilter.slice('project:'.length);
+    return true;
+  });
 
-  adminSubmissions.innerHTML = openSubmissions.length
-    ? openSubmissions.map((submission) => {
+  adminSubmissions.innerHTML = filteredSubmissions.length
+    ? filteredSubmissions.map((submission) => {
       const enrollment = enrollmentById.get(submission.enrollment_id);
       const profile = enrollment ? profileById.get(enrollment.profile_id) : null;
+      const review = state.adminReviews.find((item) => item.submission_id === submission.id);
+      const targetLabel = submission.module_id
+        ? moduleById.get(submission.module_id)?.title || 'Module submission'
+        : projectById.get(submission.project_id)?.title || 'Mini-project submission';
       return `
         <article class="training-review-card">
           <div>
             <p class="training-eyebrow">${escapeHtml(profile?.full_name || 'Student')}</p>
-            <h4>${submission.module_id ? 'Module submission' : 'Mini-project submission'}</h4>
+            <h4>${escapeHtml(targetLabel)}</h4>
+            <p class="training-muted">${review ? `Reviewed: ${normalizeResult(review.result)}` : `Submitted ${formatDate(submission.submitted_at)}`}</p>
             <p><a href="${escapeHtml(submission.drive_url)}">Open Drive link</a></p>
             ${submission.note ? `<p class="training-muted">${escapeHtml(submission.note)}</p>` : ''}
+            ${review?.comment ? `<div class="training-review ${escapeHtml(review.result)}"><strong>${normalizeResult(review.result)}</strong><span>${escapeHtml(review.comment)}</span></div>` : ''}
           </div>
-          <form class="training-form compact-form" data-review-form="${escapeHtml(submission.id)}">
+          ${review ? '' : `<form class="training-form compact-form" data-review-form="${escapeHtml(submission.id)}">
             <label>
               <span>Result</span>
               <select name="result" required>
@@ -536,11 +797,11 @@ function renderAdminSubmissions({ submissions, reviews, enrollments, profiles })
               <textarea name="comment" rows="2"></textarea>
             </label>
             <button class="training-button primary compact" type="submit">Review</button>
-          </form>
+          </form>`}
         </article>
       `;
     }).join('')
-    : '<p class="training-muted">No unreviewed submissions.</p>';
+    : '<p class="training-muted">No submissions match this filter.</p>';
 
   document.querySelectorAll('[data-review-form]').forEach((form) => {
     form.addEventListener('submit', reviewSubmission);
@@ -721,8 +982,21 @@ async function init() {
   enrollForm.addEventListener('submit', enroll);
   inviteForm.addEventListener('submit', createInvite);
   projectForm.addEventListener('submit', createProject);
+  moduleForm.addEventListener('submit', saveModule);
+  lessonForm.addEventListener('submit', saveLesson);
   document.querySelectorAll('[data-logout-button]').forEach((button) => button.addEventListener('click', signOut));
   document.querySelector('[data-refresh-admin]')?.addEventListener('click', loadAdminDashboard);
+  document.querySelector('[data-refresh-modules]')?.addEventListener('click', async () => {
+    await loadModuleCatalog();
+    renderModuleManager();
+    renderSubmissionFilters();
+    renderAdminSubmissions();
+    setStatus('Modules refreshed.', 'success');
+  });
+  document.querySelector('[data-reset-module-form]')?.addEventListener('click', resetModuleForm);
+  document.querySelector('[data-reset-lesson-form]')?.addEventListener('click', resetLessonForm);
+  submissionStatusFilter.addEventListener('change', renderAdminSubmissions);
+  submissionTargetFilter.addEventListener('change', renderAdminSubmissions);
 
   const { data } = await supabase.auth.getSession();
   await routeSession(data.session);
