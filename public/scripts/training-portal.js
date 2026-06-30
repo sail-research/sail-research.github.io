@@ -456,6 +456,92 @@ function renderWorkCard({ title, eyebrow, description, expectedOutput, lessons, 
   `;
 }
 
+function renderStudentPreview() {
+  const previewModules = [
+    {
+      id: 'preview-math',
+      title: 'Math Foundations',
+      pillar: 'math',
+      description: 'Linear algebra, probability, optimization, and statistics needed for research reading and implementation.',
+    },
+    {
+      id: 'preview-dl',
+      title: 'Machine Learning and Deep Learning',
+      pillar: 'deep_learning',
+      description: 'Training loops, loss functions, backpropagation, CNN/Transformer basics, and evaluation practice.',
+    },
+    {
+      id: 'preview-trustworthy',
+      title: 'Trustworthy AI',
+      pillar: 'trustworthy_ai',
+      description: 'Robustness, privacy, backdoor attacks and defenses, and evaluation under distribution shifts.',
+    },
+    {
+      id: 'preview-distributed',
+      title: 'Distributed and Federated Learning',
+      pillar: 'distributed_learning',
+      description: 'Federated learning, non-IID data, communication constraints, personalization, and cross-silo collaboration.',
+    },
+    {
+      id: 'preview-efficient',
+      title: 'Efficient Machine Learning',
+      pillar: 'efficient_ml',
+      description: 'Compression, pruning, low-rank methods, edge AI, and resource-aware deployment.',
+    },
+  ];
+  const previewLessons = [
+    { module_id: 'preview-math', title: 'Linear algebra and matrix calculus', material_url: '#', description: 'Vectors, matrices, gradients, and notation used in ML papers.' },
+    { module_id: 'preview-math', title: 'Probability, statistics, and optimization', material_url: '#', description: 'Distributions, expectation, SGD, and constrained optimization basics.' },
+    { module_id: 'preview-dl', title: 'Deep learning implementation basics', material_url: '#', description: 'Build and debug training/evaluation loops.' },
+    { module_id: 'preview-trustworthy', title: 'Backdoor attacks and defenses', material_url: '#', description: 'Read a representative paper and reproduce a small controlled experiment.' },
+    { module_id: 'preview-distributed', title: 'Federated learning foundations', material_url: '#', description: 'Client/server training, non-IID data, aggregation, and personalization.' },
+    { module_id: 'preview-efficient', title: 'Resource-aware model design', material_url: '#', description: 'Compression, pruning, low-rank methods, and efficient training trade-offs.' },
+  ];
+  const previewSubmissions = [
+    { id: 'submission-math', module_id: 'preview-math', drive_url: '#', submitted_at: new Date(Date.now() - 8 * 86400000).toISOString() },
+    { id: 'submission-dl', module_id: 'preview-dl', drive_url: '#', submitted_at: new Date(Date.now() - 2 * 86400000).toISOString() },
+  ];
+  const previewReviews = [
+    { submission_id: 'submission-math', result: 'pass', comment: 'Good foundation. Continue to deep learning implementation.' },
+  ];
+
+  state.profile = {
+    email: 'student@vinuni.edu.vn',
+    full_name: 'Preview Student',
+    role: 'student',
+  };
+
+  renderStudentDashboard({
+    enrollment: {
+      id: 'preview-enrollment',
+      created_at: new Date(Date.now() - 12 * 86400000).toISOString(),
+      deadline_at: new Date(Date.now() + 42 * 86400000).toISOString(),
+      status: 'in_progress',
+      final_result: null,
+      assigned_project_id: 'preview-project',
+    },
+    track: {
+      title: 'SAIL Undergraduate Training Program',
+    },
+    modules: previewModules,
+    lessons: previewLessons,
+    submissions: previewSubmissions,
+    reviews: previewReviews,
+    certificates: [],
+    assignedProject: {
+      id: 'preview-project',
+      title: 'Federated Learning Under Non-IID Data',
+      difficulty: 'standard',
+      description: 'Run a compact federated learning experiment under different non-IID settings and discuss communication and accuracy trade-offs.',
+      expected_output: 'Drive link containing experiment logs, plots, and a concise report.',
+      material_url: '#',
+    },
+  });
+
+  showPanel('student');
+  setStatus('Preview mode: this is what a student dashboard looks like.', 'success');
+}
+
 async function submitWork(event) {
   event.preventDefault();
   const form = event.currentTarget;
@@ -997,6 +1083,11 @@ async function init() {
   document.querySelector('[data-reset-lesson-form]')?.addEventListener('click', resetLessonForm);
   submissionStatusFilter.addEventListener('change', renderAdminSubmissions);
   submissionTargetFilter.addEventListener('change', renderAdminSubmissions);
+
+  if (new URLSearchParams(window.location.search).get('preview') === 'student') {
+    renderStudentPreview();
+    return;
+  }
 
   const { data } = await supabase.auth.getSession();
   await routeSession(data.session);
