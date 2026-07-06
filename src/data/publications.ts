@@ -82,7 +82,7 @@ export const publications: Publication[] = [
     status: 'accepted',
     type: 'conference',
     tags: ['Distributed Learning', 'Federated learning', 'Split learning', 'Edge AI'],
-    sortDate: '2026-06-18',
+    sortDate: '2026-07-06',
   },
   {
     title: 'Clean-Label Physical Backdoor Attacks with Data Distillation',
@@ -146,7 +146,6 @@ export const publications: Publication[] = [
     status: 'accepted',
     type: 'conference',
     tags: ['Efficient ML', 'WiFi sensing', 'State space models', 'Human pose estimation'],
-    sortDate: '2026-07-08',
     links: [{ label: 'ICML', url: 'https://icml.cc/virtual/2026/poster/64025' }],
   },
   {
