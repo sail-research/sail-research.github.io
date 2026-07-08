@@ -1,14 +1,24 @@
 export interface NewsItem {
   date: string;
+  sortDate: string;
   label: string;
   title: string;
   summary: string;
   link?: string;
 }
 
-export const newsItems: NewsItem[] = [
+const rawNewsItems: NewsItem[] = [
+  {
+    date: 'July 2026',
+    sortDate: '2026-07-08',
+    label: 'Paper accepted',
+    title: 'H-SFP provisionally accepted to ECCV 2026',
+    summary:
+      'H-SFP: Hierarchical Federated Learning with Decoupled Split-Model Prototyping has been provisionally accepted to ECCV 2026. Congratulations to Dung Tran, Nguyen Binh Ha, Duong Nguyen, Dinh Nguyen, and Prof. Kok-Seng Wong.',
+  },
   {
     date: 'June 2026',
+    sortDate: '2026-06-01',
     label: 'Paper accepted',
     title: 'WiFi-Mamba accepted to ICML 2026',
     summary:
@@ -17,6 +27,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     date: 'June 22, 2026',
+    sortDate: '2026-06-22',
     label: 'arXiv preprint',
     title: 'Rethinking Molecular Graph Backdoors released on arXiv',
     summary:
@@ -24,14 +35,8 @@ export const newsItems: NewsItem[] = [
     link: 'https://arxiv.org/abs/2606.23361',
   },
   {
-    date: 'June 2026',
-    label: 'Paper accepted',
-    title: 'H-SFP provisionally accepted to ECCV 2026',
-    summary:
-      'H-SFP: Hierarchical Federated Learning with Decoupled Split-Model Prototyping has been provisionally accepted to ECCV 2026. Congratulations to Dung Tran, Nguyen Binh Ha, Duong Nguyen, Dinh Nguyen, and Prof. Kok-Seng Wong.',
-  },
-  {
     date: 'June 14, 2026',
+    sortDate: '2026-06-14',
     label: 'arXiv preprint',
     title: 'Projected Rehearsal Orchestration released on arXiv',
     summary:
@@ -40,6 +45,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     date: 'May 2026',
+    sortDate: '2026-05-01',
     label: 'Professional service',
     title: 'ICML 2026 reviewing recognition',
     summary:
@@ -47,12 +53,14 @@ export const newsItems: NewsItem[] = [
   },
   {
     date: 'April 2026',
+    sortDate: '2026-04-15',
     label: 'Professional service',
     title: 'NeurIPS 2026 Area Chair service',
     summary: 'Prof. Kok-Seng Wong will serve as an Area Chair for NeurIPS 2026.',
   },
   {
     date: 'April 2026',
+    sortDate: '2026-04-01',
     label: 'Project launch',
     title: 'TrustFed: Trustworthy Federated Large Language Models',
     summary:
@@ -61,6 +69,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     date: 'March 2026',
+    sortDate: '2026-03-01',
     label: 'Paper accepted',
     title: 'BackFed accepted at the ICLR 2026 Trustworthy AI Workshop',
     summary:
@@ -68,6 +77,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     date: 'February 2026',
+    sortDate: '2026-02-15',
     label: 'Paper accepted',
     title: 'HFedATM accepted at CVPR 2026',
     summary:
@@ -75,6 +85,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     date: 'February 2026',
+    sortDate: '2026-02-10',
     label: 'Paper accepted',
     title: 'Two papers accepted to CVPR 2026 Findings',
     summary:
@@ -82,6 +93,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     date: 'November 2025',
+    sortDate: '2025-11-01',
     label: 'Paper accepted',
     title: 'Clean-Label Physical Backdoor Attacks accepted at AAAI 2026',
     summary:
@@ -89,9 +101,14 @@ export const newsItems: NewsItem[] = [
   },
   {
     date: 'August 2025',
+    sortDate: '2025-08-01',
     label: 'Paper accepted',
     title: 'SC-GIR accepted at IEEE Transactions on Mobile Computing',
     summary:
       'SC-GIR: Goal-oriented Semantic Communication via Invariant Representation Learning for Image Transmission has been accepted at IEEE TMC.',
   },
 ];
+
+export const newsItems: NewsItem[] = [...rawNewsItems].sort(
+  (a, b) => Date.parse(b.sortDate) - Date.parse(a.sortDate),
+);

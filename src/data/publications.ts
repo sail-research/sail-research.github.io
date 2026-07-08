@@ -82,7 +82,7 @@ export const publications: Publication[] = [
     status: 'accepted',
     type: 'conference',
     tags: ['Distributed Learning', 'Federated learning', 'Split learning', 'Edge AI'],
-    sortDate: '2026-07-06',
+    sortDate: '2026-07-08',
   },
   {
     title: 'Clean-Label Physical Backdoor Attacks with Data Distillation',
