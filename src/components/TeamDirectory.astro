@@ -44,7 +44,7 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
     <div class="tabs" role="tablist" aria-label="Research assistant groups">
       <button class="tab-button" type="button" role="tab" aria-selected="true" aria-controls="ra-panel" id="ra-tab" data-tab="ra-panel">Research Assistants</button>
       <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="undergrad-ra-panel" id="undergrad-ra-tab" data-tab="undergrad-ra-panel">Undergraduate Student RAs</button>
-      <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="undergrad-intern-panel" id="undergrad-intern-tab" data-tab="undergrad-intern-panel">Undergraduate Interns</button>
+      <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="undergrad-intern-panel" id="undergrad-intern-tab" data-tab="undergrad-intern-panel">Research Interns</button>
     </div>
     <div id="ra-panel" class="tab-panel" role="tabpanel" aria-labelledby="ra-tab">
       <div class="person-grid" data-supabase-group="research-assistants" hidden></div>
@@ -61,7 +61,7 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
     <div id="undergrad-intern-panel" class="tab-panel" role="tabpanel" aria-labelledby="undergrad-intern-tab" hidden>
       <div class="person-grid" data-supabase-group="undergraduate-interns" hidden></div>
       <div data-empty-for="undergraduate-interns">
-        <EmptyState title="No undergraduate intern profiles listed yet" message="This section will be updated when profiles are available." />
+        <EmptyState title="No research intern profiles listed yet" message="This section will be updated when profiles are available." />
       </div>
     </div>
   </div>
@@ -183,11 +183,14 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
     return `<figure class="avatar has-image"><img src="${escapeHtml(portraitUrl)}" alt="${escapeHtml(member.name)}" loading="lazy" decoding="async" /></figure>`;
   };
 
+  const displayRole = (member) =>
+    member.role_title === 'Undergraduate Intern' ? 'Research Intern' : member.role_title;
+
   const renderMemberCard = (member) => `
     <article class="card person-card" data-supabase-member="${escapeHtml(member.email || member.name)}">
       ${renderAvatar(member)}
       <h3>${escapeHtml(member.name)}</h3>
-      <div class="role">${escapeHtml(member.role_title)}</div>
+      <div class="role">${escapeHtml(displayRole(member))}</div>
       ${member.affiliation ? `<p>${escapeHtml(member.affiliation)}</p>` : ''}
       ${renderChips(member)}
       ${renderLinks(member)}

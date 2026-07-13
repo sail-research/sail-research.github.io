@@ -49,7 +49,7 @@ const legacyMembers = team.map((person) => ({
     master: 'Master Students',
     'research-assistants': 'Research Assistants',
     'undergraduate-ra': 'Undergraduate RAs',
-    'undergraduate-interns': 'Undergraduate Interns',
+    'undergraduate-interns': 'Research Interns',
     alumni: 'Alumni',
     collaborators: 'Collaborators',
   };
@@ -149,7 +149,10 @@ const legacyMembers = team.map((person) => ({
 
   const renderMember = (member) => {
     const groupKey = displayGroupKey(member);
-    const role = member.role_title || groupLabels[groupKey] || 'Member';
+    const role =
+      member.role_title === 'Undergraduate Intern'
+        ? 'Research Intern'
+        : member.role_title || groupLabels[groupKey] || 'Member';
     const cluster = clusterLabels[member.cluster_slug] || '';
 
     return `
