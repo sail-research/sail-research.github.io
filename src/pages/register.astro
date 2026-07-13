@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import AcademicLayout from '../layouts/AcademicLayout.astro';
 
 const supabaseRestUrl = 'https://rxnhlmrvwmepuphpithm.supabase.co/rest/v1';
 const supabaseStorageUrl = 'https://rxnhlmrvwmepuphpithm.supabase.co/storage/v1';
@@ -7,25 +7,26 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
 const memberPhotoBucket = 'member-photos';
 ---
 
-<BaseLayout
+<AcademicLayout
   title="Lab registration"
   description="Private SAIL lab registration form."
   robots="noindex,nofollow"
+  activeNav="team"
 >
-  <section class="page-hero register-hero">
-    <div class="container">
-      <span class="kicker">Private registration</span>
-      <h1 class="page-title mt-6"><span class="gradient-text">Join the SAIL directory.</span></h1>
-      <p class="lead">Submit your lab profile for verification. Approved profiles appear in the public team directory.</p>
-    </div>
-  </section>
+  <main class="academic-content register-page">
+    <header class="academic-page-header">
+      <p class="academic-kicker">Private Registration</p>
+      <h1 class="academic-name">Join the SAIL directory.</h1>
+      <p class="academic-section-intro">
+        Submit your lab profile for verification. Approved profiles appear in the public team directory after review.
+      </p>
+    </header>
 
-  <section class="section-tight">
-    <div class="container register-layout">
-      <form class="register-form card" id="lab-register-form">
-        <div class="form-status" id="invite-status" role="status">Checking invite link...</div>
+    <section class="academic-section register-layout">
+      <form class="register-panel register-form" id="lab-register-form">
+        <div class="register-status" id="invite-status" role="status">Checking invite link...</div>
 
-        <div class="form-grid">
+        <div class="register-grid">
           <label>
             <span>Full name</span>
             <input name="name" type="text" autocomplete="name" required />
@@ -33,7 +34,7 @@ const memberPhotoBucket = 'member-photos';
 
           <label>
             <span>Email</span>
-            <input name="email" type="email" autocomplete="email" placeholder="name@vinuni.edu.vn" required />
+            <input name="email" type="email" autocomplete="email" placeholder="name@example.com" required />
           </label>
 
           <label>
@@ -41,6 +42,7 @@ const memberPhotoBucket = 'member-photos';
             <select name="group_key" required>
               <option value="research-assistants">Research Assistant</option>
               <option value="undergraduate-ra">Undergraduate RA</option>
+              <option value="research-interns">Research Intern</option>
               <option value="phd">PhD Student</option>
               <option value="master">Master Student</option>
               <option value="professors">Professor</option>
@@ -61,7 +63,7 @@ const memberPhotoBucket = 'member-photos';
 
           <label class="span-2">
             <span>Role title</span>
-            <input name="role_title" type="text" placeholder="Research Assistant, PhD Student, UROP Student..." required />
+            <input name="role_title" type="text" placeholder="Research Assistant, Research Intern, PhD Student..." required />
           </label>
 
           <label class="span-2">
@@ -106,7 +108,7 @@ const memberPhotoBucket = 'member-photos';
                   <span>Zoom</span>
                   <input id="photo-zoom" type="range" min="1" max="3" step="0.01" value="1" />
                 </label>
-                <button class="btn btn-secondary photo-reset-button" id="photo-reset-button" type="button">Reset crop</button>
+                <button class="register-button photo-reset-button" id="photo-reset-button" type="button">Reset crop</button>
               </div>
             </div>
           </div>
@@ -117,24 +119,22 @@ const memberPhotoBucket = 'member-photos';
           </label>
         </div>
 
-        <div class="form-actions">
-          <button class="btn btn-primary" type="submit" id="submit-button">Submit for verification</button>
-          <p class="form-note">This private form accepts VinUniversity email addresses for the current invite.</p>
+        <div class="register-actions">
+          <button class="register-button primary" type="submit" id="submit-button">Submit for verification</button>
+          <p class="register-note">Any email address is accepted with a valid private invite link.</p>
         </div>
       </form>
 
-      <aside class="register-aside">
-        <div class="content-panel">
-          <h3>Review queue</h3>
-          <ul class="clean-list">
-            <li>Submitted profiles are stored as pending.</li>
-            <li>Lab admins approve role, cluster, and public visibility in Supabase.</li>
-            <li>People leaving the lab can be moved to alumni or hidden.</li>
-          </ul>
-        </div>
+      <aside class="register-panel register-aside">
+        <h2>Review queue</h2>
+        <ul class="academic-clean-list">
+          <li>Submitted profiles are stored as pending.</li>
+          <li>Lab admins approve role, cluster, and public visibility in Supabase.</li>
+          <li>Members leaving the lab can later be moved to alumni or hidden.</li>
+        </ul>
       </aside>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <script define:vars={{ supabaseRestUrl, supabaseStorageUrl, supabasePublishableKey, memberPhotoBucket }}>
     const form = document.getElementById('lab-register-form');
@@ -148,6 +148,8 @@ const memberPhotoBucket = 'member-photos';
     const photoCropImage = document.getElementById('photo-crop-image');
     const photoZoom = document.getElementById('photo-zoom');
     const photoResetButton = document.getElementById('photo-reset-button');
+    const groupSelect = form.elements.group_key;
+    const roleTitleInput = form.elements.role_title;
     const inviteToken = new URLSearchParams(window.location.search).get('invite')?.trim() || '';
     const maxSourcePhotoSize = 12 * 1024 * 1024;
     const maxUploadPhotoSize = 4 * 1024 * 1024;
@@ -420,6 +422,7 @@ const memberPhotoBucket = 'member-photos';
       }
 
       const data = new FormData(form);
+      const selectedGroup = field(data, 'group_key');
       const photoFile = selectedPhoto(data);
       const photoIssue = validatePhoto(photoFile);
       if (photoIssue) {
@@ -431,7 +434,7 @@ const memberPhotoBucket = 'member-photos';
       const payload = {
         name: field(data, 'name').trim(),
         email: field(data, 'email').trim().toLowerCase(),
-        group_key: field(data, 'group_key'),
+        group_key: selectedGroup === 'research-interns' ? 'undergraduate-ra' : selectedGroup,
         cluster_slug: nullable(field(data, 'cluster_slug')),
         role_title: field(data, 'role_title').trim(),
         affiliation: nullable(field(data, 'affiliation')),
@@ -485,7 +488,7 @@ const memberPhotoBucket = 'member-photos';
       const error = await response.json().catch(() => null);
       const message = error?.message || 'Unable to submit this profile.';
       const friendly = message.includes('row-level security')
-        ? 'Invite invalid, expired, or this email domain is not allowed for the current invite.'
+        ? 'Invite invalid, expired, or this invite is not open for this submission.'
         : message.includes('lab_members_email_unique')
           ? 'This email is already registered in the lab directory.'
           : message;
@@ -503,6 +506,11 @@ const memberPhotoBucket = 'member-photos';
       loadClusters();
     }
 
+    groupSelect.addEventListener('change', () => {
+      if (groupSelect.value === 'research-interns' && !roleTitleInput.value.trim()) {
+        roleTitleInput.value = 'Research Intern';
+      }
+    });
     photoInput.addEventListener('change', updatePhotoPreview);
     photoZoom.addEventListener('input', () => {
       cropState.scale = Number(photoZoom.value);
@@ -535,4 +543,4 @@ const memberPhotoBucket = 'member-photos';
     window.addEventListener('resize', renderCrop);
     form.addEventListener('submit', submitProfile);
   </script>
-</BaseLayout>
+</AcademicLayout>
