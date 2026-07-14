@@ -12,18 +12,27 @@ const groupByYear = (items: Publication[]) =>
 const publicationsByYear = groupByYear(allPublications);
 const firstLink = (links = []) => links[0]?.url;
 const authorText = (authors: string[]) => authors.join(', ');
+const venueWithYear = (publication: Publication) => {
+  const year = String(publication.year);
+  return publication.venue.includes(year) ? publication.venue : `${publication.venue} ${year}`;
+};
+const workshopVenue = (publication: Publication) => {
+  const venue = venueWithYear(publication);
+  const workshopIndex = venue.toLowerCase().indexOf(' workshop');
+  return workshopIndex >= 0 ? `${venue.slice(0, workshopIndex).trim()} Workshop` : `${venue} Workshop`;
+};
 const venueText = (publication: Publication) => {
-  const baseVenue =
-    publication.type === 'preprint' && publication.venue.toLowerCase().includes('preprint')
-      ? publication.venue
-      : `${publication.venue}, ${publication.type}`;
-  const parts = [baseVenue];
-  if (publication.venueMetric) {
-    parts.push(
-      `${publication.venueMetric.label} (${publication.venueMetric.sourceYear}): ${publication.venueMetric.value}`,
-    );
+  if (publication.type === 'preprint') return 'preprint';
+  if (publication.type === 'workshop') return workshopVenue(publication);
+
+  const venue = venueWithYear(publication);
+  if (!publication.venueMetric) return venue;
+
+  if (publication.type === 'journal') {
+    return `${venue}: Impact Factor ${publication.venueMetric.value}`;
   }
-  return parts.join(', ');
+
+  return `${venue}: ${publication.venueMetric.value}`;
 };
 ---
 
