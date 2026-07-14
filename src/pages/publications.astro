@@ -38,12 +38,11 @@ const venueText = (publication: Publication) => {
       </p>
       <p class="academic-section-intro">
         We prioritize publishing in top-tier, peer-reviewed AI/ML venues. Our recent contributions have been accepted
-        at leading conferences such as CVPR, NeurIPS, ECCV, ICML, ICLR, AAAI, ACL, and WACV.
+        at leading conferences such as CVPR, NeurIPS, ECCV, ICML, ICLR, AAAI, ACL, WWW, and WACV.
       </p>
     </header>
 
     <section class="academic-section">
-      <h2 class="academic-section-title">Lab Published Papers</h2>
       {[...publicationsByYear.entries()].map(([year, items]) => (
         <div class="academic-year-group">
           <div class="academic-year">{year}</div>
