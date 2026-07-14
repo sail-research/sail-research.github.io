@@ -54,6 +54,22 @@ const legacyMembers = team.map((person) => ({
     collaborators: 'Collaborators',
   };
 
+  const redundantRolesByGroup = {
+    professors: ['professor', 'professors', 'faculty'],
+    phd: ['phd student', 'phd students'],
+    master: ['master student', 'master students'],
+    'research-assistants': ['research assistant', 'research assistants'],
+    'undergraduate-ra': ['undergraduate ra', 'undergraduate ras', 'undergraduate research assistant'],
+    'undergraduate-interns': ['research intern', 'research interns', 'undergraduate intern', 'undergraduate interns'],
+    alumni: ['alumni'],
+    collaborators: ['collaborator', 'collaborators'],
+  };
+
+  const normalizeRole = (value) => String(value ?? '').trim().toLowerCase().replace(/\s+/g, ' ');
+
+  const shouldRenderRole = (groupKey, role) =>
+    !(redundantRolesByGroup[groupKey] || []).includes(normalizeRole(role));
+
   const clusterLabels = {
     'trustworthy-ai': 'Trustworthy AI',
     'distributed-learning': 'Distributed Learning',
@@ -160,7 +176,7 @@ const legacyMembers = team.map((person) => ({
         ${renderPortrait(member)}
         <div class="academic-person-body">
           <h3>${escapeHtml(member.name)}</h3>
-          <p>${escapeHtml(role)}</p>
+          ${shouldRenderRole(groupKey, role) ? `<p>${escapeHtml(role)}</p>` : ''}
           ${member.affiliation ? `<span>${escapeHtml(member.affiliation)}</span>` : ''}
           ${cluster && groupKey !== 'professors' ? `<span>${escapeHtml(cluster)}</span>` : ''}
           ${renderLinks(member)}

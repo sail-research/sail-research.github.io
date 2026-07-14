@@ -186,11 +186,29 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
   const displayRole = (member) =>
     member.role_title === 'Undergraduate Intern' ? 'Research Intern' : member.role_title;
 
+  const redundantRolesByGroup = {
+    professors: ['professor', 'professors', 'faculty'],
+    phd: ['phd student', 'phd students'],
+    master: ['master student', 'master students'],
+    'research-assistants': ['research assistant', 'research assistants'],
+    'undergraduate-ra': ['undergraduate ra', 'undergraduate ras', 'undergraduate research assistant'],
+    'undergraduate-interns': ['research intern', 'research interns', 'undergraduate intern', 'undergraduate interns'],
+    alumni: ['alumni'],
+    collaborators: ['collaborator', 'collaborators'],
+  };
+
+  const normalizeRole = (value) => String(value ?? '').trim().toLowerCase().replace(/\s+/g, ' ');
+
+  const shouldRenderRole = (member, role) => {
+    const group = displayGroup(member);
+    return !(redundantRolesByGroup[group] || []).includes(normalizeRole(role));
+  };
+
   const renderMemberCard = (member) => `
     <article class="card person-card" data-supabase-member="${escapeHtml(member.email || member.name)}">
       ${renderAvatar(member)}
       <h3>${escapeHtml(member.name)}</h3>
-      <div class="role">${escapeHtml(displayRole(member))}</div>
+      ${shouldRenderRole(member, displayRole(member)) ? `<div class="role">${escapeHtml(displayRole(member))}</div>` : ''}
       ${member.affiliation ? `<p>${escapeHtml(member.affiliation)}</p>` : ''}
       ${renderChips(member)}
       ${renderLinks(member)}
