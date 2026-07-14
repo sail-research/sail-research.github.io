@@ -12,6 +12,14 @@ const groupByYear = (items: Publication[]) =>
 const publicationsByYear = groupByYear(allPublications);
 const firstLink = (links = []) => links[0]?.url;
 const authorText = (authors: string[]) => authors.join(', ');
+const linkLabel = (item: { label: string; url: string }) => {
+  const label = item.label.toLowerCase();
+  const url = item.url.toLowerCase();
+  if (label.includes('code') || url.includes('github.com')) return 'Code';
+  if (label.includes('project') || label.includes('homepage')) return 'Project';
+  if (label.includes('arxiv') || url.includes('arxiv.org')) return 'Preprint';
+  return 'Paper';
+};
 const venueWithYear = (publication: Publication) => {
   const year = String(publication.year);
   return publication.venue.includes(year) ? publication.venue : `${publication.venue} ${year}`;
@@ -66,7 +74,7 @@ const venueText = (publication: Publication) => {
                   <span class="academic-venue">{venueText(publication)}</span>
                   {publication.links && publication.links.length > 0 && (
                     <span class="academic-publication-links">
-                      {publication.links.map((item) => <a href={item.url}>{item.label}</a>)}
+                      {publication.links.map((item) => <a href={item.url}>{linkLabel(item)}</a>)}
                     </span>
                   )}
                 </li>
