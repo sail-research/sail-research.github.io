@@ -183,8 +183,27 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
     return `<figure class="avatar has-image"><img src="${escapeHtml(portraitUrl)}" alt="${escapeHtml(member.name)}" loading="lazy" decoding="async" /></figure>`;
   };
 
-  const displayRole = (member) =>
-    member.role_title === 'Undergraduate Intern' ? 'Research Intern' : member.role_title;
+  const displayGroup = (member) => {
+    if (member.status === 'alumni') return 'alumni';
+    if (member.role_title === 'Undergraduate Intern' || member.role_title === 'Research Intern') return 'undergraduate-interns';
+    return member.group_key;
+  };
+
+  const alumniNowInfo = (role) => {
+    const text = String(role ?? '').trim();
+    const match = text.match(/\bnow\b\s*(.*)$/i);
+    return match?.[1]?.trim() ? `Now ${match[1].trim()}` : '';
+  };
+
+  const displayRole = (member) => {
+    if (displayGroup(member) === 'alumni') return alumniNowInfo(member.role_title);
+    return member.role_title === 'Undergraduate Intern' ? 'Research Intern' : member.role_title;
+  };
+
+  const displayAffiliation = (member) => {
+    if (displayGroup(member) !== 'alumni') return member.affiliation;
+    return alumniNowInfo(member.role_title) ? '' : 'SAIL Alumni';
+  };
 
   const redundantRolesByGroup = {
     professors: ['professor', 'professors', 'faculty'],
@@ -204,21 +223,19 @@ const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
     return !(redundantRolesByGroup[group] || []).includes(normalizeRole(role));
   };
 
-  const renderMemberCard = (member) => `
-    <article class="card person-card" data-supabase-member="${escapeHtml(member.email || member.name)}">
-      ${renderAvatar(member)}
-      <h3>${escapeHtml(member.name)}</h3>
-      ${shouldRenderRole(member, displayRole(member)) ? `<div class="role">${escapeHtml(displayRole(member))}</div>` : ''}
-      ${member.affiliation ? `<p>${escapeHtml(member.affiliation)}</p>` : ''}
-      ${renderChips(member)}
-      ${renderLinks(member)}
-    </article>
-  `;
-
-  const displayGroup = (member) => {
-    if (member.status === 'alumni') return 'alumni';
-    if (member.role_title === 'Undergraduate Intern' || member.role_title === 'Research Intern') return 'undergraduate-interns';
-    return member.group_key;
+  const renderMemberCard = (member) => {
+    const role = displayRole(member);
+    const isAlumni = displayGroup(member) === 'alumni';
+    return `
+      <article class="card person-card" data-supabase-member="${escapeHtml(member.email || member.name)}">
+        ${renderAvatar(member)}
+        <h3>${escapeHtml(member.name)}</h3>
+        ${role && shouldRenderRole(member, role) ? `<div class="role">${escapeHtml(role)}</div>` : ''}
+        ${displayAffiliation(member) ? `<p>${escapeHtml(displayAffiliation(member))}</p>` : ''}
+        ${isAlumni ? '' : renderChips(member)}
+        ${renderLinks(member)}
+      </article>
+    `;
   };
 
   async function loadApprovedMembers() {

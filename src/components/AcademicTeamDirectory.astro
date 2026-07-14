@@ -163,12 +163,22 @@ const legacyMembers = team.map((person) => ({
     return member.group_key;
   };
 
+  const alumniNowInfo = (role) => {
+    const text = String(role ?? '').trim();
+    const match = text.match(/\bnow\b\s*(.*)$/i);
+    return match?.[1]?.trim() ? `Now ${match[1].trim()}` : '';
+  };
+
   const renderMember = (member) => {
     const groupKey = displayGroupKey(member);
-    const role =
-      member.role_title === 'Undergraduate Intern'
+    const isAlumni = groupKey === 'alumni';
+    const nowInfo = isAlumni ? alumniNowInfo(member.role_title) : '';
+    const role = isAlumni
+      ? nowInfo
+      : member.role_title === 'Undergraduate Intern'
         ? 'Research Intern'
         : member.role_title || groupLabels[groupKey] || 'Member';
+    const affiliation = isAlumni ? (nowInfo ? '' : 'SAIL Alumni') : member.affiliation;
     const cluster = clusterLabels[member.cluster_slug] || '';
 
     return `
@@ -176,9 +186,9 @@ const legacyMembers = team.map((person) => ({
         ${renderPortrait(member)}
         <div class="academic-person-body">
           <h3>${escapeHtml(member.name)}</h3>
-          ${shouldRenderRole(groupKey, role) ? `<p>${escapeHtml(role)}</p>` : ''}
-          ${member.affiliation ? `<span>${escapeHtml(member.affiliation)}</span>` : ''}
-          ${cluster && groupKey !== 'professors' ? `<span>${escapeHtml(cluster)}</span>` : ''}
+          ${role && shouldRenderRole(groupKey, role) ? `<p>${escapeHtml(role)}</p>` : ''}
+          ${affiliation ? `<span>${escapeHtml(affiliation)}</span>` : ''}
+          ${cluster && groupKey !== 'professors' && !isAlumni ? `<span>${escapeHtml(cluster)}</span>` : ''}
           ${renderLinks(member)}
         </div>
       </article>
