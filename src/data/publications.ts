@@ -404,6 +404,17 @@ export const publications: Publication[] = [
     links: [{ label: 'Paper', url: 'https://ieeexplore.ieee.org/document/9514309' }],
   },
   {
+    title: 'HERO: A Heterogeneity-Aware Benchmark Library for Federated Continual Learning',
+    authors: ['Thinh T. H. Nguyen', 'Le-Tuan Nguyen', 'Minh-Duong Nguyen', 'Nhi Trinh', 'Anh Tran Nam Nguyet', 'Dung D. Le', 'Kok-Seng Wong'],
+    venue: 'arXiv preprint',
+    year: 2026,
+    status: 'arxiv',
+    type: 'preprint',
+    tags: ['Distributed Learning', 'Federated learning', 'Continual learning', 'Benchmarking'],
+    sortDate: '2026-07-14',
+    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2607.08784' }],
+  },
+  {
     title: 'Rethinking Molecular Graph Backdoors under Chemistry-aware Admission',
     authors: ['Thinh T. H. Nguyen', 'Sze Jue Yang', 'Khoa D. Doan', 'Chee Seng Chan', 'Kok-Seng Wong'],
     venue: 'arXiv preprint',

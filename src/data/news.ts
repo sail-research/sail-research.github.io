@@ -10,6 +10,15 @@ export interface NewsItem {
 const rawNewsItems: NewsItem[] = [
   {
     date: 'July 2026',
+    sortDate: '2026-07-14',
+    label: 'arXiv preprint',
+    title: 'HERO benchmark library released on arXiv',
+    summary:
+      'HERO: A Heterogeneity-Aware Benchmark Library for Federated Continual Learning is now available on arXiv. The work introduces a heterogeneity-aware benchmark library with controlled task splits, client data splits, and task-order mismatch for reproducible federated continual learning evaluation.',
+    link: 'https://arxiv.org/abs/2607.08784',
+  },
+  {
+    date: 'July 2026',
     sortDate: '2026-07-08',
     label: 'Paper accepted',
     title: 'H-SFP provisionally accepted to ECCV 2026',
