@@ -1,0 +1,107 @@
+---
+import AcademicLayout from '../layouts/AcademicLayout.astro';
+import {
+  capstoneProjects,
+  courseDescriptions,
+  currentSemester,
+  taughtCourses,
+  teachingAssistants,
+} from '../data/teaching';
+
+const currentCourses = currentSemester.courseCodes
+  .map((code) => courseDescriptions.find((course) => course.code === code))
+  .filter((course): course is (typeof courseDescriptions)[number] => Boolean(course));
+---
+
+<AcademicLayout
+  title="Teaching"
+  description="Courses taught, current teaching assignments, and capstone projects supervised by SAIL at VinUniversity."
+  activeNav="teaching"
+>
+  <main class="academic-content">
+    <header class="academic-page-header">
+      <p class="academic-kicker">Teaching</p>
+      <h1 class="academic-name">Teaching at VinUniversity.</h1>
+      <p class="academic-section-intro">
+        Courses taught, current-semester assignments, and capstone projects supervised at the College of Engineering and
+        Computer Science.
+      </p>
+    </header>
+
+    <section class="academic-section teaching-overview">
+      <div class="academic-two-column">
+        <section class="academic-card teaching-summary-card">
+          <p class="academic-kicker">Current semester</p>
+          <h2>{currentSemester.label}</h2>
+          <ul class="academic-clean-list">
+            {currentCourses.map((course) => (
+              <li><strong>{course.code}</strong>: {course.title}</li>
+            ))}
+          </ul>
+        </section>
+
+        <section class="academic-card teaching-summary-card">
+          <p class="academic-kicker">SAIL teaching assistants</p>
+          <h2>{currentSemester.label}</h2>
+          {teachingAssistants.length ? (
+            <ul class="academic-clean-list">
+              {teachingAssistants.map((name) => <li>{name}</li>)}
+            </ul>
+          ) : (
+            <p class="teaching-empty-note">TA assignments for this semester will be listed here.</p>
+          )}
+        </section>
+      </div>
+    </section>
+
+    <section class="academic-section">
+      <h2 class="academic-section-title">Taught courses</h2>
+      <div class="teaching-table-wrap">
+        <table class="teaching-table">
+          <thead>
+            <tr>
+              <th scope="col">No</th>
+              <th scope="col">Semester</th>
+              <th scope="col">Course Code</th>
+              <th scope="col">Credits</th>
+            </tr>
+          </thead>
+          <tbody>
+            {taughtCourses.map((course) => (
+              <tr class={course.groupEnd ? 'teaching-row-end' : undefined}>
+                <td>{course.no}</td>
+                <td>{course.semester}</td>
+                <td><code>{course.courseCode}</code></td>
+                <td>{course.credits}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="academic-section">
+      <h2 class="academic-section-title">Course descriptions</h2>
+      <div class="academic-research-grid teaching-course-grid">
+        {courseDescriptions.map((course) => (
+          <article class="academic-card teaching-course-card">
+            <h3>{course.code}</h3>
+            <p>{course.title}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="academic-section">
+      <h2 class="academic-section-title">Capstone project students</h2>
+      <div class="academic-projects">
+        {capstoneProjects.map((project) => (
+          <article class="academic-project">
+            <h3>{project.year} - <em>{project.title}</em></h3>
+            <p>{project.students.join(', ')}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  </main>
+</AcademicLayout>
