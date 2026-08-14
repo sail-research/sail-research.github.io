@@ -7,6 +7,11 @@ export interface NewsItem {
   link?: string;
 }
 
+export const formatNewsMonthYear = (date: string) => {
+  const match = date.match(/^([A-Za-z]+)(?:\s+\d{1,2},)?\s+(\d{4})$/);
+  return match ? `${match[1]} ${match[2]}` : date;
+};
+
 const rawNewsItems: NewsItem[] = [
   {
     date: 'August 2026',

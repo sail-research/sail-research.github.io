@@ -1,12 +1,8 @@
 ---
 import AcademicLayout from '../layouts/AcademicLayout.astro';
-import { newsItems } from '../data/news';
+import { formatNewsMonthYear, newsItems } from '../data/news';
 import { withBase } from '../utils/paths';
 
-const formatNewsMonthYear = (date: string) => {
-  const match = date.match(/^([A-Za-z]+)(?:\s+\d{1,2},)?\s+(\d{4})$/);
-  return match ? `${match[1]} ${match[2]}` : date;
-};
 const localLink = (href: string) => href.startsWith('/') ? withBase(href) : href;
 ---
 
