@@ -47,6 +47,7 @@ const venueYearMetrics: Record<string, PublicationVenueMetric> = {
   'AAAI 2026::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'A*' },
   'ICML 2026::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'A*' },
   'ECCV 2026::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'A*' },
+  'BMVC 2026::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'A' },
   'CVPR 2026::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'A*' },
   'CVPR 2026 Findings::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'A* (CVPR)' },
   'ICLR 2026 Workshop on Principled Design for Trustworthy AI::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'Workshop (ICLR A*)' },
@@ -74,6 +75,16 @@ const venueYearMetrics: Record<string, PublicationVenueMetric> = {
 };
 
 export const publications: Publication[] = [
+  {
+    title: 'GARFIELD: Graph-Adaptive SSM for Explainable 3D Multi-Person WiFi Pose Estimation',
+    authors: ['Quang-Anh N.D.', 'Pham Minh Duc', 'Kok-Seng Wong'],
+    venue: 'BMVC 2026',
+    year: 2026,
+    status: 'accepted',
+    type: 'conference',
+    tags: ['Efficient ML', 'WiFi sensing', 'State space models', 'Human pose estimation', 'Explainable AI'],
+    sortDate: '2026-08-14',
+  },
   {
     title: 'H-SFP: Hierarchical Federated Learning with Decoupled Split-Model Prototyping',
     authors: ['Dung Tran', 'Binh Ha Nguyen', 'Duong Nguyen', 'Dinh Nguyen', 'Kok-Seng Wong'],

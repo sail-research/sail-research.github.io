@@ -9,6 +9,14 @@ export interface NewsItem {
 
 const rawNewsItems: NewsItem[] = [
   {
+    date: 'August 2026',
+    sortDate: '2026-08-14',
+    label: 'Paper accepted',
+    title: 'GARFIELD accepted at BMVC 2026',
+    summary:
+      'GARFIELD: Graph-Adaptive SSM for Explainable 3D Multi-Person WiFi Pose Estimation has been accepted at BMVC 2026, with an acceptance rate of 27.9%. Congratulations to Quang-Anh N. D., Pham Minh Duc, and Prof. Kok-Seng Wong.',
+  },
+  {
     date: 'July 2026',
     sortDate: '2026-07-14',
     label: 'arXiv preprint',
