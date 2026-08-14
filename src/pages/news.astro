@@ -3,7 +3,10 @@ import AcademicLayout from '../layouts/AcademicLayout.astro';
 import { newsItems } from '../data/news';
 import { withBase } from '../utils/paths';
 
-const formatNewsYear = (date: string) => date.match(/\d{4}/)?.[0] ?? date;
+const formatNewsMonthYear = (date: string) => {
+  const match = date.match(/^([A-Za-z]+)(?:\s+\d{1,2},)?\s+(\d{4})$/);
+  return match ? `${match[1]} ${match[2]}` : date;
+};
 const localLink = (href: string) => href.startsWith('/') ? withBase(href) : href;
 ---
 
@@ -21,9 +24,9 @@ const localLink = (href: string) => href.startsWith('/') ? withBase(href) : href
       <ul class="academic-news-list">
         {newsItems.map((item) => (
           <li class="academic-news-item">
-            <span class="academic-news-date">{formatNewsYear(item.date)}</span>
+            <span class="academic-news-date">{formatNewsMonthYear(item.date)}</span>
             <span class="academic-news-text">
-              <strong>{item.date}</strong>: {item.link ? <a href={localLink(item.link)}>{item.title}</a> : item.title}
+              {item.link ? <a href={localLink(item.link)}>{item.title}</a> : item.title}
               <span class="academic-news-label"> - {item.label}</span>
               <br />
               {item.summary}
