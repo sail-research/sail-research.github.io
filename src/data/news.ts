@@ -15,6 +15,14 @@ export const formatNewsMonthYear = (date: string) => {
 const rawNewsItems: NewsItem[] = [
   {
     date: 'August 2026',
+    sortDate: '2026-08-17',
+    label: 'Paper accepted',
+    title: 'MCP accepted at IEEE ICDM 2026',
+    summary:
+      'MCP: From Context Compression to Mining for Efficient RAG-based LLM Serving has been accepted at IEEE ICDM 2026, with a research-track acceptance rate of 19.93%. Congratulations to Tuan Nguyen, Qiran Hu, Banruo Liu, Khoa D. Doan, Prof. Kok-Seng Wong, and Fan Lai.',
+  },
+  {
+    date: 'August 2026',
     sortDate: '2026-08-14',
     label: 'Paper accepted',
     title: 'GARFIELD accepted at BMVC 2026',

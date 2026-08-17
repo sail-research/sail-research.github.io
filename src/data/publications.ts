@@ -48,6 +48,7 @@ const venueYearMetrics: Record<string, PublicationVenueMetric> = {
   'ICML 2026::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'A*' },
   'ECCV 2026::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'A*' },
   'BMVC 2026::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'A' },
+  'IEEE ICDM 2026::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'A*' },
   'CVPR 2026::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'A*' },
   'CVPR 2026 Findings::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'A* (CVPR)' },
   'ICLR 2026 Workshop on Principled Design for Trustworthy AI::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'Workshop (ICLR A*)' },
@@ -75,6 +76,16 @@ const venueYearMetrics: Record<string, PublicationVenueMetric> = {
 };
 
 export const publications: Publication[] = [
+  {
+    title: 'MCP: From Context Compression to Mining for Efficient RAG-based LLM Serving',
+    authors: ['Tuan Nguyen', 'Qiran Hu', 'Banruo Liu', 'Khoa D. Doan', 'Kok-Seng Wong', 'Fan Lai'],
+    venue: 'IEEE ICDM 2026',
+    year: 2026,
+    status: 'accepted',
+    type: 'conference',
+    tags: ['Efficient ML', 'RAG', 'LLM serving', 'Context compression', 'Data mining'],
+    sortDate: '2026-08-17',
+  },
   {
     title: 'GARFIELD: Graph-Adaptive SSM for Explainable 3D Multi-Person WiFi Pose Estimation',
     authors: ['Quang-Anh N.D.', 'Pham Minh Duc', 'Kok-Seng Wong'],
