@@ -23,17 +23,17 @@ const currentCourses = currentSemester.courseCodes
   description="Courses taught, current teaching assignments, and capstone projects supervised by SAIL at VinUniversity."
   activeNav="teaching"
 >
-  <main class="academic-content">
-    <header class="academic-page-header">
-      <p class="academic-kicker">Teaching</p>
-      <h1 class="academic-name">Teaching at VinUniversity.</h1>
-      <p class="academic-section-intro">
+  <main class="academic-content" data-sail-visual-page="teaching">
+    <header class="academic-page-header" data-sail-native="intro">
+      <p class="academic-kicker" data-sail-eyebrow>Teaching</p>
+      <h1 class="academic-name" data-sail-heading>Teaching at VinUniversity.</h1>
+      <p class="academic-section-intro" data-sail-intro>
         Courses taught, current-semester assignments, and capstone projects supervised at the College of Engineering and
         Computer Science.
       </p>
     </header>
 
-    <section class="academic-section teaching-overview" data-cms-teaching-overview>
+    <section class="academic-section teaching-overview" data-cms-teaching-overview data-sail-native="overview">
       <div class="academic-two-column">
         <section class="academic-card teaching-summary-card">
           <p class="academic-kicker">Current semester</p>
@@ -59,8 +59,8 @@ const currentCourses = currentSemester.courseCodes
       </div>
     </section>
 
-    <section class="academic-section">
-      <h2 class="academic-section-title">Taught courses</h2>
+    <section class="academic-section" data-sail-native="courses">
+      <h2 class="academic-section-title" data-sail-heading>Taught courses</h2>
       <div class="teaching-table-wrap">
         <table class="teaching-table">
           <thead>
@@ -85,8 +85,8 @@ const currentCourses = currentSemester.courseCodes
       </div>
     </section>
 
-    <section class="academic-section">
-      <h2 class="academic-section-title">Course descriptions</h2>
+    <section class="academic-section" data-sail-native="catalog">
+      <h2 class="academic-section-title" data-sail-heading>Course descriptions</h2>
       <div class="academic-research-grid teaching-course-grid" data-cms-course-catalog>
         {courseDescriptions.map((course) => (
           <article class="academic-card teaching-course-card">
@@ -97,8 +97,8 @@ const currentCourses = currentSemester.courseCodes
       </div>
     </section>
 
-    <section class="academic-section">
-      <h2 class="academic-section-title">Capstone project students</h2>
+    <section class="academic-section" data-sail-native="capstones">
+      <h2 class="academic-section-title" data-sail-heading>Capstone project students</h2>
       <div class="academic-projects" data-cms-capstones>
         {capstoneProjects.map((project) => (
           <article class="academic-project">

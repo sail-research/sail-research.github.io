@@ -227,6 +227,7 @@ function renderTeaching() {
 
 function renderPageSections() {
   const root = recordList('page-sections');
+  if (!root) return;
   const pageLabels = { home: 'Home', publications: 'Publications' };
   const sectionLabels = { intro: 'Introduction', news: 'News', list: 'Publication list' };
   root.innerHTML = state.pageSections.map((section) => `

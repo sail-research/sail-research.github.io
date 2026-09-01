@@ -12,6 +12,9 @@ interface Props {
 
 const { title, description = site.description, activeNav = 'home', robots } = Astro.props;
 const pageTitle = title ? `${title} - ${site.shortName}` : `${site.shortName} - ${site.tagline}`;
+const supabaseUrl = 'https://rxnhlmrvwmepuphpithm.supabase.co';
+const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 const navItems = [
   { key: 'home', label: 'Home', href: '/' },
   { key: 'research', label: 'Research', href: '/research/' },
@@ -72,5 +75,9 @@ const navItems = [
         });
       });
     </script>
+    <script is:inline define:vars={{ supabaseUrl, supabasePublishableKey, baseUrl }}>
+      window.SAIL_VISUAL_CONFIG = { supabaseUrl, supabasePublishableKey, baseUrl };
+    </script>
+    <script type="module" src={withBase('/scripts/visual-layout.js')}></script>
   </body>
 </html>

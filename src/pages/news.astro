@@ -10,16 +10,16 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <AcademicLayout title="News" description="SAIL news archive." activeNav="news">
-  <main class="academic-content">
-    <header class="academic-page-header">
-      <p class="academic-kicker">News</p>
-      <h1 class="academic-name">Lab updates.</h1>
-      <p class="academic-section-intro">
+  <main class="academic-content" data-sail-visual-page="news">
+    <header class="academic-page-header" data-sail-native="intro">
+      <p class="academic-kicker" data-sail-eyebrow>News</p>
+      <h1 class="academic-name" data-sail-heading>Lab updates.</h1>
+      <p class="academic-section-intro" data-sail-intro>
         Recent papers, grants, professional service, and lab milestones.
       </p>
     </header>
 
-    <section class="academic-section">
+    <section class="academic-section" data-sail-native="feed">
       <ul class="academic-news-list" data-cms-news-list>
         {newsItems.map((item) => (
           <li class="academic-news-item">

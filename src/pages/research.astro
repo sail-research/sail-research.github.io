@@ -7,17 +7,17 @@ import { withBase } from '../utils/paths';
 ---
 
 <AcademicLayout title="Research" description="SAIL research pillars: trustworthy AI, distributed learning, and efficient machine learning." activeNav="research">
-  <main class="academic-content">
-    <header class="academic-page-header">
-      <p class="academic-kicker">Research</p>
-      <h1 class="academic-name">Trustworthy, distributed, efficient.</h1>
-      <p class="academic-section-intro">
+  <main class="academic-content" data-sail-visual-page="research">
+    <header class="academic-page-header" data-sail-native="intro">
+      <p class="academic-kicker" data-sail-eyebrow>Research</p>
+      <h1 class="academic-name" data-sail-heading>Trustworthy, distributed, efficient.</h1>
+      <p class="academic-section-intro" data-sail-intro>
         SAIL organizes its work around three connected pillars spanning AI security, privacy, federated systems,
         communication efficiency, and practical deployment.
       </p>
     </header>
 
-    <section class="academic-section">
+    <section class="academic-section" data-sail-native="pillars">
       <div class="academic-research-grid">
         {researchPillars.map((pillar) => (
           <article class="academic-card">
@@ -38,9 +38,9 @@ import { withBase } from '../utils/paths';
       ).slice(0, 4);
 
       return (
-        <section class="academic-section" id={pillar.slug}>
-          <h2 class="academic-section-title">{pillar.title}</h2>
-          <p class="academic-section-intro">{pillar.description}</p>
+        <section class="academic-section" id={pillar.slug} data-sail-native={pillar.slug === 'trustworthy-ai' ? 'trustworthy' : pillar.slug === 'distributed-learning' ? 'distributed' : 'efficient'}>
+          <h2 class="academic-section-title" data-sail-heading>{pillar.title}</h2>
+          <p class="academic-section-intro" data-sail-intro>{pillar.description}</p>
           <div class="academic-two-column">
             <article>
               <h3 class="subsection-title">Representative Questions</h3>

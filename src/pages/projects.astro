@@ -6,18 +6,21 @@ const active = projects.filter((project) => project.status === 'active');
 const completed = projects.filter((project) => project.status === 'completed');
 const exploratory = projects.filter((project) => project.status === 'exploratory');
 
-const groups: { title: string; description: string; items: Project[] }[] = [
+const groups: { key: string; title: string; description: string; items: Project[] }[] = [
   {
+    key: 'active',
     title: 'Active Projects',
     description: 'Current lines of work across trustworthy AI, distributed learning, and efficient machine learning.',
     items: active,
   },
   {
+    key: 'completed',
     title: 'Completed Projects',
     description: 'Completed projects remain visible to show the lab research history.',
     items: completed,
   },
   {
+    key: 'exploratory',
     title: 'Exploratory Projects',
     description: 'Early-stage directions and exploratory collaborations.',
     items: exploratory,
@@ -26,19 +29,19 @@ const groups: { title: string; description: string; items: Project[] }[] = [
 ---
 
 <AcademicLayout title="Projects" description="Research projects from SAIL." activeNav="projects">
-  <main class="academic-content">
-    <header class="academic-page-header">
-      <p class="academic-kicker">Projects</p>
-      <h1 class="academic-name">Research in motion.</h1>
-      <p class="academic-section-intro">
+  <main class="academic-content" data-sail-visual-page="projects">
+    <header class="academic-page-header" data-sail-native="intro">
+      <p class="academic-kicker" data-sail-eyebrow>Projects</p>
+      <h1 class="academic-name" data-sail-heading>Research in motion.</h1>
+      <p class="academic-section-intro" data-sail-intro>
         Projects connect the lab research pillars with concrete systems, benchmarks, and application areas.
       </p>
     </header>
 
     {groups.map((group) => (
-      <section class="academic-section">
-        <h2 class="academic-section-title">{group.title}</h2>
-        <p class="academic-section-intro">{group.description}</p>
+      <section class="academic-section" data-sail-native={group.key}>
+        <h2 class="academic-section-title" data-sail-heading>{group.title}</h2>
+        <p class="academic-section-intro" data-sail-intro>{group.description}</p>
         <div class="academic-projects">
           {group.items.map((project) => (
             <article class="academic-project" id={project.slug}>

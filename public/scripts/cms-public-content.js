@@ -103,34 +103,6 @@ if (config) {
     });
   };
 
-  const setSectionText = (root, selector, value) => {
-    if (value === null || value === undefined) return;
-    root.querySelectorAll(selector).forEach((element) => {
-      element.textContent = value;
-      element.hidden = !value;
-    });
-  };
-
-  const applyPageSections = (sections) => {
-    document.querySelectorAll('[data-cms-page-content]').forEach((pageRoot) => {
-      const pageKey = pageRoot.dataset.cmsPageContent;
-      const pageSections = sections.filter((section) => section.page_key === pageKey).sort((left, right) => left.sort_order - right.sort_order);
-      pageSections.forEach((section) => {
-        const root = pageRoot.querySelector(`[data-cms-section="${pageKey}:${section.section_key}"]`);
-        if (!root) return;
-        root.hidden = !section.is_visible;
-        root.dataset.layout = section.layout_variant;
-        setSectionText(root, '[data-cms-section-eyebrow]', section.eyebrow);
-        setSectionText(root, '[data-cms-section-heading]', section.heading);
-        setSectionText(root, '[data-cms-section-copy]', section.intro);
-      });
-      pageSections.forEach((section) => {
-        const root = pageRoot.querySelector(`[data-cms-section="${pageKey}:${section.section_key}"]`);
-        if (root) pageRoot.append(root);
-      });
-    });
-  };
-
   const renderTeaching = (overview, catalog, offerings, capstones) => {
     const catalogByCode = new Map(catalog.map((course) => [course.code, course]));
     const current = (overview?.current_course_codes || []).map((code) => catalogByCode.get(code)).filter(Boolean);
@@ -147,15 +119,12 @@ if (config) {
     });
   };
 
-  const pageSectionTask = document.querySelector('[data-cms-page-content]')
-    ? fetchRows('cms_page_sections', 'select=page_key,section_key,eyebrow,heading,intro,layout_variant,is_visible,sort_order&order=sort_order.asc').then(applyPageSections)
-    : Promise.resolve();
-  const tasks = [pageSectionTask];
+  const tasks = [];
   if (document.querySelector('[data-cms-news-list]')) {
-    tasks.push(pageSectionTask.then(() => fetchRows('cms_news', 'select=month_label,sort_date,label,title,summary,link_url&is_published=eq.true&order=sort_date.desc,sort_order.desc')).then((items) => { if (items.length) renderNews(items); }));
+    tasks.push(fetchRows('cms_news', 'select=month_label,sort_date,label,title,summary,link_url&is_published=eq.true&order=sort_date.desc,sort_order.desc').then((items) => { if (items.length) renderNews(items); }));
   }
   if (document.querySelector('[data-cms-publications]')) {
-    tasks.push(pageSectionTask.then(() => fetchRows('cms_publications', 'select=title,authors,venue,year,status,type,tags,sort_date,metric_label,metric_source_year,metric_value,links,figure_url&is_published=eq.true&order=year.desc,sort_date.desc,sort_order.desc')).then((items) => { if (items.length) renderPublications(items); }));
+    tasks.push(fetchRows('cms_publications', 'select=title,authors,venue,year,status,type,tags,sort_date,metric_label,metric_source_year,metric_value,links,figure_url&is_published=eq.true&order=year.desc,sort_date.desc,sort_order.desc').then((items) => { if (items.length) renderPublications(items); }));
   }
   if (document.querySelector('[data-cms-teaching-overview]')) {
     tasks.push(Promise.all([

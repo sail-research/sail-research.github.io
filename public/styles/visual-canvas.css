@@ -1,0 +1,45 @@
+:root {
+  color: #222426;
+  background: #ffffff;
+  font-family: Inter, Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 24px;
+  background: #f7f8f8;
+}
+
+.sail-canvas-card {
+  display: grid;
+  gap: 8px;
+  min-height: 110px;
+  margin: 0 0 14px;
+  padding: 18px;
+  border: 1px solid #dfe3e5;
+  border-radius: 8px;
+  background: #ffffff;
+  box-sizing: border-box;
+}
+
+.sail-canvas-card p {
+  margin: 0;
+  color: #1a05a2;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.sail-canvas-card h2 {
+  margin: 0;
+  color: #222426;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.sail-canvas-card span {
+  color: #555a5e;
+  font-size: 14px;
+  line-height: 1.55;
+}

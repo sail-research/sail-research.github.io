@@ -391,3 +391,108 @@ values
   ),
   ('publications', 'list', null, null, null, 'figures', true, 20)
 on conflict (page_key, section_key) do nothing;
+
+-- Follow-up migration: add_visual_builder_pages_and_revisions.
+-- The Visual Editor stores only controlled JSON blocks. It never stores arbitrary
+-- HTML, JavaScript, fonts, or colors, so the live site can render it safely.
+create table public.cms_visual_pages (
+  page_key text primary key check (page_key in ('home', 'news', 'research', 'projects', 'people', 'teaching', 'publications', 'gallery')),
+  draft_layout jsonb not null default '{"blocks": []}'::jsonb,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  check (jsonb_typeof(draft_layout) = 'object')
+);
+
+create table public.cms_visual_published_pages (
+  page_key text primary key references public.cms_visual_pages(page_key) on delete cascade,
+  layout jsonb not null default '{"blocks": []}'::jsonb,
+  version integer not null default 1 check (version > 0),
+  published_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  check (jsonb_typeof(layout) = 'object')
+);
+
+create table public.cms_visual_revisions (
+  id uuid primary key default gen_random_uuid(),
+  page_key text not null references public.cms_visual_pages(page_key) on delete cascade,
+  version integer not null check (version > 0),
+  layout jsonb not null,
+  published_at timestamptz not null default now(),
+  check (jsonb_typeof(layout) = 'object'),
+  unique (page_key, version)
+);
+
+alter table public.cms_visual_pages enable row level security;
+alter table public.cms_visual_published_pages enable row level security;
+alter table public.cms_visual_revisions enable row level security;
+
+grant select, insert, update, delete on public.cms_visual_pages to authenticated;
+grant select on public.cms_visual_published_pages to anon, authenticated;
+grant insert, update, delete on public.cms_visual_published_pages to authenticated;
+grant select, insert, update, delete on public.cms_visual_revisions to authenticated;
+grant select, insert, update, delete on public.cms_visual_pages, public.cms_visual_published_pages, public.cms_visual_revisions to service_role;
+
+create policy "Visual editor manages drafts" on public.cms_visual_pages
+for all to authenticated
+using (private.cms_has_role(array['editor', 'admin']::public.cms_role[]))
+with check (private.cms_has_role(array['editor', 'admin']::public.cms_role[]));
+
+create policy "Published visual layouts are public" on public.cms_visual_published_pages
+for select to anon, authenticated using (true);
+create policy "Visual editor publishes layouts" on public.cms_visual_published_pages
+for all to authenticated
+using (private.cms_has_role(array['editor', 'admin']::public.cms_role[]))
+with check (private.cms_has_role(array['editor', 'admin']::public.cms_role[]));
+
+create policy "Visual editor manages revisions" on public.cms_visual_revisions
+for all to authenticated
+using (private.cms_has_role(array['editor', 'admin']::public.cms_role[]))
+with check (private.cms_has_role(array['editor', 'admin']::public.cms_role[]));
+
+create trigger cms_visual_pages_set_updated_at
+before update on public.cms_visual_pages
+for each row execute function public.cms_set_updated_at();
+create trigger cms_visual_published_pages_set_updated_at
+before update on public.cms_visual_published_pages
+for each row execute function public.cms_set_updated_at();
+
+with page_sections as (
+  select * from (values
+    ('home', array['intro', 'news']),
+    ('news', array['intro', 'feed']),
+    ('research', array['intro', 'pillars', 'trustworthy', 'distributed', 'efficient']),
+    ('projects', array['intro', 'active', 'completed', 'exploratory']),
+    ('people', array['intro', 'directory']),
+    ('teaching', array['intro', 'overview', 'courses', 'catalog', 'capstones']),
+    ('publications', array['intro', 'list']),
+    ('gallery', array['intro', 'placeholder'])
+  ) as rows(page_key, section_keys)
+), layouts as (
+  select page_key, jsonb_build_object('blocks', (
+    select jsonb_agg(jsonb_build_object(
+      'id', page_key || '-' || section_key,
+      'type', 'native',
+      'key', section_key,
+      'visible', true,
+      'settings', jsonb_build_object(
+        'eyebrow', '', 'heading', '', 'intro', '', 'size', 'medium',
+        'weight', 'regular', 'color', 'text', 'surface', 'transparent',
+        'padding', 'normal',
+        'variant', case when page_key = 'publications' and section_key = 'list' then 'figures' else 'standard' end
+      )
+    ) order by section_position)
+    from unnest(section_keys) with ordinality as entries(section_key, section_position)
+  )) as layout
+  from page_sections
+)
+insert into public.cms_visual_pages (page_key, draft_layout)
+select page_key, layout from layouts
+on conflict (page_key) do nothing;
+
+insert into public.cms_visual_published_pages (page_key, layout, version)
+select page_key, draft_layout, 1 from public.cms_visual_pages
+on conflict (page_key) do nothing;
+
+insert into public.cms_visual_revisions (page_key, version, layout)
+select page_key, version, layout from public.cms_visual_published_pages
+on conflict (page_key, version) do nothing;

@@ -4,16 +4,16 @@ import AcademicTeamDirectory from '../components/AcademicTeamDirectory.astro';
 ---
 
 <AcademicLayout title="People" description="People at the Security and Artificial Intelligence Lab, VinUniversity." activeNav="people">
-  <main class="academic-content">
-    <header class="academic-page-header">
-      <p class="academic-kicker">People</p>
-      <h1 class="academic-name">People behind SAIL.</h1>
-      <p class="academic-section-intro">
+  <main class="academic-content" data-sail-visual-page="people">
+    <header class="academic-page-header" data-sail-native="intro">
+      <p class="academic-kicker" data-sail-eyebrow>People</p>
+      <h1 class="academic-name" data-sail-heading>People behind SAIL.</h1>
+      <p class="academic-section-intro" data-sail-intro>
         Faculty, students, research assistants, and alumni in the SAIL research community.
       </p>
     </header>
 
-    <section class="academic-section">
+    <section class="academic-section" data-sail-native="directory">
       <AcademicTeamDirectory />
     </section>
   </main>

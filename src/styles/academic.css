@@ -2077,6 +2077,306 @@ p {
   grid-template-columns: minmax(0, 1fr);
 }
 
+[data-sail-native][hidden] {
+  display: none !important;
+}
+
+[data-sail-visual-padding="tight"],
+.sail-visual-extra[data-sail-visual-padding="tight"] {
+  padding-block: 18px;
+}
+
+[data-sail-visual-padding="normal"],
+.sail-visual-extra[data-sail-visual-padding="normal"] {
+  padding-block: 0;
+}
+
+[data-sail-visual-padding="roomy"],
+.sail-visual-extra[data-sail-visual-padding="roomy"] {
+  padding-block: 48px;
+}
+
+[data-sail-visual-surface="soft"],
+.sail-visual-extra[data-sail-visual-surface="soft"] {
+  padding-inline: 22px;
+  background: var(--bg-soft);
+}
+
+[data-sail-visual-surface="accent"],
+.sail-visual-extra[data-sail-visual-surface="accent"] {
+  padding-inline: 22px;
+  color: #ffffff;
+  background: var(--accent);
+}
+
+[data-sail-visual-surface="accent"] :is(h1, h2, h3, p, span, li, a),
+.sail-visual-extra[data-sail-visual-surface="accent"] :is(h1, h2, h3, p, span, li, a) {
+  color: #ffffff;
+}
+
+[data-sail-visual-color="accent"] [data-sail-heading],
+.sail-visual-extra[data-sail-visual-color="accent"] :is(.academic-kicker, .academic-section-title) {
+  color: var(--accent-dark);
+}
+
+[data-sail-visual-color="soft"] [data-sail-heading],
+.sail-visual-extra[data-sail-visual-color="soft"] :is(.academic-kicker, .academic-section-title) {
+  color: var(--text-soft);
+}
+
+[data-sail-visual-size="small"] [data-sail-heading],
+.sail-visual-extra[data-sail-visual-size="small"] :is(.academic-section-title, .academic-name) {
+  font-size: 28px;
+}
+
+[data-sail-visual-size="large"] [data-sail-heading],
+.sail-visual-extra[data-sail-visual-size="large"] :is(.academic-section-title, .academic-name) {
+  font-size: 54px;
+}
+
+[data-sail-visual-weight="medium"] [data-sail-heading],
+.sail-visual-extra[data-sail-visual-weight="medium"] :is(.academic-section-title, .academic-name) {
+  font-weight: 600;
+}
+
+[data-sail-visual-weight="bold"] [data-sail-heading],
+.sail-visual-extra[data-sail-visual-weight="bold"] :is(.academic-section-title, .academic-name) {
+  font-weight: 700;
+}
+
+.sail-visual-extra {
+  margin-block: 26px;
+}
+
+.sail-visual-extra .academic-kicker {
+  margin-bottom: 8px;
+}
+
+.sail-visual-extra .academic-section-title {
+  margin: 0;
+}
+
+.sail-visual-extra .academic-section-intro {
+  max-width: 760px;
+  margin: 12px 0 0;
+}
+
+.sail-visual-image {
+  max-width: 860px;
+  margin: 0;
+}
+
+.sail-visual-image img {
+  display: block;
+  width: 100%;
+  max-height: 620px;
+  object-fit: cover;
+}
+
+.sail-visual-image figcaption {
+  margin-top: 8px;
+  color: var(--text-soft);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.sail-visual-video {
+  width: min(100%, 960px);
+  aspect-ratio: 16 / 9;
+  background: var(--bg-soft);
+}
+
+.sail-visual-video iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.sail-visual-divider {
+  height: 1px;
+  margin: 0;
+  border: 0;
+  background: var(--border);
+}
+
+.visual-studio {
+  max-width: 1440px;
+}
+
+.visual-toolbar,
+.visual-history-bar,
+.visual-toolbar-actions {
+  display: flex;
+  gap: 10px;
+  align-items: end;
+}
+
+.visual-toolbar,
+.visual-history-bar {
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.visual-page-picker,
+.visual-history-bar > label {
+  display: grid;
+  gap: 5px;
+  color: var(--text-soft);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.visual-page-picker select,
+.visual-history-bar select {
+  min-height: 38px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 7px 10px;
+  color: var(--text);
+  background: #ffffff;
+  font: inherit;
+  font-size: 14px;
+}
+
+.visual-history-bar > label {
+  align-self: center;
+}
+
+.visual-editor-shell {
+  display: grid;
+  grid-template-columns: minmax(190px, 0.38fr) minmax(420px, 1fr) minmax(230px, 0.46fr);
+  min-height: 720px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.visual-editor-sidebar {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  padding: 14px;
+  border-right: 1px solid var(--border);
+  background: var(--bg-soft);
+}
+
+.visual-editor-inspector {
+  border-right: 0;
+  border-left: 1px solid var(--border);
+}
+
+.visual-editor-sidebar h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: 15px;
+}
+
+.visual-editor-sidebar > p {
+  margin: 0 0 4px;
+  color: var(--text-soft);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.visual-editor-canvas {
+  min-width: 0;
+  background: #ffffff;
+}
+
+#sail-visual-editor {
+  height: 720px;
+}
+
+.visual-studio .gjs-one-bg,
+.visual-studio .gjs-pn-panel,
+.visual-studio .gjs-sm-sector,
+.visual-studio .gjs-trt-traits {
+  background: transparent;
+}
+
+.visual-studio .gjs-blocks-c {
+  display: grid;
+  gap: 8px;
+}
+
+.visual-studio .gjs-block {
+  width: 100%;
+  min-height: 46px;
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  background: #ffffff;
+  box-shadow: none;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.visual-studio .gjs-block:hover {
+  border-color: var(--accent);
+  color: var(--accent-dark);
+}
+
+.visual-studio .gjs-block-category .gjs-title,
+.visual-studio .gjs-title {
+  border: 0;
+  color: var(--accent-dark);
+  background: transparent;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.visual-studio .gjs-trt-trait {
+  display: grid;
+  gap: 5px;
+  margin-bottom: 12px;
+}
+
+.visual-studio .gjs-trt-trait__label {
+  color: var(--text-soft);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.visual-studio .gjs-trt-trait__field input,
+.visual-studio .gjs-trt-trait__field select,
+.visual-studio .gjs-trt-trait__field textarea {
+  width: 100%;
+  min-height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 7px 8px;
+  color: var(--text);
+  background: #ffffff;
+  font: inherit;
+  font-size: 13px;
+}
+
+.visual-studio .gjs-trt-trait__field textarea {
+  min-height: 92px;
+  resize: vertical;
+}
+
+.visual-studio .gjs-frame-wrapper,
+.visual-studio .gjs-cv-canvas {
+  background: var(--bg-soft);
+}
+
+.visual-studio .gjs-cv-canvas {
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
 @media (max-width: 860px) {
   .training-stats,
   .training-grid,
@@ -2123,5 +2423,26 @@ p {
   .cms-toolbar-actions,
   .cms-record-actions {
     width: 100%;
+  }
+
+  .visual-editor-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .visual-editor-sidebar,
+  .visual-editor-inspector {
+    border: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .visual-editor-inspector {
+    border-bottom: 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .visual-editor-canvas,
+  #sail-visual-editor {
+    min-height: 560px;
+    height: 560px;
   }
 }

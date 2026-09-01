@@ -1,0 +1,99 @@
+---
+import AcademicLayout from '../../layouts/AcademicLayout.astro';
+import { withBase } from '../../utils/paths';
+
+const supabaseUrl = 'https://rxnhlmrvwmepuphpithm.supabase.co';
+const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<AcademicLayout
+  title="Visual Editor"
+  description="Private visual editing studio for SAIL website pages."
+  robots="noindex,nofollow"
+>
+  <main class="academic-content visual-studio">
+    <header class="academic-page-header cms-header">
+      <p class="academic-kicker">Private CMS</p>
+      <h1 class="academic-name">SAIL Visual Editor.</h1>
+      <p class="academic-section-intro">Arrange approved SAIL blocks, tune presentation, and publish without editing source code.</p>
+      <div class="cms-status" data-visual-status role="status">Preparing visual workspace...</div>
+    </header>
+
+    <section class="cms-panel cms-login-panel" data-visual-panel="login" hidden>
+      <h2>Sign in</h2>
+      <p>Sign in with the shared SAIL CMS account.</p>
+      <form class="cms-form cms-login-form" data-visual-login-form>
+        <label><span>Account</span><input name="username" autocomplete="username" placeholder="sailresearch" required /></label>
+        <label><span>Password</span><input name="password" type="password" autocomplete="current-password" required /></label>
+        <button class="cms-button primary" type="submit">Sign in</button>
+      </form>
+    </section>
+
+    <section class="cms-panel" data-visual-panel="blocked" hidden>
+      <h2>Access unavailable</h2>
+      <p>This account is not permitted to use the SAIL Visual Editor.</p>
+      <button class="cms-button" type="button" data-visual-signout>Sign out</button>
+    </section>
+
+    <section data-visual-panel="studio" hidden>
+      <div class="visual-toolbar">
+        <div class="visual-page-picker">
+          <label for="visual-page">Editing page</label>
+          <select id="visual-page" data-visual-page-select>
+            <option value="home">Home</option>
+            <option value="news">News</option>
+            <option value="research">Research</option>
+            <option value="projects">Projects</option>
+            <option value="people">People</option>
+            <option value="teaching">Teaching</option>
+            <option value="publications">Publications</option>
+            <option value="gallery">Gallery</option>
+          </select>
+        </div>
+        <div class="visual-toolbar-actions">
+          <button class="cms-button" type="button" data-visual-upload>Upload image</button>
+          <input data-visual-upload-input type="file" accept="image/png,image/jpeg,image/webp,image/gif" hidden />
+          <button class="cms-button" type="button" data-visual-remove>Remove selected</button>
+          <button class="cms-button" type="button" data-visual-save>Save draft</button>
+          <button class="cms-button primary" type="button" data-visual-publish>Publish</button>
+          <a class="cms-button" data-visual-preview href={withBase('/')} target="_blank" rel="noreferrer">Open live page</a>
+        </div>
+      </div>
+
+      <div class="visual-history-bar">
+        <label for="visual-revision">Version history</label>
+        <select id="visual-revision" data-visual-revision-select></select>
+        <button class="cms-button compact" type="button" data-visual-restore>Restore as draft</button>
+        <a class="cms-button compact" href={withBase('/admin/')} >Content editor</a>
+      </div>
+
+      <div class="visual-editor-shell">
+        <aside class="visual-editor-sidebar">
+          <h2>Blocks</h2>
+          <p>Drag a block into the canvas. Existing sections remain connected to live SAIL data.</p>
+          <div id="sail-visual-blocks" aria-label="Available page blocks"></div>
+        </aside>
+        <div class="visual-editor-canvas">
+          <div id="sail-visual-editor" aria-label="Visual page editor"></div>
+        </div>
+        <aside class="visual-editor-sidebar visual-editor-inspector">
+          <h2>Settings</h2>
+          <p>Select a block in the canvas to adjust its content and presentation.</p>
+          <div id="sail-visual-traits" aria-label="Selected block settings"></div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <script is:inline define:vars={{ supabaseUrl, supabasePublishableKey, baseUrl }}>
+    window.SAIL_VISUAL_STUDIO_CONFIG = {
+      supabaseUrl,
+      supabasePublishableKey,
+      baseUrl,
+      adminUsername: 'sailresearch',
+      adminAuthEmail: 'sailresearch@admin.sail-research.com',
+    };
+  </script>
+  <script type="module" src={withBase('/scripts/visual-studio.js')}></script>
+</AcademicLayout>

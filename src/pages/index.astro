@@ -11,10 +11,10 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <AcademicLayout title="Home" description={site.description} activeNav="home">
-  <main class="academic-content" data-cms-page-content="home">
-    <header class="academic-header" data-cms-section="home:intro">
+  <main class="academic-content" data-cms-page-content="home" data-sail-visual-page="home">
+    <header class="academic-header" data-cms-section="home:intro" data-sail-native="intro">
       <div class="academic-header-grid">
-        <h1 class="academic-name">{site.name}</h1>
+        <h1 class="academic-name" data-sail-heading>{site.name}</h1>
         <p class="academic-title">{site.tagline}</p>
         <p class="academic-subtitle">{site.affiliation}</p>
         <p class="academic-meta">VinUniversity, Hanoi, Vietnam</p>
@@ -25,7 +25,7 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
       </div>
 
       <div class="academic-bio">
-        <p data-cms-section-copy>
+        <p data-cms-section-copy data-sail-intro>
           Our research group is situated within <a href="https://vinuni.edu.vn/college-of-engineering-computer-science/">VinUniversity's College of Engineering and Computer Science</a>.
           We specialize in trustworthy, distributed, and efficient AI, with a core focus on developing machine
           learning systems that remain robust, private, scalable, and practical in real-world settings. Our research
@@ -36,8 +36,8 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
       </div>
     </header>
 
-    <section class="academic-section" data-cms-section="home:news">
-      <h2 class="academic-section-title" data-cms-section-heading>News</h2>
+    <section class="academic-section" data-cms-section="home:news" data-sail-native="news">
+      <h2 class="academic-section-title" data-cms-section-heading data-sail-heading>News</h2>
       <ul class="academic-news-list" data-cms-news-list>
         {newsItems.map((item) => (
           <li class="academic-news-item">
