@@ -7,6 +7,11 @@ import {
   taughtCourses,
   teachingAssistants,
 } from '../data/teaching';
+import { withBase } from '../utils/paths';
+
+const supabaseUrl = 'https://rxnhlmrvwmepuphpithm.supabase.co';
+const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const currentCourses = currentSemester.courseCodes
   .map((code) => courseDescriptions.find((course) => course.code === code))
@@ -28,7 +33,7 @@ const currentCourses = currentSemester.courseCodes
       </p>
     </header>
 
-    <section class="academic-section teaching-overview">
+    <section class="academic-section teaching-overview" data-cms-teaching-overview>
       <div class="academic-two-column">
         <section class="academic-card teaching-summary-card">
           <p class="academic-kicker">Current semester</p>
@@ -66,7 +71,7 @@ const currentCourses = currentSemester.courseCodes
               <th scope="col">Credits</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody data-cms-course-offerings>
             {taughtCourses.map((course) => (
               <tr class={course.groupEnd ? 'teaching-row-end' : undefined}>
                 <td>{course.no}</td>
@@ -82,7 +87,7 @@ const currentCourses = currentSemester.courseCodes
 
     <section class="academic-section">
       <h2 class="academic-section-title">Course descriptions</h2>
-      <div class="academic-research-grid teaching-course-grid">
+      <div class="academic-research-grid teaching-course-grid" data-cms-course-catalog>
         {courseDescriptions.map((course) => (
           <article class="academic-card teaching-course-card">
             <h3>{course.code}</h3>
@@ -94,7 +99,7 @@ const currentCourses = currentSemester.courseCodes
 
     <section class="academic-section">
       <h2 class="academic-section-title">Capstone project students</h2>
-      <div class="academic-projects">
+      <div class="academic-projects" data-cms-capstones>
         {capstoneProjects.map((project) => (
           <article class="academic-project">
             <h3>{project.year} - <em>{project.title}</em></h3>
@@ -104,4 +109,8 @@ const currentCourses = currentSemester.courseCodes
       </div>
     </section>
   </main>
+  <script is:inline define:vars={{ supabaseUrl, supabasePublishableKey, baseUrl }}>
+    window.SAIL_CMS_CONTENT_CONFIG = { supabaseUrl, supabasePublishableKey, baseUrl };
+  </script>
+  <script type="module" src={withBase('/scripts/cms-public-content.js')}></script>
 </AcademicLayout>

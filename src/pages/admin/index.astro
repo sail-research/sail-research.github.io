@@ -1,0 +1,208 @@
+---
+import AcademicLayout from '../../layouts/AcademicLayout.astro';
+import { withBase } from '../../utils/paths';
+
+const supabaseUrl = 'https://rxnhlmrvwmepuphpithm.supabase.co';
+const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<AcademicLayout
+  title="Content Studio"
+  description="Private SAIL content management dashboard."
+  robots="noindex,nofollow"
+>
+  <main class="academic-content cms-shell">
+    <header class="academic-page-header cms-header">
+      <p class="academic-kicker">Private CMS</p>
+      <h1 class="academic-name">SAIL Content Studio.</h1>
+      <p class="academic-section-intro">Edit live lab content without touching GitHub or source code.</p>
+      <div class="cms-status" data-cms-status role="status">Preparing secure workspace...</div>
+    </header>
+
+    <section class="cms-panel cms-login-panel" data-cms-panel="login" hidden>
+      <h2>Sign in</h2>
+      <p>Sign in with the shared SAIL CMS account.</p>
+      <form class="cms-form cms-login-form" data-cms-login-form>
+        <label>
+          <span>Account</span>
+          <input name="username" autocomplete="username" placeholder="sailresearch" required />
+        </label>
+        <label>
+          <span>Password</span>
+          <input name="password" type="password" autocomplete="current-password" required />
+        </label>
+        <button class="cms-button primary" type="submit">Sign in</button>
+      </form>
+    </section>
+
+    <section class="cms-panel" data-cms-panel="blocked" hidden>
+      <h2>Access unavailable</h2>
+      <p>This account is not permitted to use the SAIL Content Studio.</p>
+      <button class="cms-button" type="button" data-cms-signout>Sign out</button>
+    </section>
+
+    <section data-cms-panel="dashboard" hidden>
+      <div class="cms-toolbar">
+        <div>
+          <p class="academic-kicker">Content dashboard</p>
+          <h2 data-cms-user-name>Loading account...</h2>
+          <p data-cms-user-role></p>
+        </div>
+        <div class="cms-toolbar-actions">
+          <a class="cms-button" href={withBase('/')} target="_blank" rel="noreferrer">View website</a>
+          <button class="cms-button" type="button" data-cms-signout>Sign out</button>
+        </div>
+      </div>
+
+      <nav class="cms-tabs" aria-label="Content areas">
+        <button class="cms-tab" type="button" data-cms-tab="news" aria-selected="true">News</button>
+        <button class="cms-tab" type="button" data-cms-tab="publications">Publications</button>
+        <button class="cms-tab" type="button" data-cms-tab="people">People</button>
+        <button class="cms-tab" type="button" data-cms-tab="teaching">Teaching</button>
+      </nav>
+
+      <section class="cms-view" data-cms-view="news">
+        <div class="cms-section-heading">
+          <div>
+            <h2>News</h2>
+            <p>Published items appear immediately on the home page and the News archive.</p>
+          </div>
+          <button class="cms-button" type="button" data-cms-reset="news">New item</button>
+        </div>
+        <div class="cms-editor-grid">
+          <form class="cms-form cms-editor" data-cms-form="news">
+            <input name="id" type="hidden" />
+            <label><span>Headline</span><input name="title" required /></label>
+            <div class="cms-two-fields">
+              <label><span>Month and year</span><input name="month_label" placeholder="August 2026" required /></label>
+              <label><span>Sort date</span><input name="sort_date" type="date" required /></label>
+            </div>
+            <label><span>Category</span><input name="label" placeholder="Paper accepted" required /></label>
+            <label><span>Summary</span><textarea name="summary" rows="5" required></textarea></label>
+            <label><span>Optional link</span><input name="link_url" type="url" placeholder="https://..." /></label>
+            <div class="cms-form-footer">
+              <label class="cms-checkbox"><input name="is_published" type="checkbox" checked /> <span>Publish now</span></label>
+              <label class="cms-order"><span>Order</span><input name="sort_order" type="number" value="0" /></label>
+            </div>
+            <button class="cms-button primary" type="submit">Save news</button>
+          </form>
+          <div class="cms-record-list" data-cms-list="news"></div>
+        </div>
+      </section>
+
+      <section class="cms-view" data-cms-view="publications" hidden>
+        <div class="cms-section-heading">
+          <div>
+            <h2>Publications</h2>
+            <p>Use one line per author, tag, or link to keep the record easy to scan and reuse.</p>
+          </div>
+          <button class="cms-button" type="button" data-cms-reset="publications">New publication</button>
+        </div>
+        <div class="cms-editor-grid wide">
+          <form class="cms-form cms-editor" data-cms-form="publications">
+            <input name="id" type="hidden" />
+            <label><span>Title</span><textarea name="title" rows="3" required></textarea></label>
+            <label><span>Authors, one per line</span><textarea name="authors" rows="4" required></textarea></label>
+            <div class="cms-two-fields">
+              <label><span>Venue</span><input name="venue" required /></label>
+              <label><span>Year</span><input name="year" type="number" min="1900" max="2100" required /></label>
+            </div>
+            <div class="cms-three-fields">
+              <label><span>Status</span><select name="status"><option value="accepted">Accepted</option><option value="arxiv">arXiv</option></select></label>
+              <label><span>Type</span><select name="type"><option value="conference">Conference</option><option value="journal">Journal</option><option value="workshop">Workshop</option><option value="preprint">Preprint</option></select></label>
+              <label><span>Sort date</span><input name="sort_date" type="date" required /></label>
+            </div>
+            <div class="cms-three-fields">
+              <label><span>Metric label</span><select name="metric_label"><option value="">None</option><option value="Ranking">Ranking</option><option value="Impact Factor">Impact Factor</option></select></label>
+              <label><span>Metric year</span><input name="metric_source_year" placeholder="CORE2023" /></label>
+              <label><span>Metric value</span><input name="metric_value" placeholder="A*" /></label>
+            </div>
+            <label><span>Research tags, one per line</span><textarea name="tags" rows="3"></textarea></label>
+            <label><span>Links, one per line as “Label | URL”</span><textarea name="links" rows="3" placeholder="Paper | https://...&#10;Code | https://github.com/..." ></textarea></label>
+            <label><span>Figure URL</span><input name="figure_url" type="url" placeholder="https://..." /></label>
+            <label class="cms-file-field"><span>Or upload a figure</span><input name="figure_file" type="file" accept="image/png,image/jpeg,image/webp,image/gif" /></label>
+            <div class="cms-form-footer">
+              <label class="cms-checkbox"><input name="is_published" type="checkbox" checked /> <span>Publish now</span></label>
+              <label class="cms-order"><span>Order</span><input name="sort_order" type="number" value="0" /></label>
+            </div>
+            <button class="cms-button primary" type="submit">Save publication</button>
+          </form>
+          <div class="cms-record-list" data-cms-list="publications"></div>
+        </div>
+      </section>
+
+      <section class="cms-view" data-cms-view="people" hidden>
+        <div class="cms-section-heading">
+          <div>
+            <h2>People</h2>
+            <p>These records power the live People page. Changes are visible as soon as they are saved.</p>
+          </div>
+          <button class="cms-button" type="button" data-cms-reset="people">New person</button>
+        </div>
+        <div class="cms-editor-grid wide">
+          <form class="cms-form cms-editor" data-cms-form="people">
+            <input name="id" type="hidden" />
+            <div class="cms-two-fields"><label><span>Full name</span><input name="name" required /></label><label><span>Email</span><input name="email" type="email" required /></label></div>
+            <div class="cms-three-fields">
+              <label><span>Section</span><select name="group_key"><option value="professors">Faculty</option><option value="phd">PhD Students</option><option value="master">Master Students</option><option value="research-assistants">Research Assistants</option><option value="undergraduate-ra">Undergraduate RAs</option><option value="alumni">Alumni</option><option value="collaborators">Collaborators</option></select></label>
+              <label><span>Status</span><select name="status"><option value="active">Active</option><option value="alumni">Alumni</option><option value="pending">Pending</option><option value="left">Left</option><option value="rejected">Rejected</option></select></label>
+              <label><span>Cluster</span><select name="cluster_slug"><option value="">None</option><option value="trustworthy-ai">Trustworthy AI</option><option value="distributed-learning">Distributed Learning</option><option value="efficient-machine-learning">Efficient ML</option></select></label>
+            </div>
+            <label><span>Role or current position</span><input name="role_title" required /></label>
+            <label><span>Affiliation</span><input name="affiliation" placeholder="VinUniversity" /></label>
+            <div class="cms-two-fields"><label><span>Homepage URL</span><input name="homepage_url" type="url" /></label><label><span>Google Scholar URL</span><input name="scholar_url" type="url" /></label></div>
+            <label><span>Photo URL</span><input name="image_url" type="url" placeholder="https://..." /></label>
+            <label class="cms-file-field"><span>Or upload a photo</span><input name="photo_file" type="file" accept="image/png,image/jpeg,image/webp" /></label>
+            <label><span>Research interests, one per line</span><textarea name="research_interests" rows="3"></textarea></label>
+            <div class="cms-form-footer"><label class="cms-order"><span>Order</span><input name="sort_order" type="number" value="999" /></label></div>
+            <button class="cms-button primary" type="submit">Save person</button>
+          </form>
+          <div class="cms-record-list" data-cms-list="people"></div>
+        </div>
+      </section>
+
+      <section class="cms-view" data-cms-view="teaching" hidden>
+        <div class="cms-section-heading"><div><h2>Teaching</h2><p>Manage the current term, taught-course history, course catalogue, and capstones.</p></div></div>
+        <div class="cms-teaching-grid">
+          <section class="cms-panel">
+            <h3>Current semester</h3>
+            <form class="cms-form" data-cms-form="teaching-overview">
+              <label><span>Semester label</span><input name="current_semester_label" required /></label>
+              <label><span>Current course codes, one per line</span><textarea name="current_course_codes" rows="3"></textarea></label>
+              <label><span>Teaching assistants, one per line</span><textarea name="teaching_assistants" rows="3"></textarea></label>
+              <button class="cms-button primary" type="submit">Save semester</button>
+            </form>
+          </section>
+          <section class="cms-panel">
+            <div class="cms-subsection-heading"><h3>Course catalogue</h3><button class="cms-button compact" type="button" data-cms-reset="course-catalog">New</button></div>
+            <form class="cms-form compact-form" data-cms-form="course-catalog"><input name="code_original" type="hidden" /><label><span>Code</span><input name="code" required /></label><label><span>Course title</span><input name="title" required /></label><label class="cms-checkbox"><input name="is_published" type="checkbox" checked /> <span>Visible</span></label><button class="cms-button primary" type="submit">Save course</button></form>
+            <div class="cms-record-list compact" data-cms-list="course-catalog"></div>
+          </section>
+          <section class="cms-panel">
+            <div class="cms-subsection-heading"><h3>Taught courses</h3><button class="cms-button compact" type="button" data-cms-reset="course-offerings">New</button></div>
+            <form class="cms-form compact-form" data-cms-form="course-offerings"><input name="id" type="hidden" /><label><span>Semester</span><input name="semester" placeholder="Fall'26" required /></label><label><span>Course</span><select name="course_code" data-cms-course-options required></select></label><div class="cms-two-fields"><label><span>Credits</span><input name="credits" type="number" min="1" max="12" value="4" required /></label><label><span>Order</span><input name="sort_order" type="number" value="0" /></label></div><label class="cms-checkbox"><input name="group_end" type="checkbox" /> <span>Separator after this row</span></label><label class="cms-checkbox"><input name="is_published" type="checkbox" checked /> <span>Visible</span></label><button class="cms-button primary" type="submit">Save offering</button></form>
+            <div class="cms-record-list compact" data-cms-list="course-offerings"></div>
+          </section>
+          <section class="cms-panel">
+            <div class="cms-subsection-heading"><h3>Capstone projects</h3><button class="cms-button compact" type="button" data-cms-reset="capstones">New</button></div>
+            <form class="cms-form compact-form" data-cms-form="capstones"><input name="id" type="hidden" /><label><span>Year</span><input name="year" type="number" min="1900" max="2100" required /></label><label><span>Title</span><input name="title" required /></label><label><span>Students, one per line</span><textarea name="students" rows="3"></textarea></label><div class="cms-form-footer"><label class="cms-checkbox"><input name="is_published" type="checkbox" checked /> <span>Visible</span></label><label class="cms-order"><span>Order</span><input name="sort_order" type="number" value="0" /></label></div><button class="cms-button primary" type="submit">Save capstone</button></form>
+            <div class="cms-record-list compact" data-cms-list="capstones"></div>
+          </section>
+        </div>
+      </section>
+
+    </section>
+  </main>
+
+  <script is:inline define:vars={{ supabaseUrl, supabasePublishableKey, baseUrl }}>
+    window.SAIL_CMS_CONFIG = {
+      supabaseUrl,
+      supabasePublishableKey,
+      baseUrl,
+      adminUsername: 'sailresearch',
+      adminAuthEmail: 'sailresearch@admin.sail-research.com',
+    };
+  </script>
+  <script type="module" src={withBase('/scripts/admin-cms.js')}></script>
+</AcademicLayout>

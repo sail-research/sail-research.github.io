@@ -25,6 +25,7 @@ export interface Publication {
   venueMetric?: PublicationVenueMetric;
   links?: PublicationLink[];
   sourceNote?: string;
+  figure?: string;
 }
 
 const kokSengVariants = [
@@ -73,6 +74,38 @@ const venueYearMetrics: Record<string, PublicationVenueMetric> = {
   'ATC 2022::2022': { label: 'Ranking', sourceYear: 'CORE2021', value: 'Unlisted' },
   'ICOIN 2022::2022': { label: 'Ranking', sourceYear: 'CORE2021', value: 'Unlisted' },
   'IEEE Access::2021': { label: 'Impact Factor', sourceYear: 'JCR 2021', value: '3.476' },
+};
+
+const publicationFigures: Record<string, string> = {
+  'Clean-Label Physical Backdoor Attacks with Data Distillation': '/publications/figures/clean-label-backdoor.png',
+  'HFedATM: Hierarchical Federated Domain Generalization via Optimal Transport and Regularized Mean Aggregation': '/publications/figures/hfed-atm.png',
+  'Onboarding Without Forgetting: Hypernetwork Personalization with Data-Free Replay for Personalized Federated Learning': '/publications/figures/onboarding-without-forgetting.png',
+  'Memory-efficient Continual Learning with Prototypical Exemplar Condensation': '/publications/figures/memory-efficient-continual-learning.png',
+  'An Empirical Study of Federated Learning on IoT-Edge Devices: Resource Allocation and Heterogeneity': '/publications/figures/iot-edge.png',
+  'SC-GIR: Goal-oriented Semantic Communication via Invariant Representation Learning for Image Transmission': '/publications/figures/semantic-communication.png',
+  'Wicked Oddities: Selectively Poisoning for Effective Clean-Label Backdoor Attacks': '/publications/figures/wicked-oddities.png',
+  'FLAT: Latent-Driven Arbitrary-Target Backdoor Attacks in Federated Learning': '/publications/figures/flat.png',
+  'HERO: A Heterogeneity-Aware Benchmark Library for Federated Continual Learning': '/publications/figures/hero-benchmark.png',
+  'Rethinking Molecular Graph Backdoors under Chemistry-aware Admission': '/publications/figures/molecular-graph-backdoors.png',
+  'When Generator Replay Degrades: Projected Rehearsal Orchestration for Heterogeneous Federated Class-Incremental Learning': '/publications/figures/generator-replay.png',
+  'HPE-Li: WiFi-enabled Lightweight Dual Selective Kernel Convolution for Human Pose Estimation': '/publications/figures/hpe-li.png',
+  'Efficiently Assemble Normalization Layers and Regularization for Federated Domain Generalization': '/publications/figures/efficient-assemble.png',
+  'Fooling the Textual Fooler via Randomizing Latent Representations': '/publications/figures/textual-fooler.png',
+  'Personalized Privacy-Preserving Framework for Cross-Silo Federated Learning': '/publications/figures/privacy-cross-silo.png',
+  'Backdoor Attacks and Defenses in Federated Learning: Survey, Challenges and Future Research Directions': '/publications/figures/backdoor-survey.png',
+  'Towards Efficient Communication Federated Recommendation System via Low-rank Training': '/publications/figures/web-recommendation.png',
+  'Understanding the Robustness of Randomized Feature Defense Against Query-Based Adversarial Attacks': '/publications/figures/randomized-defense.png',
+  'FedFSLAR: A Federated Learning Framework for Few-shot Action Recognition': '/publications/figures/fed-fslar.png',
+  'Non-Cooperative Backdoor Attacks in Federated Learning: A New Threat Landscape': '/publications/figures/non-cooperative-backdoor.png',
+  'Venomancer: Towards Imperceptible and Target-on-Demand Backdoor Attacks in Federated Learning': '/publications/figures/venomancer.png',
+  'FedGrad: Mitigating Backdoor Attacks in Federated Learning Through Local Ultimate Gradients Inspection': '/publications/figures/fed-grad.png',
+  'IBA: Towards Irreversible Backdoor Attacks in Federated Learning': '/publications/figures/iba.png',
+  'An Empirical Study of Federated Unlearning: Efficiency and Effectiveness': '/publications/figures/federated-unlearning.png',
+  'FedDCT: Federated Learning of Large Convolutional Neural Networks on Resource Constrained Devices using Divide and Co-Training': '/publications/figures/fed-dct.png',
+  'Toward Efficient Hierarchical Federated Learning Design Over Multi-Hop Wireless Communications Networks': '/publications/figures/hierarchical-federated.png',
+  'On the Trade-off Between Privacy Protection and Data Utility for Chest X-ray Images': '/publications/figures/chest-xray-privacy.png',
+  'Emerging Privacy and Trust Issues for Autonomous Vehicle Systems': '/publications/figures/autonomous-vehicle-privacy.png',
+  'Efficient two-party integer comparison with block vectorization mechanism': '/publications/figures/secure-integer-comparison.png',
 };
 
 export const publications: Publication[] = [
@@ -493,6 +526,7 @@ export const publications: Publication[] = [
   .map((publication) => ({
     ...publication,
     venueMetric: publication.venueMetric ?? venueYearMetrics[metricKey(publication)],
+    figure: publication.figure ?? publicationFigures[publication.title],
   }));
 
 const statusRank: Record<PublicationType, number> = {

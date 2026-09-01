@@ -4,6 +4,9 @@ import { formatNewsMonthYear, newsItems } from '../data/news';
 import { withBase } from '../utils/paths';
 
 const localLink = (href: string) => href.startsWith('/') ? withBase(href) : href;
+const supabaseUrl = 'https://rxnhlmrvwmepuphpithm.supabase.co';
+const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <AcademicLayout title="News" description="SAIL news archive." activeNav="news">
@@ -17,7 +20,7 @@ const localLink = (href: string) => href.startsWith('/') ? withBase(href) : href
     </header>
 
     <section class="academic-section">
-      <ul class="academic-news-list">
+      <ul class="academic-news-list" data-cms-news-list>
         {newsItems.map((item) => (
           <li class="academic-news-item">
             <span class="academic-news-date">{formatNewsMonthYear(item.date)}</span>
@@ -32,4 +35,8 @@ const localLink = (href: string) => href.startsWith('/') ? withBase(href) : href
       </ul>
     </section>
   </main>
+  <script is:inline define:vars={{ supabaseUrl, supabasePublishableKey, baseUrl }}>
+    window.SAIL_CMS_CONTENT_CONFIG = { supabaseUrl, supabasePublishableKey, baseUrl };
+  </script>
+  <script type="module" src={withBase('/scripts/cms-public-content.js')}></script>
 </AcademicLayout>

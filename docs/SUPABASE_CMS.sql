@@ -1,0 +1,327 @@
+-- SAIL CMS: editorial content, access control, and public media.
+-- Applied to project rxnhlmrvwmepuphpithm on 2026-09-01.
+
+create type public.cms_role as enum ('editor', 'admin');
+create type public.cms_publication_status as enum ('accepted', 'arxiv');
+create type public.cms_publication_type as enum ('conference', 'journal', 'workshop', 'preprint');
+
+create table public.cms_admins (
+  auth_user_id uuid primary key references auth.users(id) on delete cascade,
+  email text not null,
+  role public.cms_role not null default 'editor',
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table public.cms_admin_invites (
+  email text primary key,
+  role public.cms_role not null default 'editor',
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  check (email = lower(email))
+);
+
+create table public.cms_news (
+  id uuid primary key default gen_random_uuid(),
+  month_label text not null,
+  sort_date date not null,
+  label text not null default 'Lab update',
+  title text not null,
+  summary text not null,
+  link_url text,
+  is_published boolean not null default true,
+  sort_order integer not null default 0,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table public.cms_publications (
+  id uuid primary key default gen_random_uuid(),
+  title text not null,
+  authors text[] not null default '{}',
+  venue text not null,
+  year integer not null check (year between 1900 and 2100),
+  status public.cms_publication_status not null default 'accepted',
+  type public.cms_publication_type not null default 'conference',
+  tags text[] not null default '{}',
+  sort_date date not null default current_date,
+  metric_label text,
+  metric_source_year text,
+  metric_value text,
+  links jsonb not null default '[]'::jsonb,
+  source_note text,
+  figure_url text,
+  is_published boolean not null default true,
+  sort_order integer not null default 0,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  check (jsonb_typeof(links) = 'array')
+);
+
+create table public.cms_teaching_overview (
+  id text primary key default 'default' check (id = 'default'),
+  current_semester_label text not null,
+  current_course_codes text[] not null default '{}',
+  teaching_assistants text[] not null default '{}',
+  updated_at timestamptz not null default now()
+);
+
+create table public.cms_course_catalog (
+  code text primary key,
+  title text not null,
+  is_published boolean not null default true,
+  sort_order integer not null default 0,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table public.cms_course_offerings (
+  id uuid primary key default gen_random_uuid(),
+  semester text not null,
+  course_code text not null references public.cms_course_catalog(code) on update cascade,
+  credits integer not null check (credits > 0 and credits <= 12),
+  group_end boolean not null default false,
+  is_published boolean not null default true,
+  sort_order integer not null default 0,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table public.cms_capstone_projects (
+  id uuid primary key default gen_random_uuid(),
+  year integer not null check (year between 1900 and 2100),
+  title text not null,
+  students text[] not null default '{}',
+  is_published boolean not null default true,
+  sort_order integer not null default 0,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create or replace function public.cms_set_updated_at()
+returns trigger
+language plpgsql
+as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$;
+
+create or replace function public.cms_has_role(allowed_roles public.cms_role[])
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1
+    from public.cms_admins
+    where auth_user_id = auth.uid()
+      and role = any(allowed_roles)
+  );
+$$;
+
+create or replace function public.claim_cms_admin_access()
+returns boolean
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  current_email text;
+  invited_role public.cms_role;
+begin
+  if auth.uid() is null then
+    raise exception 'Login is required.';
+  end if;
+
+  current_email := lower(coalesce(auth.jwt() ->> 'email', ''));
+  if current_email = '' then
+    raise exception 'This login session has no email address.';
+  end if;
+
+  select role into invited_role
+  from public.cms_admin_invites
+  where email = current_email;
+
+  if invited_role is null then
+    return exists (
+      select 1 from public.cms_admins where auth_user_id = auth.uid()
+    );
+  end if;
+
+  insert into public.cms_admins (auth_user_id, email, role)
+  values (auth.uid(), current_email, invited_role)
+  on conflict (auth_user_id) do update
+  set email = excluded.email,
+      role = excluded.role,
+      updated_at = now();
+
+  return true;
+end;
+$$;
+
+revoke all on function public.cms_has_role(public.cms_role[]) from public;
+revoke all on function public.claim_cms_admin_access() from public;
+grant execute on function public.cms_has_role(public.cms_role[]) to authenticated;
+grant execute on function public.claim_cms_admin_access() to authenticated;
+
+insert into public.cms_admins (auth_user_id, email, role)
+select auth_user_id, lower(email), 'admin'::public.cms_role
+from public.training_profiles
+where role in ('admin'::public.training_role, 'super_admin'::public.training_role)
+on conflict (auth_user_id) do update
+set email = excluded.email,
+    role = excluded.role,
+    updated_at = now();
+
+alter table public.cms_admins enable row level security;
+alter table public.cms_admin_invites enable row level security;
+alter table public.cms_news enable row level security;
+alter table public.cms_publications enable row level security;
+alter table public.cms_teaching_overview enable row level security;
+alter table public.cms_course_catalog enable row level security;
+alter table public.cms_course_offerings enable row level security;
+alter table public.cms_capstone_projects enable row level security;
+
+create policy "CMS users can read their own access" on public.cms_admins
+for select to authenticated
+using (auth_user_id = auth.uid() or public.cms_has_role(array['admin']::public.cms_role[]));
+
+create policy "CMS admins manage access" on public.cms_admins
+for all to authenticated
+using (public.cms_has_role(array['admin']::public.cms_role[]))
+with check (public.cms_has_role(array['admin']::public.cms_role[]));
+
+create policy "CMS admins manage invitations" on public.cms_admin_invites
+for all to authenticated
+using (public.cms_has_role(array['admin']::public.cms_role[]))
+with check (public.cms_has_role(array['admin']::public.cms_role[]));
+
+create policy "Published CMS news is public" on public.cms_news
+for select to anon, authenticated
+using (is_published or public.cms_has_role(array['editor', 'admin']::public.cms_role[]));
+create policy "CMS editors manage news" on public.cms_news
+for all to authenticated
+using (public.cms_has_role(array['editor', 'admin']::public.cms_role[]))
+with check (public.cms_has_role(array['editor', 'admin']::public.cms_role[]));
+
+create policy "Published CMS publications are public" on public.cms_publications
+for select to anon, authenticated
+using (is_published or public.cms_has_role(array['editor', 'admin']::public.cms_role[]));
+create policy "CMS editors manage publications" on public.cms_publications
+for all to authenticated
+using (public.cms_has_role(array['editor', 'admin']::public.cms_role[]))
+with check (public.cms_has_role(array['editor', 'admin']::public.cms_role[]));
+
+create policy "CMS teaching overview is public" on public.cms_teaching_overview
+for select to anon, authenticated
+using (true);
+create policy "CMS editors manage teaching overview" on public.cms_teaching_overview
+for all to authenticated
+using (public.cms_has_role(array['editor', 'admin']::public.cms_role[]))
+with check (public.cms_has_role(array['editor', 'admin']::public.cms_role[]));
+
+create policy "Published course catalog is public" on public.cms_course_catalog
+for select to anon, authenticated
+using (is_published or public.cms_has_role(array['editor', 'admin']::public.cms_role[]));
+create policy "CMS editors manage course catalog" on public.cms_course_catalog
+for all to authenticated
+using (public.cms_has_role(array['editor', 'admin']::public.cms_role[]))
+with check (public.cms_has_role(array['editor', 'admin']::public.cms_role[]));
+
+create policy "Published course offerings are public" on public.cms_course_offerings
+for select to anon, authenticated
+using (is_published or public.cms_has_role(array['editor', 'admin']::public.cms_role[]));
+create policy "CMS editors manage course offerings" on public.cms_course_offerings
+for all to authenticated
+using (public.cms_has_role(array['editor', 'admin']::public.cms_role[]))
+with check (public.cms_has_role(array['editor', 'admin']::public.cms_role[]));
+
+create policy "Published capstones are public" on public.cms_capstone_projects
+for select to anon, authenticated
+using (is_published or public.cms_has_role(array['editor', 'admin']::public.cms_role[]));
+create policy "CMS editors manage capstones" on public.cms_capstone_projects
+for all to authenticated
+using (public.cms_has_role(array['editor', 'admin']::public.cms_role[]))
+with check (public.cms_has_role(array['editor', 'admin']::public.cms_role[]));
+
+create policy "CMS editors manage lab members" on public.lab_members
+for all to authenticated
+using (public.cms_has_role(array['editor', 'admin']::public.cms_role[]))
+with check (public.cms_has_role(array['editor', 'admin']::public.cms_role[]));
+
+insert into storage.buckets (id, name, public)
+values ('cms-media', 'cms-media', true)
+on conflict (id) do update set public = true;
+
+create policy "CMS editors read CMS media" on storage.objects
+for select to authenticated
+using (bucket_id = 'cms-media' and public.cms_has_role(array['editor', 'admin']::public.cms_role[]));
+create policy "CMS editors upload CMS media" on storage.objects
+for insert to authenticated
+with check (bucket_id = 'cms-media' and public.cms_has_role(array['editor', 'admin']::public.cms_role[]));
+create policy "CMS editors update CMS media" on storage.objects
+for update to authenticated
+using (bucket_id = 'cms-media' and public.cms_has_role(array['editor', 'admin']::public.cms_role[]))
+with check (bucket_id = 'cms-media' and public.cms_has_role(array['editor', 'admin']::public.cms_role[]));
+create policy "CMS editors delete CMS media" on storage.objects
+for delete to authenticated
+using (bucket_id = 'cms-media' and public.cms_has_role(array['editor', 'admin']::public.cms_role[]));
+
+create trigger cms_admins_set_updated_at before update on public.cms_admins
+for each row execute function public.cms_set_updated_at();
+create trigger cms_admin_invites_set_updated_at before update on public.cms_admin_invites
+for each row execute function public.cms_set_updated_at();
+create trigger cms_news_set_updated_at before update on public.cms_news
+for each row execute function public.cms_set_updated_at();
+create trigger cms_publications_set_updated_at before update on public.cms_publications
+for each row execute function public.cms_set_updated_at();
+create trigger cms_teaching_overview_set_updated_at before update on public.cms_teaching_overview
+for each row execute function public.cms_set_updated_at();
+create trigger cms_course_catalog_set_updated_at before update on public.cms_course_catalog
+for each row execute function public.cms_set_updated_at();
+create trigger cms_course_offerings_set_updated_at before update on public.cms_course_offerings
+for each row execute function public.cms_set_updated_at();
+create trigger cms_capstone_projects_set_updated_at before update on public.cms_capstone_projects
+for each row execute function public.cms_set_updated_at();
+
+-- Follow-up migrations: expose the CMS tables to the Data API while keeping RLS in force.
+grant usage on schema public to anon, authenticated, service_role;
+grant select on public.cms_news, public.cms_publications, public.cms_teaching_overview, public.cms_course_catalog, public.cms_course_offerings, public.cms_capstone_projects to anon, authenticated;
+grant insert, update, delete on public.cms_news, public.cms_publications, public.cms_teaching_overview, public.cms_course_catalog, public.cms_course_offerings, public.cms_capstone_projects to authenticated;
+grant select, insert, update, delete on public.cms_admins, public.cms_admin_invites to authenticated;
+grant select, insert, update, delete on public.cms_admins, public.cms_admin_invites, public.cms_news, public.cms_publications, public.cms_teaching_overview, public.cms_course_catalog, public.cms_course_offerings, public.cms_capstone_projects to service_role;
+grant select, insert, update, delete on public.lab_members to authenticated;
+
+-- Keep public reads independent from the CMS role-checking helper.
+drop policy "Published CMS news is public" on public.cms_news;
+create policy "Published CMS news is public" on public.cms_news for select to anon, authenticated using (is_published);
+create policy "CMS editors read all news" on public.cms_news for select to authenticated using (public.cms_has_role(array['editor', 'admin']::public.cms_role[]));
+drop policy "Published CMS publications are public" on public.cms_publications;
+create policy "Published CMS publications are public" on public.cms_publications for select to anon, authenticated using (is_published);
+create policy "CMS editors read all publications" on public.cms_publications for select to authenticated using (public.cms_has_role(array['editor', 'admin']::public.cms_role[]));
+drop policy "Published course catalog is public" on public.cms_course_catalog;
+create policy "Published course catalog is public" on public.cms_course_catalog for select to anon, authenticated using (is_published);
+create policy "CMS editors read all course catalog" on public.cms_course_catalog for select to authenticated using (public.cms_has_role(array['editor', 'admin']::public.cms_role[]));
+drop policy "Published course offerings are public" on public.cms_course_offerings;
+create policy "Published course offerings are public" on public.cms_course_offerings for select to anon, authenticated using (is_published);
+create policy "CMS editors read all course offerings" on public.cms_course_offerings for select to authenticated using (public.cms_has_role(array['editor', 'admin']::public.cms_role[]));
+drop policy "Published capstones are public" on public.cms_capstone_projects;
+create policy "Published capstones are public" on public.cms_capstone_projects for select to anon, authenticated using (is_published);
+create policy "CMS editors read all capstones" on public.cms_capstone_projects for select to authenticated using (public.cms_has_role(array['editor', 'admin']::public.cms_role[]));
+revoke execute on function public.cms_has_role(public.cms_role[]) from anon;
+create or replace function public.cms_set_updated_at()
+returns trigger language plpgsql set search_path = pg_catalog as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$;
+
+-- Final hardening was applied in the Supabase migration
+-- move_cms_auth_helper_to_private_schema. It replaces public.cms_has_role and
+-- claim_cms_admin_access with private.cms_has_role plus tightly scoped RLS
+-- policies for users to claim only their own invited CMS access.

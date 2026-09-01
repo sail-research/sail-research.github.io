@@ -1,6 +1,11 @@
 ---
 import AcademicLayout from '../layouts/AcademicLayout.astro';
 import { allPublications, type Publication } from '../data/publications';
+import { withBase } from '../utils/paths';
+
+const supabaseUrl = 'https://rxnhlmrvwmepuphpithm.supabase.co';
+const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const groupByYear = (items: Publication[]) =>
   items.reduce((groups, publication) => {
@@ -56,27 +61,41 @@ const venueText = (publication: Publication) => {
       </p>
     </header>
 
-    <section class="academic-section">
+    <section class="academic-section" data-cms-publications>
       {[...publicationsByYear.entries()].map(([year, items]) => (
         <div class="academic-year-group">
           <div class="academic-year">{year}</div>
           <ul class="academic-publication-list">
             {items.map((publication) => {
               const link = firstLink(publication.links);
+              const figure = publication.figure ? withBase(publication.figure) : undefined;
               return (
-                <li class="academic-publication-item">
-                  {link ? (
-                    <a class="academic-publication-title" href={link}>{publication.title}</a>
-                  ) : (
-                    <span class="academic-publication-title">{publication.title}</span>
+                <li class:list={{ 'academic-publication-item': true, 'academic-publication-item--no-figure': !figure }}>
+                  {figure && (
+                    link ? (
+                      <a class="academic-publication-figure" href={link} aria-label={`Open ${publication.title}`} target="_blank" rel="noreferrer">
+                        <img src={figure} alt={`Original figure from ${publication.title}`} loading="lazy" decoding="async" />
+                      </a>
+                    ) : (
+                      <div class="academic-publication-figure">
+                        <img src={figure} alt={`Original figure from ${publication.title}`} loading="lazy" decoding="async" />
+                      </div>
+                    )
                   )}
-                  <span class="academic-authors">{authorText(publication.authors)}</span>
-                  <span class="academic-venue">{venueText(publication)}</span>
-                  {publication.links && publication.links.length > 0 && (
-                    <span class="academic-publication-links">
-                      {publication.links.map((item) => <a href={item.url}>{linkLabel(item)}</a>)}
-                    </span>
-                  )}
+                  <div class="academic-publication-details">
+                    {link ? (
+                      <a class="academic-publication-title" href={link} target="_blank" rel="noreferrer">{publication.title}</a>
+                    ) : (
+                      <span class="academic-publication-title">{publication.title}</span>
+                    )}
+                    <span class="academic-authors">{authorText(publication.authors)}</span>
+                    <span class="academic-venue">{venueText(publication)}</span>
+                    {publication.links && publication.links.length > 0 && (
+                      <span class="academic-publication-links">
+                        {publication.links.map((item) => <a href={item.url} target="_blank" rel="noreferrer">{linkLabel(item)}</a>)}
+                      </span>
+                    )}
+                  </div>
                 </li>
               );
             })}
@@ -85,4 +104,8 @@ const venueText = (publication: Publication) => {
       ))}
     </section>
   </main>
+  <script is:inline define:vars={{ supabaseUrl, supabasePublishableKey, baseUrl }}>
+    window.SAIL_CMS_CONTENT_CONFIG = { supabaseUrl, supabasePublishableKey, baseUrl };
+  </script>
+  <script type="module" src={withBase('/scripts/cms-public-content.js')}></script>
 </AcademicLayout>
