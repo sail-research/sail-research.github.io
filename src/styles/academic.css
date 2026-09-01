@@ -1921,6 +1921,13 @@ p {
   line-height: 1.45;
 }
 
+.cms-form-note {
+  margin: -3px 0 0;
+  color: var(--text-soft);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
 .cms-form input:focus,
 .cms-form select:focus,
 .cms-form textarea:focus {
@@ -2056,6 +2063,18 @@ p {
 
 .cms-record-list.compact {
   max-height: 380px;
+}
+
+[data-cms-section][hidden] {
+  display: none !important;
+}
+
+[data-cms-section="home:news"][data-layout="compact"] .academic-news-item {
+  padding-block: 12px;
+}
+
+[data-cms-section="publications:list"][data-layout="text"] .academic-publication-item {
+  grid-template-columns: minmax(0, 1fr);
 }
 
 @media (max-width: 860px) {

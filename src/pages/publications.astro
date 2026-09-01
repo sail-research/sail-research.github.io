@@ -50,18 +50,18 @@ const venueText = (publication: Publication) => {
 ---
 
 <AcademicLayout title="Publications" description="Published and preprint research from the SAIL lab." activeNav="publications">
-  <main class="academic-content">
-    <header class="academic-page-header">
-      <p class="academic-kicker">Publications</p>
-      <h1 class="academic-name">Lab published papers.</h1>
-      <p class="academic-section-intro">
+  <main class="academic-content" data-cms-page-content="publications">
+    <header class="academic-page-header" data-cms-section="publications:intro">
+      <p class="academic-kicker" data-cms-section-eyebrow>Publications</p>
+      <h1 class="academic-name" data-cms-section-heading>Lab published papers.</h1>
+      <p class="academic-section-intro" data-cms-section-copy>
         A curated publication list focused on trustworthy AI, federated learning, privacy, robustness, and efficient
         machine learning. We prioritize publishing in top-tier, peer-reviewed AI/ML venues. Our recent contributions
         have been accepted at leading conferences such as CVPR, NeurIPS, ECCV, ICML, ICLR, AAAI, ACL, WWW, and WACV.
       </p>
     </header>
 
-    <section class="academic-section" data-cms-publications>
+    <section class="academic-section" data-cms-section="publications:list" data-cms-publications>
       {[...publicationsByYear.entries()].map(([year, items]) => (
         <div class="academic-year-group">
           <div class="academic-year">{year}</div>

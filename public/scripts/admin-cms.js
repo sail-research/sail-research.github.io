@@ -15,6 +15,7 @@ const state = {
   courseCatalog: [],
   courseOfferings: [],
   capstones: [],
+  pageSections: [],
 };
 
 const panels = Object.fromEntries([...document.querySelectorAll('[data-cms-panel]')].map((panel) => [panel.dataset.cmsPanel, panel]));
@@ -154,6 +155,21 @@ function fillCapstone(record) {
   setFormValue(form, 'is_published', record.is_published);
 }
 
+function fillPageSection(record) {
+  const form = formFor('page-sections');
+  const labels = {
+    home: 'Home',
+    publications: 'Publications',
+    intro: 'Introduction',
+    news: 'News',
+    list: 'Publication list',
+  };
+  ['id', 'page_key', 'section_key', 'eyebrow', 'heading', 'intro', 'layout_variant', 'sort_order'].forEach((key) => setFormValue(form, key, record[key]));
+  setFormValue(form, 'page_label', labels[record.page_key]);
+  setFormValue(form, 'section_label', labels[record.section_key]);
+  setFormValue(form, 'is_visible', record.is_visible);
+}
+
 function renderActionButtons(type, key, canDelete = true) {
   return `<div class="cms-record-actions"><button class="cms-text-button" type="button" data-cms-edit="${type}" data-cms-key="${escapeHtml(key)}">Edit</button>${canDelete ? `<button class="cms-text-button danger" type="button" data-cms-delete="${type}" data-cms-key="${escapeHtml(key)}">Remove</button>` : ''}</div>`;
 }
@@ -209,8 +225,23 @@ function renderTeaching() {
     <article class="cms-record compact"><div><span class="cms-record-meta">${isPublished(project) ? 'Visible' : 'Hidden'}</span><h3>${escapeHtml(project.year)} · ${escapeHtml(project.title)}</h3><p>${escapeHtml((project.students || []).join(', '))}</p></div>${renderActionButtons('capstones', project.id)}</article>`).join('') || '<p class="cms-empty">No capstones yet.</p>';
 }
 
+function renderPageSections() {
+  const root = recordList('page-sections');
+  const pageLabels = { home: 'Home', publications: 'Publications' };
+  const sectionLabels = { intro: 'Introduction', news: 'News', list: 'Publication list' };
+  root.innerHTML = state.pageSections.map((section) => `
+    <article class="cms-record">
+      <div>
+        <span class="cms-record-meta">${escapeHtml(pageLabels[section.page_key])} · ${escapeHtml(section.layout_variant)} · ${section.is_visible ? 'Visible' : 'Hidden'}</span>
+        <h3>${escapeHtml(sectionLabels[section.section_key])}</h3>
+        <p>Order ${escapeHtml(section.sort_order)}</p>
+      </div>
+      ${renderActionButtons('page-sections', section.id, false)}
+    </article>`).join('') || '<p class="cms-empty">No page sections configured yet.</p>';
+}
+
 async function loadData() {
-  const [news, publications, people, overview, catalog, offerings, capstones] = await Promise.all([
+  const [news, publications, people, overview, catalog, offerings, capstones, pageSections] = await Promise.all([
     supabase.from('cms_news').select('*').order('sort_date', { ascending: false }).order('sort_order', { ascending: false }),
     supabase.from('cms_publications').select('*').order('year', { ascending: false }).order('sort_date', { ascending: false }).order('sort_order', { ascending: false }),
     supabase.from('lab_members').select('id,name,email,group_key,status,cluster_slug,role_title,affiliation,image_url,homepage_url,scholar_url,research_interests,sort_order').order('sort_order', { ascending: true }).order('name', { ascending: true }),
@@ -218,8 +249,9 @@ async function loadData() {
     supabase.from('cms_course_catalog').select('*').order('sort_order', { ascending: true }).order('code', { ascending: true }),
     supabase.from('cms_course_offerings').select('*').order('sort_order', { ascending: true }),
     supabase.from('cms_capstone_projects').select('*').order('year', { ascending: true }).order('sort_order', { ascending: true }),
+    supabase.from('cms_page_sections').select('*').order('page_key', { ascending: true }).order('sort_order', { ascending: true }),
   ]);
-  const results = [news, publications, people, overview, catalog, offerings, capstones];
+  const results = [news, publications, people, overview, catalog, offerings, capstones, pageSections];
   const error = results.find((result) => result.error)?.error;
   if (error) throw error;
   state.news = news.data || [];
@@ -229,10 +261,12 @@ async function loadData() {
   state.courseCatalog = catalog.data || [];
   state.courseOfferings = offerings.data || [];
   state.capstones = capstones.data || [];
+  state.pageSections = pageSections.data || [];
   renderNews();
   renderPublications();
   renderPeople();
   renderTeaching();
+  renderPageSections();
 }
 
 async function uploadMedia(file, directory) {
@@ -324,10 +358,25 @@ async function saveCapstone(form) {
   });
 }
 
+async function savePageSection(form) {
+  const values = new FormData(form);
+  if (!values.get('id')) throw new Error('Choose a page section to edit first.');
+  const { error } = await supabase.from('cms_page_sections').update({
+    eyebrow: values.get('eyebrow').trim() || null,
+    heading: values.get('heading').trim() || null,
+    intro: values.get('intro').trim() || null,
+    layout_variant: values.get('layout_variant'),
+    is_visible: values.has('is_visible'),
+    sort_order: Number(values.get('sort_order') || 0),
+  }).eq('id', values.get('id'));
+  if (error) throw error;
+}
+
 function findRecord(type, key) {
   const collections = {
     news: state.news, publications: state.publications, people: state.people,
     'course-catalog': state.courseCatalog, 'course-offerings': state.courseOfferings, capstones: state.capstones,
+    'page-sections': state.pageSections,
   };
   const list = collections[type] || [];
   const lookup = type === 'course-catalog' ? 'code' : 'id';
@@ -349,10 +398,10 @@ async function deleteRecord(type, key) {
 async function handleEdit(type, key) {
   const record = findRecord(type, key);
   if (!record) return;
-  const handlers = { news: fillNews, publications: fillPublication, people: fillPerson, 'course-catalog': fillCourse, 'course-offerings': fillOffering, capstones: fillCapstone };
+  const handlers = { news: fillNews, publications: fillPublication, people: fillPerson, 'course-catalog': fillCourse, 'course-offerings': fillOffering, capstones: fillCapstone, 'page-sections': fillPageSection };
   if (!handlers[type]) return;
   handlers[type](record);
-  const targetView = ['course-catalog', 'course-offerings', 'capstones'].includes(type) ? 'teaching' : type;
+  const targetView = ['course-catalog', 'course-offerings', 'capstones'].includes(type) ? 'teaching' : type === 'page-sections' ? 'layout' : type;
   showView(targetView);
   formFor(type).scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
@@ -361,12 +410,12 @@ async function saveForm(form) {
   const key = form.dataset.cmsForm;
   const handlers = {
     news: saveNews, publications: savePublication, people: savePerson, 'teaching-overview': saveTeachingOverview,
-    'course-catalog': saveCourse, 'course-offerings': saveOffering, capstones: saveCapstone,
+    'course-catalog': saveCourse, 'course-offerings': saveOffering, capstones: saveCapstone, 'page-sections': savePageSection,
   };
   setStatus('Saving changes...');
   await handlers[key](form);
   await loadData();
-  if (key !== 'teaching-overview') resetForm(key);
+  if (!['teaching-overview', 'page-sections'].includes(key)) resetForm(key);
   setStatus('Saved. The published website updates immediately.', 'success');
 }
 

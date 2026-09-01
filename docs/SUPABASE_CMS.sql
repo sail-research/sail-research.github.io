@@ -325,3 +325,69 @@ $$;
 -- move_cms_auth_helper_to_private_schema. It replaces public.cms_has_role and
 -- claim_cms_admin_access with private.cms_has_role plus tightly scoped RLS
 -- policies for users to claim only their own invited CMS access.
+
+-- Follow-up migration: add_cms_page_builder_settings.
+-- This powers the controlled Layout tab for Home and Publications. The public
+-- website may read the settings, while CMS editors are the only writers.
+create table public.cms_page_sections (
+  id uuid primary key default gen_random_uuid(),
+  page_key text not null check (page_key in ('home', 'publications')),
+  section_key text not null,
+  eyebrow text,
+  heading text,
+  intro text,
+  layout_variant text not null default 'standard'
+    check (layout_variant in ('standard', 'compact', 'figures', 'text')),
+  is_visible boolean not null default true,
+  sort_order integer not null default 0,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  constraint cms_page_sections_supported_section check (
+    (page_key = 'home' and section_key in ('intro', 'news'))
+    or (page_key = 'publications' and section_key in ('intro', 'list'))
+  ),
+  constraint cms_page_sections_page_section_unique unique (page_key, section_key)
+);
+
+alter table public.cms_page_sections enable row level security;
+grant select on public.cms_page_sections to anon, authenticated;
+grant insert, update, delete on public.cms_page_sections to authenticated;
+grant select, insert, update, delete on public.cms_page_sections to service_role;
+
+create policy "Page section settings are public" on public.cms_page_sections
+for select to anon, authenticated using (true);
+create policy "CMS editors manage page section settings" on public.cms_page_sections
+for all to authenticated
+using (private.cms_has_role(array['editor', 'admin']::public.cms_role[]))
+with check (private.cms_has_role(array['editor', 'admin']::public.cms_role[]));
+
+create trigger cms_page_sections_set_updated_at
+before update on public.cms_page_sections
+for each row execute function public.cms_set_updated_at();
+
+insert into public.cms_page_sections
+  (page_key, section_key, eyebrow, heading, intro, layout_variant, is_visible, sort_order)
+values
+  (
+    'home',
+    'intro',
+    null,
+    null,
+    'Our research group is situated within VinUniversity''s College of Engineering and Computer Science. We specialize in trustworthy, distributed, and efficient AI, with a core focus on developing machine learning systems that remain robust, private, scalable, and practical in real-world settings. Our research encompasses federated learning, privacy-preserving machine learning, backdoor attacks and defenses, communication-efficient learning, edge AI, continual learning, and resource-aware AI to enhance security, privacy, reliability, efficiency, and fairness.',
+    'standard',
+    true,
+    10
+  ),
+  ('home', 'news', null, 'News', null, 'standard', true, 20),
+  (
+    'publications',
+    'intro',
+    'Publications',
+    'Lab published papers.',
+    'A curated publication list focused on trustworthy AI, federated learning, privacy, robustness, and efficient machine learning. We prioritize publishing in top-tier, peer-reviewed AI/ML venues. Our recent contributions have been accepted at leading conferences such as CVPR, NeurIPS, ECCV, ICML, ICLR, AAAI, ACL, WWW, and WACV.',
+    'standard',
+    true,
+    10
+  ),
+  ('publications', 'list', null, null, null, 'figures', true, 20)
+on conflict (page_key, section_key) do nothing;

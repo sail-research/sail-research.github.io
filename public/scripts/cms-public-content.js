@@ -34,12 +34,16 @@ if (config) {
   };
 
   const renderNews = (items) => {
-    const content = items.map((item) => {
+    document.querySelectorAll('[data-cms-news-list]').forEach((root) => {
+      const compact = root.closest('[data-layout="compact"]');
+      const content = items.map((item) => {
       const url = siteUrl(item.link_url);
       const title = url ? `<a href="${escapeHtml(url)}">${escapeHtml(item.title)}</a>` : escapeHtml(item.title);
-      return `<li class="academic-news-item"><span class="academic-news-date">${escapeHtml(item.month_label)}</span><span class="academic-news-text">${title}<span class="academic-news-label"> - ${escapeHtml(item.label)}</span><br />${escapeHtml(item.summary)}</span></li>`;
-    }).join('');
-    document.querySelectorAll('[data-cms-news-list]').forEach((root) => { root.innerHTML = content; });
+      const summary = compact ? '' : `<br />${escapeHtml(item.summary)}`;
+      return `<li class="academic-news-item"><span class="academic-news-date">${escapeHtml(item.month_label)}</span><span class="academic-news-text">${title}<span class="academic-news-label"> - ${escapeHtml(item.label)}</span>${summary}</span></li>`;
+      }).join('');
+      root.innerHTML = content;
+    });
   };
 
   const firstLink = (links) => Array.isArray(links) ? links.find((link) => link?.url)?.url : '';
@@ -62,7 +66,7 @@ if (config) {
       : `${venue}: ${publication.metric_value}`;
   };
 
-  const renderPublications = (items) => {
+  const publicationMarkup = (items, showFigures) => {
     const byYear = new Map();
     items.forEach((item) => {
       if (!byYear.has(item.year)) byYear.set(item.year, []);
@@ -73,7 +77,7 @@ if (config) {
       .map(([year, group]) => `<div class="academic-year-group"><div class="academic-year">${escapeHtml(year)}</div><ul class="academic-publication-list">${group.map((publication) => {
         const link = siteUrl(firstLink(publication.links));
         const figure = siteUrl(publication.figure_url);
-        const figureMarkup = figure
+        const figureMarkup = showFigures && figure
           ? link
             ? `<a class="academic-publication-figure" href="${escapeHtml(link)}" aria-label="Open ${escapeHtml(publication.title)}" target="_blank" rel="noreferrer"><img src="${escapeHtml(figure)}" alt="Original figure from ${escapeHtml(publication.title)}" loading="lazy" decoding="async" /></a>`
             : `<div class="academic-publication-figure"><img src="${escapeHtml(figure)}" alt="Original figure from ${escapeHtml(publication.title)}" loading="lazy" decoding="async" /></div>`
@@ -87,10 +91,44 @@ if (config) {
             return url ? `<a href="${escapeHtml(url)}" target="_blank" rel="noreferrer">${escapeHtml(linkLabel(item))}</a>` : '';
           }).join('')}</span>`
           : '';
-        return `<li class="academic-publication-item${figure ? '' : ' academic-publication-item--no-figure'}">${figureMarkup}<div class="academic-publication-details">${title}<span class="academic-authors">${escapeHtml((publication.authors || []).join(', '))}</span><span class="academic-venue">${escapeHtml(venueText(publication))}</span>${links}</div></li>`;
+        return `<li class="academic-publication-item${showFigures && figure ? '' : ' academic-publication-item--no-figure'}">${figureMarkup}<div class="academic-publication-details">${title}<span class="academic-authors">${escapeHtml((publication.authors || []).join(', '))}</span><span class="academic-venue">${escapeHtml(venueText(publication))}</span>${links}</div></li>`;
       }).join('')}</ul></div>`)
       .join('');
-    document.querySelectorAll('[data-cms-publications]').forEach((root) => { root.innerHTML = content; });
+    return content;
+  };
+
+  const renderPublications = (items) => {
+    document.querySelectorAll('[data-cms-publications]').forEach((root) => {
+      root.innerHTML = publicationMarkup(items, root.dataset.layout !== 'text');
+    });
+  };
+
+  const setSectionText = (root, selector, value) => {
+    if (value === null || value === undefined) return;
+    root.querySelectorAll(selector).forEach((element) => {
+      element.textContent = value;
+      element.hidden = !value;
+    });
+  };
+
+  const applyPageSections = (sections) => {
+    document.querySelectorAll('[data-cms-page-content]').forEach((pageRoot) => {
+      const pageKey = pageRoot.dataset.cmsPageContent;
+      const pageSections = sections.filter((section) => section.page_key === pageKey).sort((left, right) => left.sort_order - right.sort_order);
+      pageSections.forEach((section) => {
+        const root = pageRoot.querySelector(`[data-cms-section="${pageKey}:${section.section_key}"]`);
+        if (!root) return;
+        root.hidden = !section.is_visible;
+        root.dataset.layout = section.layout_variant;
+        setSectionText(root, '[data-cms-section-eyebrow]', section.eyebrow);
+        setSectionText(root, '[data-cms-section-heading]', section.heading);
+        setSectionText(root, '[data-cms-section-copy]', section.intro);
+      });
+      pageSections.forEach((section) => {
+        const root = pageRoot.querySelector(`[data-cms-section="${pageKey}:${section.section_key}"]`);
+        if (root) pageRoot.append(root);
+      });
+    });
   };
 
   const renderTeaching = (overview, catalog, offerings, capstones) => {
@@ -109,12 +147,15 @@ if (config) {
     });
   };
 
-  const tasks = [];
+  const pageSectionTask = document.querySelector('[data-cms-page-content]')
+    ? fetchRows('cms_page_sections', 'select=page_key,section_key,eyebrow,heading,intro,layout_variant,is_visible,sort_order&order=sort_order.asc').then(applyPageSections)
+    : Promise.resolve();
+  const tasks = [pageSectionTask];
   if (document.querySelector('[data-cms-news-list]')) {
-    tasks.push(fetchRows('cms_news', 'select=month_label,sort_date,label,title,summary,link_url&is_published=eq.true&order=sort_date.desc,sort_order.desc').then((items) => { if (items.length) renderNews(items); }));
+    tasks.push(pageSectionTask.then(() => fetchRows('cms_news', 'select=month_label,sort_date,label,title,summary,link_url&is_published=eq.true&order=sort_date.desc,sort_order.desc')).then((items) => { if (items.length) renderNews(items); }));
   }
   if (document.querySelector('[data-cms-publications]')) {
-    tasks.push(fetchRows('cms_publications', 'select=title,authors,venue,year,status,type,tags,sort_date,metric_label,metric_source_year,metric_value,links,figure_url&is_published=eq.true&order=year.desc,sort_date.desc,sort_order.desc').then((items) => { if (items.length) renderPublications(items); }));
+    tasks.push(pageSectionTask.then(() => fetchRows('cms_publications', 'select=title,authors,venue,year,status,type,tags,sort_date,metric_label,metric_source_year,metric_value,links,figure_url&is_published=eq.true&order=year.desc,sort_date.desc,sort_order.desc')).then((items) => { if (items.length) renderPublications(items); }));
   }
   if (document.querySelector('[data-cms-teaching-overview]')) {
     tasks.push(Promise.all([

@@ -60,6 +60,7 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
         <button class="cms-tab" type="button" data-cms-tab="publications">Publications</button>
         <button class="cms-tab" type="button" data-cms-tab="people">People</button>
         <button class="cms-tab" type="button" data-cms-tab="teaching">Teaching</button>
+        <button class="cms-tab" type="button" data-cms-tab="layout">Layout</button>
       </nav>
 
       <section class="cms-view" data-cms-view="news">
@@ -189,6 +190,38 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
             <form class="cms-form compact-form" data-cms-form="capstones"><input name="id" type="hidden" /><label><span>Year</span><input name="year" type="number" min="1900" max="2100" required /></label><label><span>Title</span><input name="title" required /></label><label><span>Students, one per line</span><textarea name="students" rows="3"></textarea></label><div class="cms-form-footer"><label class="cms-checkbox"><input name="is_published" type="checkbox" checked /> <span>Visible</span></label><label class="cms-order"><span>Order</span><input name="sort_order" type="number" value="0" /></label></div><button class="cms-button primary" type="submit">Save capstone</button></form>
             <div class="cms-record-list compact" data-cms-list="capstones"></div>
           </section>
+        </div>
+      </section>
+
+      <section class="cms-view" data-cms-view="layout" hidden>
+        <div class="cms-section-heading">
+          <div>
+            <h2>Page layout</h2>
+            <p>Control section copy, visibility, order, and presentation. This trial covers the Home and Publications pages.</p>
+          </div>
+          <a class="cms-button" href={withBase('/')} target="_blank" rel="noreferrer">Preview live website</a>
+        </div>
+        <div class="cms-editor-grid">
+          <form class="cms-form cms-editor" data-cms-form="page-sections">
+            <input name="id" type="hidden" />
+            <input name="page_key" type="hidden" />
+            <input name="section_key" type="hidden" />
+            <div class="cms-two-fields">
+              <label><span>Page</span><input name="page_label" readonly placeholder="Choose a section to edit" /></label>
+              <label><span>Section</span><input name="section_label" readonly placeholder="Choose a section to edit" /></label>
+            </div>
+            <label><span>Eyebrow</span><input name="eyebrow" placeholder="Optional small label above the heading" /></label>
+            <label><span>Heading</span><input name="heading" placeholder="Section heading" /></label>
+            <label><span>Supporting copy</span><textarea name="intro" rows="7" placeholder="Plain text shown in the section."></textarea></label>
+            <div class="cms-two-fields">
+              <label><span>Presentation</span><select name="layout_variant"><option value="standard">Standard</option><option value="compact">Compact</option><option value="figures">With paper figures</option><option value="text">Text only</option></select></label>
+              <label class="cms-order"><span>Order</span><input name="sort_order" type="number" /></label>
+            </div>
+            <p class="cms-form-note">Compact shortens News. With paper figures and Text only control the Publications list.</p>
+            <label class="cms-checkbox"><input name="is_visible" type="checkbox" checked /> <span>Visible on the live page</span></label>
+            <button class="cms-button primary" type="submit">Publish layout change</button>
+          </form>
+          <div class="cms-record-list" data-cms-list="page-sections"></div>
         </div>
       </section>
 
