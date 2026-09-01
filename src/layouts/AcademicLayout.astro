@@ -8,9 +8,10 @@ interface Props {
   description?: string;
   activeNav?: string;
   robots?: string;
+  fullscreen?: boolean;
 }
 
-const { title, description = site.description, activeNav = 'home', robots } = Astro.props;
+const { title, description = site.description, activeNav = 'home', robots, fullscreen = false } = Astro.props;
 const pageTitle = title ? `${title} - ${site.shortName}` : `${site.shortName} - ${site.tagline}`;
 const supabaseUrl = 'https://rxnhlmrvwmepuphpithm.supabase.co';
 const supabasePublishableKey = 'sb_publishable_dW6VM2wj55-8rysyeIRubQ_s--GnMD7';
@@ -38,8 +39,8 @@ const navItems = [
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,650&display=swap" rel="stylesheet" />
   </head>
-  <body>
-    <nav class="academic-navbar" id="top">
+  <body class:list={{ 'visual-editor-body': fullscreen }}>
+    {!fullscreen && <nav class="academic-navbar" id="top">
       <div class="academic-navbar-inner">
         <a class="academic-brand" href={withBase('/')} aria-label="SAIL Lab home">
           <img src={withBase('/logo-placeholder.svg')} alt="SAIL Lab logo" />
@@ -62,19 +63,19 @@ const navItems = [
           ))}
         </ul>
       </div>
-    </nav>
+    </nav>}
     <slot />
-    <footer class="academic-footer">
+    {!fullscreen && <footer class="academic-footer">
       &copy; 2026 {site.shortName} Lab.
       <a href={`mailto:${site.email}`}>{site.email}</a>
-    </footer>
-    <script is:inline>
+    </footer>}
+    {!fullscreen && <script is:inline>
       document.querySelectorAll('.academic-nav-links a').forEach((link) => {
         link.addEventListener('click', () => {
           document.getElementById('academic-nav-links')?.classList.remove('open');
         });
       });
-    </script>
+    </script>}
     <script is:inline define:vars={{ supabaseUrl, supabasePublishableKey, baseUrl }}>
       window.SAIL_VISUAL_CONFIG = { supabaseUrl, supabasePublishableKey, baseUrl };
     </script>

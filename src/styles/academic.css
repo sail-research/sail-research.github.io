@@ -2199,8 +2199,45 @@ p {
   background: var(--border);
 }
 
+.visual-editor-body {
+  min-width: 320px;
+  background: var(--bg-soft);
+}
+
 .visual-studio {
-  max-width: 1440px;
+  min-height: 100vh;
+  padding: 20px clamp(16px, 2.4vw, 42px) 24px;
+}
+
+.visual-studio-header {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.visual-studio-header .academic-kicker {
+  margin: 0 0 4px;
+}
+
+.visual-studio-header h1 {
+  margin: 0;
+  color: var(--text);
+  font-family: Newsreader, Georgia, serif;
+  font-size: 30px;
+  font-weight: 650;
+  line-height: 1.05;
+}
+
+.visual-studio-header p:not(.academic-kicker) {
+  max-width: 780px;
+  margin: 7px 0 0;
+  color: var(--text-soft);
+  font-size: 14px;
+  line-height: 1.45;
 }
 
 .visual-toolbar,
@@ -2249,8 +2286,9 @@ p {
 
 .visual-editor-shell {
   display: grid;
-  grid-template-columns: minmax(190px, 0.38fr) minmax(420px, 1fr) minmax(230px, 0.46fr);
+  grid-template-columns: minmax(210px, 0.3fr) minmax(560px, 1fr) minmax(270px, 0.4fr);
   min-height: 720px;
+  height: calc(100vh - 232px);
   border: 1px solid var(--border);
   border-radius: 8px;
   overflow: hidden;
@@ -2290,7 +2328,7 @@ p {
 }
 
 #sail-visual-editor {
-  height: 720px;
+  height: 100%;
 }
 
 .visual-studio .gjs-one-bg,
@@ -2427,6 +2465,7 @@ p {
 
   .visual-editor-shell {
     grid-template-columns: 1fr;
+    height: auto;
   }
 
   .visual-editor-sidebar,
@@ -2444,5 +2483,10 @@ p {
   #sail-visual-editor {
     min-height: 560px;
     height: 560px;
+  }
+
+  .visual-studio-header {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }

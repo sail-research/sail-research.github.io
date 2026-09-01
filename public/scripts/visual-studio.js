@@ -252,7 +252,7 @@ async function ensureEditor() {
   const grapesjs = await loadGrapes();
   const editor = grapesjs.init({
     container: '#sail-visual-editor',
-    height: '720px',
+    height: '100%',
     fromElement: false,
     storageManager: false,
     panels: { defaults: [] },
