@@ -22,6 +22,7 @@ export interface Publication {
   type: PublicationType;
   tags: string[];
   sortDate?: string;
+  sortOrder?: number;
   venueMetric?: PublicationVenueMetric;
   links?: PublicationLink[];
   sourceNote?: string;
@@ -50,6 +51,7 @@ const venueYearMetrics: Record<string, PublicationVenueMetric> = {
   'ECCV 2026::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'A*' },
   'BMVC 2026::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'A' },
   'IEEE ICDM 2026::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'A*' },
+  'NeurIPS 2026::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'A*' },
   'CVPR 2026::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'A*' },
   'CVPR 2026 Findings::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'A* (CVPR)' },
   'ICLR 2026 Workshop on Principled Design for Trustworthy AI::2026': { label: 'Ranking', sourceYear: 'ICORE2026', value: 'Workshop (ICLR A*)' },
@@ -86,7 +88,7 @@ const publicationFigures: Record<string, string> = {
   'Wicked Oddities: Selectively Poisoning for Effective Clean-Label Backdoor Attacks': '/publications/figures/wicked-oddities.png',
   'FLAT: Latent-Driven Arbitrary-Target Backdoor Attacks in Federated Learning': '/publications/figures/flat.png',
   'HERO: A Heterogeneity-Aware Benchmark Library for Federated Continual Learning': '/publications/figures/hero-benchmark.png',
-  'Rethinking Molecular Graph Backdoors under Chemistry-aware Admission': '/publications/figures/molecular-graph-backdoors.png',
+  'Rethinking Molecular Graph Backdoors under Chemistry-Aware Admission': '/publications/figures/molecular-graph-backdoors.png',
   'When Generator Replay Degrades: Projected Rehearsal Orchestration for Heterogeneous Federated Class-Incremental Learning': '/publications/figures/generator-replay.png',
   'HPE-Li: WiFi-enabled Lightweight Dual Selective Kernel Convolution for Human Pose Estimation': '/publications/figures/hpe-li.png',
   'Efficiently Assemble Normalization Layers and Regularization for Federated Domain Generalization': '/publications/figures/efficient-assemble.png',
@@ -461,23 +463,25 @@ export const publications: Publication[] = [
   {
     title: 'HERO: A Heterogeneity-Aware Benchmark Library for Federated Continual Learning',
     authors: ['Thinh T. H. Nguyen', 'Le-Tuan Nguyen', 'Minh-Duong Nguyen', 'Nhi Trinh', 'Anh Tran Nam Nguyet', 'Dung D. Le', 'Kok-Seng Wong'],
-    venue: 'arXiv preprint',
+    venue: 'NeurIPS 2026',
     year: 2026,
-    status: 'arxiv',
-    type: 'preprint',
-    tags: ['Distributed Learning', 'Federated learning', 'Continual learning', 'Benchmarking'],
-    sortDate: '2026-07-14',
+    status: 'accepted',
+    type: 'conference',
+    tags: ['Distributed Learning', 'Federated learning', 'Continual learning', 'Benchmarking', 'Evaluations and Datasets Track'],
+    sortDate: '2026-09-25',
+    sortOrder: 38,
     links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2607.08784' }],
   },
   {
-    title: 'Rethinking Molecular Graph Backdoors under Chemistry-aware Admission',
+    title: 'Rethinking Molecular Graph Backdoors under Chemistry-Aware Admission',
     authors: ['Thinh T. H. Nguyen', 'Sze Jue Yang', 'Khoa D. Doan', 'Chee Seng Chan', 'Kok-Seng Wong'],
-    venue: 'arXiv preprint',
+    venue: 'NeurIPS 2026',
     year: 2026,
-    status: 'arxiv',
-    type: 'preprint',
-    tags: ['Trustworthy AI', 'Backdoor attacks and defenses', 'Molecular graphs'],
-    sortDate: '2026-06-22',
+    status: 'accepted',
+    type: 'conference',
+    tags: ['Trustworthy AI', 'Backdoor attacks and defenses', 'Molecular graphs', 'Main Track'],
+    sortDate: '2026-09-25',
+    sortOrder: 39,
     links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2606.23361' }],
   },
   {
@@ -542,6 +546,7 @@ export const sortPublications = (items: Publication[]) =>
   [...items].sort((a, b) => {
     if (b.year !== a.year) return b.year - a.year;
     if (sortDateValue(b) !== sortDateValue(a)) return sortDateValue(b) - sortDateValue(a);
+    if ((b.sortOrder ?? 0) !== (a.sortOrder ?? 0)) return (b.sortOrder ?? 0) - (a.sortOrder ?? 0);
     if (statusRank[a.type] !== statusRank[b.type]) return statusRank[a.type] - statusRank[b.type];
     return a.title.localeCompare(b.title);
   });

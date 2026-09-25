@@ -14,6 +14,14 @@ export const formatNewsMonthYear = (date: string) => {
 
 const rawNewsItems: NewsItem[] = [
   {
+    date: 'September 2026',
+    sortDate: '2026-09-25',
+    label: 'Paper accepted',
+    title: 'Two SAIL papers accepted at NeurIPS 2026',
+    summary:
+      'Two SAIL papers have been accepted at NeurIPS 2026: Rethinking Molecular Graph Backdoors under Chemistry-Aware Admission (Main Track) and HERO: A Heterogeneity-Aware Benchmark Library for Federated Continual Learning (Evaluations and Datasets Track). Congratulations to Thinh Nguyen, Sze Jue Yang, Prof. Khoa D. Doan, Prof. Chee Seng Chan, Prof. Kok-Seng Wong, Le-Tuan Nguyen, Dr. Minh-Duong Nguyen, Nhi Trinh, Anh Tran Nam Nguyet, Prof. Dung D. Le, and all contributors.',
+  },
+  {
     date: 'August 2026',
     sortDate: '2026-08-17',
     label: 'Paper accepted',
