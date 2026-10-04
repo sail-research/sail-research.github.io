@@ -19,7 +19,7 @@ const rawNewsItems: NewsItem[] = [
     label: 'Paper accepted',
     title: 'Rethinking Molecular Graph Backdoors accepted at NeurIPS 2026',
     summary:
-      'Rethinking Molecular Graph Backdoors under Chemistry-Aware Admission has been accepted to the NeurIPS 2026 Main Track. The work introduces ChemGuard, a chemistry-aware admission protocol, and ChemBack, a model-free attack that constructs chemically feasible, target-aligned molecular triggers. Congratulations to Thinh Nguyen, Sze Jue Yang, Prof. Khoa D. Doan, Prof. Chee Seng Chan, and Prof. Kok-Seng Wong.',
+      'Rethinking Molecular Graph Backdoors under Chemistry-Aware Admission has been accepted to the NeurIPS 2026 Main Track. The work introduces ChemGuard, a chemistry-aware admission protocol, and ChemBack, a model-free attack that constructs chemically feasible, target-aligned molecular triggers.',
     link: 'https://arxiv.org/abs/2606.23361',
   },
   {
@@ -28,7 +28,7 @@ const rawNewsItems: NewsItem[] = [
     label: 'Paper accepted',
     title: 'HERO accepted at NeurIPS 2026',
     summary:
-      'HERO: A Heterogeneity-Aware Benchmark Library for Federated Continual Learning has been accepted to the NeurIPS 2026 Evaluations and Datasets Track. HERO separates task construction, client data heterogeneity, and client task-order mismatch for controlled and reproducible federated continual learning evaluation. Congratulations to Thinh Nguyen, Le-Tuan Nguyen, Dr. Minh-Duong Nguyen, Nhi Trinh, Anh Tran Nam Nguyet, Prof. Dung D. Le, and Prof. Kok-Seng Wong.',
+      'HERO: A Heterogeneity-Aware Benchmark Library for Federated Continual Learning has been accepted to the NeurIPS 2026 Evaluations and Datasets Track. HERO separates task construction, client data heterogeneity, and client task-order mismatch for controlled and reproducible federated continual learning evaluation.',
     link: 'https://arxiv.org/abs/2607.08784',
   },
   {
