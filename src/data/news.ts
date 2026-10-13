@@ -17,9 +17,9 @@ const rawNewsItems: NewsItem[] = [
     date: 'October 2026',
     sortDate: '2026-10-09',
     label: 'Professional service',
-    title: 'Prof. Kok-Seng Wong recognized as a Top Area Chair at NeurIPS 2026',
+    title: 'NeurIPS 2026 Top Area Chair recognition',
     summary:
-      'Prof. Kok-Seng Wong has been recognized as a Top Area Chair (Top AC) for NeurIPS 2026.',
+      'NeurIPS 2026 recognized Prof. Kok-Seng Wong as a Top Area Chair (Top AC) for his service as a Main Area Chair.',
   },
   {
     date: 'September 2026',
