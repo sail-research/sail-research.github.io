@@ -14,6 +14,14 @@ export const formatNewsMonthYear = (date: string) => {
 
 const rawNewsItems: NewsItem[] = [
   {
+    date: 'October 2026',
+    sortDate: '2026-10-09',
+    label: 'Professional service',
+    title: 'Prof. Kok-Seng Wong recognized as a Top Area Chair at NeurIPS 2026',
+    summary:
+      'Prof. Kok-Seng Wong has been recognized as a Top Area Chair (Top AC) for NeurIPS 2026.',
+  },
+  {
     date: 'September 2026',
     sortDate: '2026-09-25',
     label: 'Paper accepted',
