@@ -15,6 +15,14 @@ export const formatNewsMonthYear = (date: string) => {
 const rawNewsItems: NewsItem[] = [
   {
     date: 'October 2026',
+    sortDate: '2026-10-21',
+    label: 'Professional service',
+    title: 'ICML 2027 Area Chair appointment',
+    summary:
+      'Prof. Kok-Seng Wong has accepted an invitation to serve as an Area Chair for ICML 2027.',
+  },
+  {
+    date: 'October 2026',
     sortDate: '2026-10-09',
     label: 'Professional service',
     title: 'NeurIPS 2026 Top Area Chair recognition',
