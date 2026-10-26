@@ -635,6 +635,10 @@ p {
   color: var(--accent-dark);
 }
 
+.academic-publication-link-placeholder {
+  color: var(--accent-dark);
+}
+
 .academic-team-group {
   margin-top: 24px;
 }

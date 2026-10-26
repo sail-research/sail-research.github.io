@@ -15,7 +15,7 @@ const groupByYear = (items: Publication[]) =>
   }, new Map<number, Publication[]>());
 
 const publicationsByYear = groupByYear(allPublications);
-const firstLink = (links = []) => links[0]?.url;
+const firstLink = (links = []) => links.find((item) => item.url.trim().toLowerCase() !== 'coming soon')?.url;
 const authorText = (authors: string[]) => authors.join(', ');
 const linkLabel = (item: { label: string; url: string }) => {
   const label = item.label.toLowerCase();
@@ -92,7 +92,9 @@ const venueText = (publication: Publication) => {
                     <span class="academic-venue">{venueText(publication)}</span>
                     {publication.links && publication.links.length > 0 && (
                       <span class="academic-publication-links">
-                        {publication.links.map((item) => <a href={item.url} target="_blank" rel="noreferrer">{linkLabel(item)}</a>)}
+                        {publication.links.map((item) => item.url.trim().toLowerCase() === 'coming soon'
+                          ? <span class="academic-publication-link-placeholder">{item.label}: Coming Soon</span>
+                          : <a href={item.url} target="_blank" rel="noreferrer">{linkLabel(item)}</a>)}
                       </span>
                     )}
                   </div>

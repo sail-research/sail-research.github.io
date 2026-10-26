@@ -88,7 +88,10 @@ if (config) {
         const links = Array.isArray(publication.links) && publication.links.length
           ? `<span class="academic-publication-links">${publication.links.map((item) => {
             const url = siteUrl(item.url);
-            return url ? `<a href="${escapeHtml(url)}" target="_blank" rel="noreferrer">${escapeHtml(linkLabel(item))}</a>` : '';
+            if (url) return `<a href="${escapeHtml(url)}" target="_blank" rel="noreferrer">${escapeHtml(linkLabel(item))}</a>`;
+            return String(item.url || '').trim().toLowerCase() === 'coming soon'
+              ? `<span class="academic-publication-link-placeholder">${escapeHtml(item.label || 'Paper Link')}: Coming Soon</span>`
+              : '';
           }).join('')}</span>`
           : '';
         return `<li class="academic-publication-item${showFigures && figure ? '' : ' academic-publication-item--no-figure'}">${figureMarkup}<div class="academic-publication-details">${title}<span class="academic-authors">${escapeHtml((publication.authors || []).join(', '))}</span><span class="academic-venue">${escapeHtml(venueText(publication))}</span>${links}</div></li>`;

@@ -15,6 +15,14 @@ export const formatNewsMonthYear = (date: string) => {
 const rawNewsItems: NewsItem[] = [
   {
     date: 'October 2026',
+    sortDate: '2026-10-26',
+    label: 'Paper accepted',
+    title: 'Privacy-Preserving Spatial Scan paper accepted at RIVF 2026',
+    summary:
+      '“Privacy-Preserving Spatial Scan Alert-Window Release for Prospective Infectious Disease Surveillance” has been accepted for presentation at the 2026 RIVF International Conference on Computing and Communication Technologies (RIVF). Congratulations to Viet Hung Pham, Dr. Hien T. T. Ngo, Prof. Thanh H. Nguyen, Prof. Andrew W. Taylor-Robinson, and Prof. Kok-Seng Wong.',
+  },
+  {
+    date: 'October 2026',
     sortDate: '2026-10-21',
     label: 'Professional service',
     title: 'ICML 2027 Area Chair appointment',

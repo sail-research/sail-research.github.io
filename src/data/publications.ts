@@ -41,7 +41,10 @@ const kokSengVariants = [
 ];
 
 export const includesKokSengWong = (authors: string[]) =>
-  authors.some((author) => kokSengVariants.some((variant) => author.toLowerCase() === variant.toLowerCase()));
+  authors.some((author) => {
+    const normalized = author.replace(/^(?:prof\.?|dr\.?)\s+/i, '').trim().toLowerCase();
+    return kokSengVariants.some((variant) => normalized === variant.toLowerCase());
+  });
 
 const metricKey = (publication: Pick<Publication, 'venue' | 'year'>) => `${publication.venue}::${publication.year}`;
 
@@ -111,6 +114,18 @@ const publicationFigures: Record<string, string> = {
 };
 
 export const publications: Publication[] = [
+  {
+    title: 'Privacy-Preserving Spatial Scan Alert-Window Release for Prospective Infectious Disease Surveillance',
+    authors: ['Viet Hung Pham', 'Dr. Hien T. T. Ngo', 'Prof. Thanh H. Nguyen', 'Prof. Andrew W. Taylor-Robinson', 'Prof. Kok-Seng Wong'],
+    venue: 'RIVF',
+    year: 2026,
+    status: 'accepted',
+    type: 'conference',
+    tags: ['Privacy', 'Public health', 'Spatial scan'],
+    sortDate: '2026-10-26',
+    sortOrder: 43,
+    links: [{ label: 'Paper Link', url: 'Coming Soon' }],
+  },
   {
     title: 'MCP: From Context Compression to Mining for Efficient RAG-based LLM Serving',
     authors: ['Tuan Nguyen', 'Qiran Hu', 'Banruo Liu', 'Khoa D. Doan', 'Kok-Seng Wong', 'Fan Lai'],
