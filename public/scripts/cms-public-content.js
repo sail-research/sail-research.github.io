@@ -99,7 +99,7 @@ if (config) {
 
   const renderPublications = (items) => {
     document.querySelectorAll('[data-cms-publications]').forEach((root) => {
-      root.innerHTML = publicationMarkup(items, root.dataset.layout !== 'text');
+      root.innerHTML = publicationMarkup(items, root.dataset.figuresHidden !== 'true' && root.dataset.layout !== 'text');
     });
   };
 

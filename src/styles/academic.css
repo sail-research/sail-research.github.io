@@ -583,6 +583,14 @@ p {
   border-color: var(--accent);
 }
 
+[data-cms-publications][data-figures-hidden="true"] .academic-publication-item {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+[data-cms-publications][data-figures-hidden="true"] .academic-publication-figure {
+  display: none;
+}
+
 .academic-publication-details {
   min-width: 0;
 }

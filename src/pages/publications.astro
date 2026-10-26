@@ -61,7 +61,7 @@ const venueText = (publication: Publication) => {
       </p>
     </header>
 
-    <section class="academic-section" data-cms-section="publications:list" data-cms-publications data-sail-native="list">
+    <section class="academic-section" data-cms-section="publications:list" data-cms-publications data-sail-native="list" data-figures-hidden="true">
       {[...publicationsByYear.entries()].map(([year, items]) => (
         <div class="academic-year-group">
           <div class="academic-year">{year}</div>
