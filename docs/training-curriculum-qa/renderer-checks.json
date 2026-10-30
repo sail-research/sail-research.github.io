@@ -1,0 +1,383 @@
+{
+  "security_payloads": "passed; raw HTML is literal text, unsafe URLs are removed, no action attributes survive",
+  "lessons": [
+    {
+      "file": "lessons/01-math/01-tensors-linear-maps.md",
+      "headings": 9,
+      "code_blocks": 1,
+      "formulas": 1,
+      "tables": 0,
+      "links": 2,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/01-math/02-least-squares-svd.md",
+      "headings": 9,
+      "code_blocks": 1,
+      "formulas": 3,
+      "tables": 0,
+      "links": 2,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/01-math/03-gradients-chain-rule.md",
+      "headings": 8,
+      "code_blocks": 1,
+      "formulas": 1,
+      "tables": 0,
+      "links": 2,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/01-math/04-probability-likelihood.md",
+      "headings": 9,
+      "code_blocks": 2,
+      "formulas": 2,
+      "tables": 0,
+      "links": 2,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/01-math/05-estimation-uncertainty.md",
+      "headings": 8,
+      "code_blocks": 1,
+      "formulas": 0,
+      "tables": 0,
+      "links": 2,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/01-math/06-optimization.md",
+      "headings": 8,
+      "code_blocks": 1,
+      "formulas": 2,
+      "tables": 0,
+      "links": 3,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/01-math/07-numerical-laboratory.md",
+      "headings": 10,
+      "code_blocks": 2,
+      "formulas": 0,
+      "tables": 0,
+      "links": 3,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/02-ml/01-data-workflow.md",
+      "headings": 8,
+      "code_blocks": 2,
+      "formulas": 0,
+      "tables": 0,
+      "links": 3,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/02-ml/02-supervised-baselines.md",
+      "headings": 8,
+      "code_blocks": 1,
+      "formulas": 1,
+      "tables": 0,
+      "links": 2,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/02-ml/03-pytorch-training.md",
+      "headings": 9,
+      "code_blocks": 1,
+      "formulas": 0,
+      "tables": 0,
+      "links": 2,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/02-ml/04-convolution.md",
+      "headings": 8,
+      "code_blocks": 1,
+      "formulas": 1,
+      "tables": 0,
+      "links": 2,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/02-ml/05-attention-transformers.md",
+      "headings": 7,
+      "code_blocks": 1,
+      "formulas": 1,
+      "tables": 0,
+      "links": 2,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/02-ml/06-evaluation-calibration.md",
+      "headings": 8,
+      "code_blocks": 1,
+      "formulas": 2,
+      "tables": 0,
+      "links": 2,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/02-ml/07-debugging-reproducibility.md",
+      "headings": 9,
+      "code_blocks": 1,
+      "formulas": 0,
+      "tables": 0,
+      "links": 2,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/02-ml/08-controlled-comparison.md",
+      "headings": 9,
+      "code_blocks": 0,
+      "formulas": 0,
+      "tables": 1,
+      "links": 2,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/03-trust/01-risk-threat-models.md",
+      "headings": 8,
+      "code_blocks": 1,
+      "formulas": 0,
+      "tables": 1,
+      "links": 2,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/03-trust/02-adversarial-robustness.md",
+      "headings": 8,
+      "code_blocks": 1,
+      "formulas": 1,
+      "tables": 0,
+      "links": 3,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/03-trust/03-backdoor-study.md",
+      "headings": 8,
+      "code_blocks": 1,
+      "formulas": 0,
+      "tables": 0,
+      "links": 2,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/03-trust/04-defense-evaluation.md",
+      "headings": 8,
+      "code_blocks": 1,
+      "formulas": 1,
+      "tables": 0,
+      "links": 2,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/03-trust/05-privacy-dp.md",
+      "headings": 8,
+      "code_blocks": 1,
+      "formulas": 1,
+      "tables": 0,
+      "links": 2,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/03-trust/06-group-fairness.md",
+      "headings": 8,
+      "code_blocks": 1,
+      "formulas": 1,
+      "tables": 0,
+      "links": 3,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/03-trust/07-audit-laboratory.md",
+      "headings": 9,
+      "code_blocks": 0,
+      "formulas": 0,
+      "tables": 1,
+      "links": 3,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/04-federated/01-objectives-systems.md",
+      "headings": 8,
+      "code_blocks": 1,
+      "formulas": 1,
+      "tables": 0,
+      "links": 2,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/04-federated/02-fedavg.md",
+      "headings": 8,
+      "code_blocks": 1,
+      "formulas": 1,
+      "tables": 0,
+      "links": 1,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/04-federated/03-non-iid.md",
+      "headings": 8,
+      "code_blocks": 1,
+      "formulas": 0,
+      "tables": 0,
+      "links": 2,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/04-federated/04-fedprox-personalization.md",
+      "headings": 7,
+      "code_blocks": 1,
+      "formulas": 1,
+      "tables": 0,
+      "links": 1,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/04-federated/05-communication-systems.md",
+      "headings": 8,
+      "code_blocks": 1,
+      "formulas": 0,
+      "tables": 0,
+      "links": 2,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/04-federated/06-security-privacy.md",
+      "headings": 8,
+      "code_blocks": 1,
+      "formulas": 0,
+      "tables": 0,
+      "links": 2,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/04-federated/07-federation-laboratory.md",
+      "headings": 9,
+      "code_blocks": 0,
+      "formulas": 0,
+      "tables": 0,
+      "links": 2,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/05-efficient/01-cost-model.md",
+      "headings": 8,
+      "code_blocks": 1,
+      "formulas": 0,
+      "tables": 0,
+      "links": 2,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/05-efficient/02-measurement.md",
+      "headings": 8,
+      "code_blocks": 2,
+      "formulas": 0,
+      "tables": 0,
+      "links": 2,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/05-efficient/03-pruning.md",
+      "headings": 8,
+      "code_blocks": 1,
+      "formulas": 0,
+      "tables": 0,
+      "links": 2,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/05-efficient/04-quantization.md",
+      "headings": 8,
+      "code_blocks": 1,
+      "formulas": 1,
+      "tables": 0,
+      "links": 2,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/05-efficient/05-low-rank-lora.md",
+      "headings": 7,
+      "code_blocks": 1,
+      "formulas": 2,
+      "tables": 0,
+      "links": 2,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/05-efficient/06-distillation.md",
+      "headings": 8,
+      "code_blocks": 1,
+      "formulas": 1,
+      "tables": 0,
+      "links": 2,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/05-efficient/07-pareto-laboratory.md",
+      "headings": 9,
+      "code_blocks": 1,
+      "formulas": 0,
+      "tables": 0,
+      "links": 4,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/06-project/01-research-question.md",
+      "headings": 8,
+      "code_blocks": 1,
+      "formulas": 0,
+      "tables": 1,
+      "links": 4,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/06-project/02-protocol-artifacts.md",
+      "headings": 8,
+      "code_blocks": 1,
+      "formulas": 0,
+      "tables": 0,
+      "links": 3,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/06-project/03-trustworthy-project.md",
+      "headings": 9,
+      "code_blocks": 1,
+      "formulas": 0,
+      "tables": 1,
+      "links": 3,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/06-project/04-federated-project.md",
+      "headings": 9,
+      "code_blocks": 1,
+      "formulas": 0,
+      "tables": 1,
+      "links": 3,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/06-project/05-efficiency-project.md",
+      "headings": 9,
+      "code_blocks": 1,
+      "formulas": 0,
+      "tables": 1,
+      "links": 5,
+      "status": "passed"
+    },
+    {
+      "file": "lessons/06-project/06-report-defense.md",
+      "headings": 9,
+      "code_blocks": 0,
+      "formulas": 0,
+      "tables": 0,
+      "links": 2,
+      "status": "passed"
+    }
+  ]
+}

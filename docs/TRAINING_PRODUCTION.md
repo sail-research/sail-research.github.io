@@ -98,9 +98,24 @@ vector artwork, also used by the main site. The file contains 23 paths and no
 embedded raster images or font-dependent text. Original mockup PNGs remain only
 as historical source assets.
 
-The previously seeded real course has 6 modules and 11 lesson introductions.
-Its resource URLs are empty. Admins attach the lab's actual materials in
-Curriculum; absent attachments are shown honestly as not attached.
+The English teaching edition contains 6 modules and 42 detailed lessons, with
+worked examples, exercises/self-checks and 51 primary references. Five assessed
+module assignments and three alternative capstone briefs include explicit
+rubrics. Students complete the single capstone assigned by their admin.
+The lesson sidebar links to the setup guide and downloadable CPU lab bundle,
+which includes seven lab/artifact scripts, six notebooks and the readings.
+
+Source material is maintained in `curriculum/`. Staff can edit Markdown in the
+existing lesson editor: headings, lists, tables, fenced code and fenced `math`
+blocks render in student lessons and admin previews. Raw HTML is displayed as
+text; unsafe links are removed. Project-planning lessons are available even
+before a student receives a project assignment. Formative self-check answers
+are visible; numeric rubrics guide the existing manual review outcomes.
+
+See `curriculum/README.md`, `curriculum/SETUP.md` and
+`docs/training-curriculum-qa/README.md` for the study route, reproduction commands,
+publication procedure and validation evidence. Publication preserves the eleven
+original lesson identities and all existing learner records.
 
 ## Validation
 

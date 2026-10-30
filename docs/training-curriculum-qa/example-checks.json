@@ -1,0 +1,212 @@
+[
+  {
+    "file": "curriculum\\lessons\\01-math\\01-tensors-linear-maps.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\01-math\\02-least-squares-svd.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\01-math\\03-gradients-chain-rule.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\01-math\\04-probability-likelihood.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\01-math\\04-probability-likelihood.md",
+    "block": 2,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\01-math\\05-estimation-uncertainty.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\01-math\\06-optimization.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\01-math\\07-numerical-laboratory.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\01-math\\07-numerical-laboratory.md",
+    "block": 2,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\02-ml\\01-data-workflow.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\02-ml\\01-data-workflow.md",
+    "block": 2,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\02-ml\\02-supervised-baselines.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\02-ml\\03-pytorch-training.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\02-ml\\04-convolution.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\02-ml\\05-attention-transformers.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\02-ml\\06-evaluation-calibration.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\02-ml\\07-debugging-reproducibility.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\03-trust\\01-risk-threat-models.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\03-trust\\02-adversarial-robustness.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\03-trust\\03-backdoor-study.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\03-trust\\04-defense-evaluation.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\03-trust\\05-privacy-dp.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\03-trust\\06-group-fairness.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\04-federated\\01-objectives-systems.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\04-federated\\02-fedavg.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\04-federated\\03-non-iid.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\04-federated\\04-fedprox-personalization.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\04-federated\\05-communication-systems.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\04-federated\\06-security-privacy.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\05-efficient\\01-cost-model.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\05-efficient\\02-measurement.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\05-efficient\\02-measurement.md",
+    "block": 2,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\05-efficient\\03-pruning.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\05-efficient\\04-quantization.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\05-efficient\\05-low-rank-lora.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\05-efficient\\06-distillation.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\05-efficient\\07-pareto-laboratory.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\06-project\\01-research-question.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\06-project\\02-protocol-artifacts.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\06-project\\03-trustworthy-project.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\06-project\\04-federated-project.md",
+    "block": 1,
+    "status": "passed"
+  },
+  {
+    "file": "curriculum\\lessons\\06-project\\05-efficiency-project.md",
+    "block": 1,
+    "status": "passed"
+  }
+]

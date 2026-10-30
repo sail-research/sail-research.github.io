@@ -1,0 +1,615 @@
+{
+  "editorial_note": "Primary documentation, original papers, institutional course material and official frameworks. All lesson prose/examples are original teaching synthesis; no third-party images or paper text are redistributed.",
+  "references": [
+    {
+      "url": "https://numpy.org/doc/stable/user/basics.broadcasting.html",
+      "label": "NumPy: broadcasting",
+      "used_in": [
+        "lessons/01-math/01-tensors-linear-maps.md"
+      ],
+      "verified_at": "2026-10-30T19:29:45.129405+00:00",
+      "http_status": 200,
+      "resolved_url": "https://numpy.org/doc/stable/user/basics.broadcasting.html",
+      "page_title": "Broadcasting — NumPy v2.5 Manual"
+    },
+    {
+      "url": "https://www.deeplearningbook.org/contents/linear_algebra.html",
+      "label": "Goodfellow, Bengio and Courville: Linear Algebra, Chapter 2",
+      "used_in": [
+        "lessons/01-math/01-tensors-linear-maps.md"
+      ],
+      "verified_at": "2026-10-30T19:29:45.594592+00:00",
+      "http_status": 200,
+      "resolved_url": "https://www.deeplearningbook.org/contents/linear_algebra.html",
+      "page_title": ""
+    },
+    {
+      "url": "https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/pages/positive-definite-matrices-and-applications/singular-value-decomposition/",
+      "label": "MIT 18.06SC: Singular Value Decomposition",
+      "used_in": [
+        "lessons/01-math/02-least-squares-svd.md",
+        "lessons/05-efficient/05-low-rank-lora.md"
+      ],
+      "verified_at": "2026-10-30T19:29:45.010982+00:00",
+      "http_status": 200,
+      "resolved_url": "https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/pages/positive-definite-matrices-and-applications/singular-value-decomposition/",
+      "page_title": "Singular Value Decomposition | Linear Algebra | Mathematics | MIT OpenCourseWare"
+    },
+    {
+      "url": "https://numpy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html",
+      "label": "NumPy: `linalg.lstsq`",
+      "used_in": [
+        "lessons/01-math/02-least-squares-svd.md"
+      ],
+      "verified_at": "2026-10-30T19:29:45.134527+00:00",
+      "http_status": 200,
+      "resolved_url": "https://numpy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html",
+      "page_title": "numpy.linalg.lstsq — NumPy v2.5 Manual"
+    },
+    {
+      "url": "https://docs.pytorch.org/tutorials/beginner/basics/autogradqs_tutorial.html",
+      "label": "PyTorch: automatic differentiation",
+      "used_in": [
+        "lessons/01-math/03-gradients-chain-rule.md"
+      ],
+      "verified_at": "2026-10-30T19:29:45.645386+00:00",
+      "http_status": 200,
+      "resolved_url": "https://docs.pytorch.org/tutorials/beginner/basics/autogradqs_tutorial.html",
+      "page_title": "Automatic Differentiation with torch.autograd — PyTorch Tutorials 2.15.0+cu132 documentation"
+    },
+    {
+      "url": "https://www.deeplearningbook.org/contents/numerical.html",
+      "label": "Goodfellow, Bengio and Courville: Numerical Computation",
+      "used_in": [
+        "lessons/01-math/03-gradients-chain-rule.md",
+        "lessons/01-math/07-numerical-laboratory.md"
+      ],
+      "verified_at": "2026-10-30T19:29:45.914139+00:00",
+      "http_status": 200,
+      "resolved_url": "https://www.deeplearningbook.org/contents/numerical.html",
+      "page_title": ""
+    },
+    {
+      "url": "https://www.deeplearningbook.org/contents/prob.html",
+      "label": "Goodfellow, Bengio and Courville: Probability and Information Theory",
+      "used_in": [
+        "lessons/01-math/04-probability-likelihood.md"
+      ],
+      "verified_at": "2026-10-30T19:29:45.981392+00:00",
+      "http_status": 200,
+      "resolved_url": "https://www.deeplearningbook.org/contents/prob.html",
+      "page_title": ""
+    },
+    {
+      "url": "https://docs.pytorch.org/docs/2.9/generated/torch.nn.CrossEntropyLoss.html",
+      "label": "PyTorch: CrossEntropyLoss",
+      "used_in": [
+        "lessons/01-math/04-probability-likelihood.md"
+      ],
+      "verified_at": "2026-10-30T19:29:46.088411+00:00",
+      "http_status": 200,
+      "resolved_url": "https://docs.pytorch.org/docs/2.9/generated/torch.nn.CrossEntropyLoss.html",
+      "page_title": "CrossEntropyLoss — PyTorch 2.9 documentation"
+    },
+    {
+      "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html",
+      "label": "SciPy: `stats.bootstrap`",
+      "used_in": [
+        "lessons/01-math/05-estimation-uncertainty.md"
+      ],
+      "verified_at": "2026-10-30T19:29:46.875512+00:00",
+      "http_status": 200,
+      "resolved_url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html",
+      "page_title": "bootstrap — SciPy v1.18.0 Manual"
+    },
+    {
+      "url": "https://scikit-learn.org/stable/modules/cross_validation.html",
+      "label": "scikit-learn: cross-validation",
+      "used_in": [
+        "lessons/01-math/05-estimation-uncertainty.md",
+        "lessons/02-ml/01-data-workflow.md"
+      ],
+      "verified_at": "2026-10-30T19:29:46.564596+00:00",
+      "http_status": 200,
+      "resolved_url": "https://scikit-learn.org/stable/modules/cross_validation.html",
+      "page_title": "3.1. Cross-validation: evaluating estimator performance — scikit-learn 1.9.1 documentation"
+    },
+    {
+      "url": "https://web.stanford.edu/~boyd/cvxbook/",
+      "label": "Boyd and Vandenberghe: Convex Optimization",
+      "used_in": [
+        "lessons/01-math/06-optimization.md"
+      ],
+      "verified_at": "2026-10-30T19:29:47.782884+00:00",
+      "http_status": 200,
+      "resolved_url": "https://web.stanford.edu/~boyd/cvxbook/",
+      "page_title": "Convex Optimization – Boyd and Vandenberghe"
+    },
+    {
+      "url": "https://arxiv.org/abs/1412.6980",
+      "label": "Kingma and Ba: Adam",
+      "used_in": [
+        "lessons/01-math/06-optimization.md"
+      ],
+      "verified_at": "2026-10-30T19:29:46.424345+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/1412.6980",
+      "page_title": "[1412.6980] Adam: A Method for Stochastic Optimization"
+    },
+    {
+      "url": "https://docs.pytorch.org/docs/2.9/generated/torch.optim.AdamW.html",
+      "label": "PyTorch: AdamW",
+      "used_in": [
+        "lessons/01-math/06-optimization.md"
+      ],
+      "verified_at": "2026-10-30T19:29:46.937498+00:00",
+      "http_status": 200,
+      "resolved_url": "https://docs.pytorch.org/docs/2.9/generated/torch.optim.AdamW.html",
+      "page_title": "AdamW — PyTorch 2.9 documentation"
+    },
+    {
+      "url": "https://numpy.org/doc/stable/reference/generated/numpy.allclose.html",
+      "label": "NumPy: numerical `allclose` comparison",
+      "used_in": [
+        "lessons/01-math/07-numerical-laboratory.md"
+      ],
+      "verified_at": "2026-10-30T19:29:46.958011+00:00",
+      "http_status": 200,
+      "resolved_url": "https://numpy.org/doc/stable/reference/generated/numpy.allclose.html",
+      "page_title": "numpy.allclose — NumPy v2.5 Manual"
+    },
+    {
+      "url": "https://scikit-learn.org/stable/common_pitfalls.html",
+      "label": "scikit-learn: common pitfalls",
+      "used_in": [
+        "lessons/02-ml/01-data-workflow.md",
+        "lessons/02-ml/08-controlled-comparison.md"
+      ],
+      "verified_at": "2026-10-30T19:29:47.480349+00:00",
+      "http_status": 200,
+      "resolved_url": "https://scikit-learn.org/stable/common_pitfalls.html",
+      "page_title": "12. Common pitfalls and recommended practices — scikit-learn 1.9.1 documentation"
+    },
+    {
+      "url": "https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_digits.html",
+      "label": "scikit-learn: `load_digits`",
+      "used_in": [
+        "lessons/02-ml/01-data-workflow.md",
+        "SETUP.md"
+      ],
+      "verified_at": "2026-10-30T19:29:47.565897+00:00",
+      "http_status": 200,
+      "resolved_url": "https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_digits.html",
+      "page_title": "load_digits — scikit-learn 1.9.1 documentation"
+    },
+    {
+      "url": "https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression",
+      "label": "scikit-learn: logistic regression",
+      "used_in": [
+        "lessons/02-ml/02-supervised-baselines.md"
+      ],
+      "verified_at": "2026-10-30T19:29:47.545881+00:00",
+      "http_status": 200,
+      "resolved_url": "https://scikit-learn.org/stable/modules/linear_model.html",
+      "page_title": "1.1. Linear Models — scikit-learn 1.9.1 documentation"
+    },
+    {
+      "url": "https://docs.pytorch.org/docs/2.9/generated/torch.nn.BCEWithLogitsLoss.html",
+      "label": "PyTorch: BCEWithLogitsLoss",
+      "used_in": [
+        "lessons/02-ml/02-supervised-baselines.md"
+      ],
+      "verified_at": "2026-10-30T19:29:47.979245+00:00",
+      "http_status": 200,
+      "resolved_url": "https://docs.pytorch.org/docs/2.9/generated/torch.nn.BCEWithLogitsLoss.html",
+      "page_title": "BCEWithLogitsLoss — PyTorch 2.9 documentation"
+    },
+    {
+      "url": "https://docs.pytorch.org/tutorials/beginner/basics/index.html",
+      "label": "PyTorch: Learn the Basics",
+      "used_in": [
+        "lessons/02-ml/03-pytorch-training.md"
+      ],
+      "verified_at": "2026-10-30T19:29:48.043717+00:00",
+      "http_status": 200,
+      "resolved_url": "https://docs.pytorch.org/tutorials/beginner/basics/index.html",
+      "page_title": "Learn the Basics — PyTorch Tutorials 2.15.0+cu132 documentation"
+    },
+    {
+      "url": "https://docs.pytorch.org/docs/2.9/notes/randomness.html",
+      "label": "PyTorch: reproducibility",
+      "used_in": [
+        "lessons/02-ml/03-pytorch-training.md",
+        "lessons/02-ml/07-debugging-reproducibility.md"
+      ],
+      "verified_at": "2026-10-30T19:29:48.063717+00:00",
+      "http_status": 200,
+      "resolved_url": "https://docs.pytorch.org/docs/2.9/notes/randomness.html",
+      "page_title": "Reproducibility — PyTorch 2.9 documentation"
+    },
+    {
+      "url": "https://docs.pytorch.org/docs/2.9/generated/torch.nn.Conv2d.html",
+      "label": "PyTorch: Conv2d",
+      "used_in": [
+        "lessons/02-ml/04-convolution.md"
+      ],
+      "verified_at": "2026-10-30T19:29:48.291433+00:00",
+      "http_status": 200,
+      "resolved_url": "https://docs.pytorch.org/docs/2.9/generated/torch.nn.Conv2d.html",
+      "page_title": "Conv2d — PyTorch 2.9 documentation"
+    },
+    {
+      "url": "https://www.deeplearningbook.org/contents/convnets.html",
+      "label": "Goodfellow, Bengio and Courville: Convolutional Networks",
+      "used_in": [
+        "lessons/02-ml/04-convolution.md"
+      ],
+      "verified_at": "2026-10-30T19:29:49.194628+00:00",
+      "http_status": 200,
+      "resolved_url": "https://www.deeplearningbook.org/contents/convnets.html",
+      "page_title": ""
+    },
+    {
+      "url": "https://arxiv.org/abs/1706.03762",
+      "label": "Vaswani et al.: Attention Is All You Need",
+      "used_in": [
+        "lessons/02-ml/05-attention-transformers.md"
+      ],
+      "verified_at": "2026-10-30T19:29:48.330416+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/1706.03762",
+      "page_title": "[1706.03762] Attention Is All You Need"
+    },
+    {
+      "url": "https://docs.pytorch.org/docs/2.9/generated/torch.nn.functional.scaled_dot_product_attention.html",
+      "label": "PyTorch: scaled dot-product attention",
+      "used_in": [
+        "lessons/02-ml/05-attention-transformers.md"
+      ],
+      "verified_at": "2026-10-30T19:29:48.495160+00:00",
+      "http_status": 200,
+      "resolved_url": "https://docs.pytorch.org/docs/2.9/generated/torch.nn.functional.scaled_dot_product_attention.html",
+      "page_title": "torch.nn.functional.scaled_dot_product_attention — PyTorch 2.9 documentation"
+    },
+    {
+      "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+      "label": "scikit-learn: model evaluation",
+      "used_in": [
+        "lessons/02-ml/06-evaluation-calibration.md"
+      ],
+      "verified_at": "2026-10-30T19:29:48.967650+00:00",
+      "http_status": 200,
+      "resolved_url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+      "page_title": "3.4. Metrics and scoring: quantifying the quality of predictions — scikit-learn 1.9.1 documentation"
+    },
+    {
+      "url": "https://proceedings.mlr.press/v70/guo17a.html",
+      "label": "Guo et al.: On Calibration of Modern Neural Networks",
+      "used_in": [
+        "lessons/02-ml/06-evaluation-calibration.md",
+        "lessons/03-trust/06-group-fairness.md"
+      ],
+      "verified_at": "2026-10-30T19:29:48.910460+00:00",
+      "http_status": 200,
+      "resolved_url": "https://proceedings.mlr.press/v70/guo17a.html",
+      "page_title": "On Calibration of Modern Neural Networks"
+    },
+    {
+      "url": "https://nips.cc/public/guides/PaperChecklist",
+      "label": "NeurIPS paper checklist",
+      "used_in": [
+        "lessons/02-ml/07-debugging-reproducibility.md",
+        "lessons/02-ml/08-controlled-comparison.md",
+        "lessons/06-project/01-research-question.md",
+        "lessons/06-project/02-protocol-artifacts.md",
+        "lessons/06-project/06-report-defense.md"
+      ],
+      "verified_at": "2026-10-30T19:29:49.767961+00:00",
+      "http_status": 200,
+      "resolved_url": "https://nips.cc/public/guides/PaperChecklist",
+      "page_title": "PaperInformation / PaperChecklist"
+    },
+    {
+      "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10",
+      "label": "NIST: AI RMF 1.0",
+      "used_in": [
+        "lessons/03-trust/01-risk-threat-models.md",
+        "lessons/03-trust/03-backdoor-study.md",
+        "lessons/03-trust/07-audit-laboratory.md"
+      ],
+      "verified_at": "2026-10-30T19:29:49.891646+00:00",
+      "http_status": 200,
+      "resolved_url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10",
+      "page_title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0) | NIST"
+    },
+    {
+      "url": "https://arxiv.org/abs/1810.03993",
+      "label": "Mitchell et al.: Model Cards for Model Reporting",
+      "used_in": [
+        "lessons/03-trust/01-risk-threat-models.md",
+        "lessons/03-trust/06-group-fairness.md",
+        "lessons/06-project/02-protocol-artifacts.md",
+        "lessons/06-project/03-trustworthy-project.md",
+        "lessons/06-project/06-report-defense.md"
+      ],
+      "verified_at": "2026-10-30T19:29:49.251777+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/1810.03993",
+      "page_title": "[1810.03993] Model Cards for Model Reporting"
+    },
+    {
+      "url": "https://arxiv.org/abs/1412.6572",
+      "label": "Goodfellow, Shlens and Szegedy: Explaining and Harnessing Adversarial Examples",
+      "used_in": [
+        "lessons/03-trust/02-adversarial-robustness.md"
+      ],
+      "verified_at": "2026-10-30T19:29:49.427269+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/1412.6572",
+      "page_title": "[1412.6572] Explaining and Harnessing Adversarial Examples"
+    },
+    {
+      "url": "https://arxiv.org/abs/1706.06083",
+      "label": "Madry et al.: Towards Deep Learning Models Resistant to Adversarial Attacks",
+      "used_in": [
+        "lessons/03-trust/02-adversarial-robustness.md",
+        "lessons/03-trust/04-defense-evaluation.md"
+      ],
+      "verified_at": "2026-10-30T19:29:49.539069+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/1706.06083",
+      "page_title": "[1706.06083] Towards Deep Learning Models Resistant to Adversarial Attacks"
+    },
+    {
+      "url": "https://docs.pytorch.org/tutorials/beginner/fgsm_tutorial.html",
+      "label": "PyTorch: FGSM tutorial",
+      "used_in": [
+        "lessons/03-trust/02-adversarial-robustness.md"
+      ],
+      "verified_at": "2026-10-30T19:29:50.037018+00:00",
+      "http_status": 200,
+      "resolved_url": "https://docs.pytorch.org/tutorials/beginner/fgsm_tutorial.html",
+      "page_title": "Adversarial Example Generation — PyTorch Tutorials 2.15.0+cu132 documentation"
+    },
+    {
+      "url": "https://arxiv.org/abs/1708.06733",
+      "label": "Gu, Dolan-Gavitt and Garg: BadNets",
+      "used_in": [
+        "lessons/03-trust/03-backdoor-study.md",
+        "lessons/03-trust/07-audit-laboratory.md",
+        "lessons/06-project/01-research-question.md",
+        "lessons/06-project/03-trustworthy-project.md"
+      ],
+      "verified_at": "2026-10-30T19:29:49.833474+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/1708.06733",
+      "page_title": "[1708.06733] BadNets: Identifying Vulnerabilities in the Machine Learning Model Supply Chain"
+    },
+    {
+      "url": "https://arxiv.org/abs/1802.00420",
+      "label": "Athalye, Carlini and Wagner: Obfuscated Gradients Give a False Sense of Security",
+      "used_in": [
+        "lessons/03-trust/04-defense-evaluation.md",
+        "lessons/03-trust/07-audit-laboratory.md",
+        "lessons/06-project/03-trustworthy-project.md"
+      ],
+      "verified_at": "2026-10-30T19:29:50.055054+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/1802.00420",
+      "page_title": "[1802.00420] Obfuscated Gradients Give a False Sense of Security: Circumventing Defenses to Adversarial Examples"
+    },
+    {
+      "url": "https://www.cis.upenn.edu/~aaroth/privacybook.html",
+      "label": "Dwork and Roth: The Algorithmic Foundations of Differential Privacy",
+      "used_in": [
+        "lessons/03-trust/05-privacy-dp.md",
+        "lessons/04-federated/06-security-privacy.md"
+      ],
+      "verified_at": "2026-10-30T19:31:36.992034+00:00",
+      "http_status": 200,
+      "resolved_url": "https://www.cis.upenn.edu/~aaroth/privacybook.html",
+      "page_title": "The Algorithmic Foundations of Differential Privacy — authors’ university page"
+    },
+    {
+      "url": "https://arxiv.org/abs/1607.00133",
+      "label": "Abadi et al.: Deep Learning with Differential Privacy",
+      "used_in": [
+        "lessons/03-trust/05-privacy-dp.md"
+      ],
+      "verified_at": "2026-10-30T19:29:50.157385+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/1607.00133",
+      "page_title": "[1607.00133] Deep Learning with Differential Privacy"
+    },
+    {
+      "url": "https://arxiv.org/abs/1610.02413",
+      "label": "Hardt, Price and Srebro: Equality of Opportunity in Supervised Learning",
+      "used_in": [
+        "lessons/03-trust/06-group-fairness.md"
+      ],
+      "verified_at": "2026-10-30T19:29:50.309947+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/1610.02413",
+      "page_title": "[1610.02413] Equality of Opportunity in Supervised Learning"
+    },
+    {
+      "url": "https://proceedings.mlr.press/v54/mcmahan17a.html",
+      "label": "McMahan et al.: Communication-Efficient Learning of Deep Networks from Decentralized Data",
+      "used_in": [
+        "lessons/04-federated/01-objectives-systems.md",
+        "lessons/04-federated/02-fedavg.md",
+        "lessons/04-federated/03-non-iid.md",
+        "lessons/04-federated/05-communication-systems.md",
+        "lessons/04-federated/07-federation-laboratory.md",
+        "lessons/06-project/01-research-question.md",
+        "lessons/06-project/04-federated-project.md"
+      ],
+      "verified_at": "2026-10-30T19:29:50.546883+00:00",
+      "http_status": 200,
+      "resolved_url": "https://proceedings.mlr.press/v54/mcmahan17a.html",
+      "page_title": "Communication-Efficient Learning of Deep Networks from Decentralized Data"
+    },
+    {
+      "url": "https://proceedings.mlsys.org/paper_files/paper/2020/hash/1f5fe83998a09396ebe6477d9475ba0c-Abstract.html",
+      "label": "Li et al.: Federated Optimization in Heterogeneous Networks",
+      "used_in": [
+        "lessons/04-federated/01-objectives-systems.md",
+        "lessons/04-federated/03-non-iid.md",
+        "lessons/04-federated/04-fedprox-personalization.md",
+        "lessons/04-federated/07-federation-laboratory.md",
+        "lessons/06-project/04-federated-project.md"
+      ],
+      "verified_at": "2026-10-30T19:29:51.088412+00:00",
+      "http_status": 200,
+      "resolved_url": "https://proceedings.mlsys.org/paper_files/paper/2020/hash/1f5fe83998a09396ebe6477d9475ba0c-Abstract.html",
+      "page_title": "Federated Optimization in Heterogeneous Networks"
+    },
+    {
+      "url": "https://proceedings.mlr.press/v70/suresh17a.html",
+      "label": "Suresh et al.: Distributed Mean Estimation with Limited Communication",
+      "used_in": [
+        "lessons/04-federated/05-communication-systems.md"
+      ],
+      "verified_at": "2026-10-30T19:29:50.791724+00:00",
+      "http_status": 200,
+      "resolved_url": "https://proceedings.mlr.press/v70/suresh17a.html",
+      "page_title": "Distributed Mean Estimation with Limited Communication"
+    },
+    {
+      "url": "https://research.google/pubs/practical-secure-aggregation-for-privacy-preserving-machine-learning/",
+      "label": "Bonawitz et al.: Practical Secure Aggregation for Privacy-Preserving Machine Learning",
+      "used_in": [
+        "lessons/04-federated/06-security-privacy.md",
+        "lessons/06-project/04-federated-project.md"
+      ],
+      "verified_at": "2026-10-30T19:29:51.295231+00:00",
+      "http_status": 200,
+      "resolved_url": "https://research.google/pubs/practical-secure-aggregation-for-privacy-preserving-machine-learning/",
+      "page_title": "Practical Secure Aggregation for Privacy-Preserving Machine Learning"
+    },
+    {
+      "url": "https://arxiv.org/abs/1510.00149",
+      "label": "Han, Mao and Dally: Deep Compression",
+      "used_in": [
+        "lessons/05-efficient/01-cost-model.md",
+        "lessons/05-efficient/03-pruning.md",
+        "lessons/05-efficient/04-quantization.md",
+        "lessons/05-efficient/07-pareto-laboratory.md",
+        "lessons/06-project/01-research-question.md",
+        "lessons/06-project/05-efficiency-project.md"
+      ],
+      "verified_at": "2026-10-30T19:29:51.052059+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/1510.00149",
+      "page_title": "[1510.00149] Deep Compression: Compressing Deep Neural Networks with Pruning, Trained Quantization and Huffman Coding"
+    },
+    {
+      "url": "https://docs.pytorch.org/docs/2.9/benchmark_utils.html",
+      "label": "PyTorch: benchmark utilities",
+      "used_in": [
+        "lessons/05-efficient/01-cost-model.md",
+        "lessons/05-efficient/02-measurement.md",
+        "lessons/05-efficient/07-pareto-laboratory.md",
+        "lessons/06-project/05-efficiency-project.md"
+      ],
+      "verified_at": "2026-10-30T19:29:51.349116+00:00",
+      "http_status": 200,
+      "resolved_url": "https://docs.pytorch.org/docs/2.9/benchmark_utils.html",
+      "page_title": "Benchmark Utils - torch.utils.benchmark — PyTorch 2.9 documentation"
+    },
+    {
+      "url": "https://docs.python.org/3/library/time.html#time.perf_counter",
+      "label": "Python: performance counter",
+      "used_in": [
+        "lessons/05-efficient/02-measurement.md"
+      ],
+      "verified_at": "2026-10-30T19:29:51.634948+00:00",
+      "http_status": 200,
+      "resolved_url": "https://docs.python.org/3/library/time.html",
+      "page_title": "time — Time access and conversions — Python 3.15.2 documentation"
+    },
+    {
+      "url": "https://docs.pytorch.org/tutorials/intermediate/pruning_tutorial.html",
+      "label": "PyTorch: pruning tutorial",
+      "used_in": [
+        "lessons/05-efficient/03-pruning.md"
+      ],
+      "verified_at": "2026-10-30T19:29:51.690434+00:00",
+      "http_status": 200,
+      "resolved_url": "https://docs.pytorch.org/tutorials/intermediate/pruning_tutorial.html",
+      "page_title": "Pruning Tutorial — PyTorch Tutorials 2.15.0+cu132 documentation"
+    },
+    {
+      "url": "https://arxiv.org/abs/1712.05877",
+      "label": "Jacob et al.: Quantization and Training of Neural Networks for Efficient Integer-Arithmetic-Only Inference",
+      "used_in": [
+        "lessons/05-efficient/04-quantization.md",
+        "lessons/06-project/05-efficiency-project.md"
+      ],
+      "verified_at": "2026-10-30T19:29:51.562643+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/1712.05877",
+      "page_title": "[1712.05877] Quantization and Training of Neural Networks for Efficient Integer-Arithmetic-Only Inference"
+    },
+    {
+      "url": "https://arxiv.org/abs/2106.09685",
+      "label": "Hu et al.: LoRA",
+      "used_in": [
+        "lessons/05-efficient/05-low-rank-lora.md",
+        "lessons/05-efficient/07-pareto-laboratory.md",
+        "lessons/06-project/05-efficiency-project.md"
+      ],
+      "verified_at": "2026-10-30T19:29:51.614950+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/2106.09685",
+      "page_title": "[2106.09685] LoRA: Low-Rank Adaptation of Large Language Models"
+    },
+    {
+      "url": "https://arxiv.org/abs/1503.02531",
+      "label": "Hinton, Vinyals and Dean: Distilling the Knowledge in a Neural Network",
+      "used_in": [
+        "lessons/05-efficient/06-distillation.md",
+        "lessons/05-efficient/07-pareto-laboratory.md",
+        "lessons/06-project/05-efficiency-project.md"
+      ],
+      "verified_at": "2026-10-30T19:29:51.799028+00:00",
+      "http_status": 200,
+      "resolved_url": "https://arxiv.org/abs/1503.02531",
+      "page_title": "[1503.02531] Distilling the Knowledge in a Neural Network"
+    },
+    {
+      "url": "https://docs.pytorch.org/docs/2.9/generated/torch.nn.KLDivLoss.html",
+      "label": "PyTorch: KLDivLoss",
+      "used_in": [
+        "lessons/05-efficient/06-distillation.md"
+      ],
+      "verified_at": "2026-10-30T19:29:52.111853+00:00",
+      "http_status": 200,
+      "resolved_url": "https://docs.pytorch.org/docs/2.9/generated/torch.nn.KLDivLoss.html",
+      "page_title": "KLDivLoss — PyTorch 2.9 documentation"
+    },
+    {
+      "url": "https://docs.python.org/3/tutorial/venv.html",
+      "label": "Python: virtual environments",
+      "used_in": [
+        "lessons/06-project/02-protocol-artifacts.md",
+        "SETUP.md"
+      ],
+      "verified_at": "2026-10-30T19:29:52.338437+00:00",
+      "http_status": 200,
+      "resolved_url": "https://docs.python.org/3/tutorial/venv.html",
+      "page_title": "12. Virtual Environments and Packages — Python 3.15.2 documentation"
+    },
+    {
+      "url": "https://docs.python.org/3/tutorial/controlflow.html",
+      "label": "Python tutorial's control-flow and function sections",
+      "used_in": [
+        "SETUP.md"
+      ],
+      "verified_at": "2026-10-30T19:29:52.008267+00:00",
+      "http_status": 200,
+      "resolved_url": "https://docs.python.org/3/tutorial/controlflow.html",
+      "page_title": "4. More Control Flow Tools — Python 3.15.2 documentation"
+    }
+  ]
+}
