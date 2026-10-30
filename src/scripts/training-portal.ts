@@ -2,6 +2,7 @@ import { createClient, type Session } from '@supabase/supabase-js';
 import {config,type PortalData,type Row,escape as h,date,title,initials,asset,button,field,submit,empty,external,href,isAdmin,isStaff,myEnrollment,trackModules,completedCount,moduleGrade,safeUrl,slug,latestReview,latestSubmission} from './training-live/shared';
 import * as student from './training-live/student';
 import * as admin from './training-live/admin';
+import {studentAccountForm,studentAccountDialog,enrollmentForm,signInDetails} from './training-live/accounts';
 import { designScreens } from '../data/trainingDesigns';
 
 const supabase=createClient(config.url,config.key,{auth:{detectSessionInUrl:true,persistSession:true,autoRefreshToken:true}});
@@ -9,9 +10,9 @@ const root=document.querySelector<HTMLElement>('#training-root')!;
 const dialog=document.querySelector<HTMLDialogElement>('[data-training-dialog]')!;
 const dialogContent=document.querySelector<HTMLElement>('[data-training-dialog-content]')!;
 const toast=document.querySelector<HTMLElement>('[data-training-toast]')!;
-const d:PortalData={profile:null,user:null,tracks:[],modules:[],lessons:[],projects:[],enrollments:[],profiles:[],submissions:[],reviews:[],certificates:[],progress:[],drafts:[],reviewDrafts:[],invites:[],invite:null,inviteToken:new URL(location.href).searchParams.get('invite')||''};
+const d:PortalData={profile:null,user:null,tracks:[],modules:[],lessons:[],projects:[],enrollments:[],profiles:[],submissions:[],reviews:[],certificates:[],progress:[],drafts:[],reviewDrafts:[]};
 const certificatePage=document.body.hasAttribute('data-certificate-page');
-let session:Session|null=null,ready=false,sentEmail='',view='',params=new URLSearchParams(),certificate:Row|null=null,verifyCode=new URL(location.href).searchParams.get('code')||'',verifyChecked=false,toastTimer:ReturnType<typeof setTimeout>,revision=0,navigationSequence=0;
+let session:Session|null=null,ready=false,view='',params=new URLSearchParams(),certificate:Row|null=null,verifyCode=new URL(location.href).searchParams.get('code')||'',verifyChecked=false,toastTimer:ReturnType<typeof setTimeout>,revision=0,navigationSequence=0;
 const staffViews=['operations','students','student','curriculum','projects','reviews','review'];
 const adminViews=['curriculum','projects'];
 const checkResult=async(result:any)=>{const r=await result;if(r.error)throw new Error(r.error.message);return r.data;};
@@ -24,18 +25,18 @@ function selectedModule(){const e=myEnrollment(d);const tid=params.get('track')|
 async function load(){
  const current=++revision;
  const {data:auth,error}=await supabase.auth.getUser();
- if(error||!auth.user){session=null;d.user=null;d.profile=null;for(const k of ['tracks','modules','lessons','projects','enrollments','profiles','submissions','reviews','certificates','progress','drafts','reviewDrafts','invites']) (d as any)[k]=[];return;}
+ if(error||!auth.user){session=null;d.user=null;d.profile=null;for(const k of ['tracks','modules','lessons','projects','enrollments','profiles','submissions','reviews','certificates','progress','drafts','reviewDrafts']) (d as any)[k]=[];return;}
  d.user=auth.user;
  let profile=await checkResult(supabase.from('training_profiles').select('*').eq('auth_user_id',auth.user.id).maybeSingle());
- if(!profile)profile=await checkResult(supabase.from('training_profiles').insert({auth_user_id:auth.user.id,email:auth.user.email,full_name:auth.user.email?.split('@')[0]||'Student',role:'student'}).select().single());
+ if(!profile){d.profile=null;for(const k of ['tracks','modules','lessons','projects','enrollments','profiles','submissions','reviews','certificates','progress','drafts','reviewDrafts'])(d as any)[k]=[];return;}
  d.profile=profile;
  try{d.selectedEnrollmentId=sessionStorage.getItem(`sail-training-course-${profile.id}`)||'';}catch{d.selectedEnrollmentId='';}
- const names=['tracks','modules','lessons','projects','enrollments','profiles','submissions','reviews','certificates','lesson_progress','drafts',...(isStaff(d)?['review_drafts']:[]),...(isAdmin(d)?['invites']:[])];
- const results=await Promise.all(names.map(async name=>{let query=supabase.from(`training_${name}`).select('*');if(name==='submissions')query=query.order('submitted_at',{ascending:false}).order('id',{ascending:false});else if(name==='reviews')query=query.order('reviewed_at',{ascending:false}).order('id',{ascending:false});else if(['modules','lessons'].includes(name))query=query.order('order_index');else if(['invites','enrollments'].includes(name))query=query.order('created_at',{ascending:false});return [name,await checkResult(query)] as const;}));
+ const names=['tracks','modules','lessons','projects','enrollments','profiles','submissions','reviews','certificates','lesson_progress','drafts',...(isStaff(d)?['review_drafts']:[])];
+ const results=await Promise.all(names.map(async name=>{let query=supabase.from(`training_${name}`).select('*');if(name==='submissions')query=query.order('submitted_at',{ascending:false}).order('id',{ascending:false});else if(name==='reviews')query=query.order('reviewed_at',{ascending:false}).order('id',{ascending:false});else if(['modules','lessons'].includes(name))query=query.order('order_index');else if(name==='enrollments')query=query.order('created_at',{ascending:false});return [name,await checkResult(query)] as const;}));
  if(current!==revision)return;
  for(const [name,data] of results)(d as any)[name==='lesson_progress'?'progress':name==='review_drafts'?'reviewDrafts':name]=data||[];
  for(const record of [...d.modules,...d.lessons,...d.projects]){if(record.material_url){try{record.material_url=safeUrl(record.material_url);}catch{record.material_url=null;}}}
- if(!isStaff(d))d.reviewDrafts=[];if(!isAdmin(d))d.invites=[];
+ if(!isStaff(d))d.reviewDrafts=[];
 }
 async function reload(){await load();render();}
 function nav(){
@@ -46,20 +47,20 @@ function nav(){
 const headings:Record<string,[string,string,string]>={enrollment:['Your research journey begins here.','A guided path from foundations to your first research project.','Your enrollment'],module:['Look beyond the headline accuracy.','Build the knowledge and habits behind a careful research argument.','Module overview'],lesson:['Read carefully. Think critically.','Connect the ideas to evidence and a reproducible experiment.','Lesson'],assignment:['Show the work. Explain the evidence.','A focused experiment, a clear argument, and the materials to reproduce it.','Assignment'],feedback:['Every review is a step forward.','Review your outcomes, feedback, and submission history.','Submissions & feedback'],project:['Bring your foundations together.','A small, thoughtful research project that connects learning with evidence.','Mini-project'],result:['A foundation for what comes next.','Your program outcome and verified record of completion.','Program result'],operations:['Good learning needs thoughtful guidance.','A shared view of students, submissions, and the next useful action.','Operations overview'],students:['Every learner, at a glance.','Follow each student’s progress through the research training program.','Students'],student:['A foundation in progress.','Learning progress, feedback, and the next step for this student.','Student detail'],curriculum:['Shape a thoughtful learning path.','Organize the foundations, reading, experiments, and the three SAIL pillars.','Curriculum editor'],projects:['A first question. A real experiment.','A library of focused research opportunities for the final assessment.','Project library'],reviews:['A clear outcome. A useful next step.','Read the evidence and give students feedback they can act on.','Review queue'],review:['Review the evidence. Guide the next step.','A useful review makes the reasoning clear and the next action possible.','Submission review']};
 // Reuse the approved screen copy; identity, module names and outcomes stay live.
 for(const s of designScreens)headings[s.id]=[s.heading,s.description,s.title];
+headings.login[2]='Sign in';
 function render(){
  if(!ready)return;
  const [hash,query='']=location.hash.slice(1).split('?');params=new URLSearchParams(query);view=certificatePage?'verify':(hash==='training-main'?'':hash)||(!d.user?'login':isStaff(d)?'operations':myEnrollment(d)?'overview':'enrollment');
  if(view!=='verify'){
   if(!d.user)view='login';
   else if(!isStaff(d)&&!myEnrollment(d))view='enrollment';
-  else if(!isStaff(d)&&d.inviteToken&&d.invite?.is_usable)view='enrollment';
   else if(staffViews.includes(view)&&!isStaff(d))view='overview';
   else if(adminViews.includes(view)&&!isAdmin(d))view='operations';
   else if(isStaff(d)&&['overview','module','lesson','assignment','project','result','feedback','enrollment','login'].includes(view))view='operations';
  }
  const publicView=['login','verify'].includes(view),e=myEnrollment(d),m=selectedModule();
  let content='',isOverview=view==='overview'&&e;
- if(view==='login')content=student.login(d,sentEmail);
+ if(view==='login')content=student.login(d);
  else if(view==='enrollment')content=student.enrollment(d);
  else if(view==='verify')content=student.verify(certificate,verifyCode,verifyChecked);
  else if(isOverview)content=student.overview(d,e!,m!);
@@ -82,7 +83,6 @@ function render(){
  if(view==='assignment'&&m){customHeading=m.pillar==='trustworthy_ai'?'A controlled robustness experiment':`${m.title} — assignment`;}
  if(view==='lesson'){const l=d.lessons.find(l=>l.id===params.get('lesson'));customHeading=l?.title||m?.title||'Lesson';heading![1]=l?.description||'Read carefully and connect the ideas to evidence.';}
  if(view==='student'){const enrolled=d.enrollments.find(x=>x.id===params.get('enrollment'))||d.enrollments[0],p=d.profiles.find(p=>p.id===enrolled?.profile_id);customHeading=p?.full_name||'Student';heading![1]=`${p?.affiliation||'Undergraduate research training'} · ${p?.email||''} · Enrolled ${date(enrolled?.start_date)}`;}
- if(view==='enrollment'&&d.invite)heading![1]=`A focused ${d.invite.duration_weeks_min}–${d.invite.duration_weeks_max} week path from foundations to your first research project.`;
  if(view==='result'&&e&&!d.certificates.some(c=>c.enrollment_id===e.id&&!c.revoked_at)){customHeading='Your learning journey continues.';heading![1]='Review your program progress and the foundations to strengthen next.';}
  if(view==='feedback'&&e){const s=params.get('target')?latestSubmission(d,e.id,params.get('target')!):d.submissions.find(s=>s.enrollment_id===e.id),r=latestReview(d,s);if(!r){customHeading='Your work is ready for review.';heading![1]='Your submission history and reviewer feedback appear here.';}else if(r.result==='pass')customHeading='A strong step forward.';else if(r.result==='excellent')customHeading='Thoughtful work. Outstanding progress.';else if(r.result==='fail')customHeading='Build the foundations. Try again stronger.';}
  const profileMarkup=d.user&&view!=='verify'?`<button class="${isOverview?'profile-trigger':'ds-profile-trigger ds-top-profile'}" data-action="profile" aria-label="Open profile menu"><span class="${isOverview?'atlas-avatar':'ds-avatar'}">${initials(d.profile?.full_name||'Student')}</span><span>${h(d.profile?.full_name)}</span>${isOverview?`<img src="${asset('atlas-icon-profile-chevron')}" alt="" />`:''}</button>`:'<span>VinUniversity · SAIL</span>';
@@ -93,6 +93,11 @@ function render(){
 
 function requireAdmin(){if(!isAdmin(d))throw new Error('Admin permission is required.');}
 function requireStaff(){if(!isStaff(d))throw new Error('Reviewer permission is required.');}
+async function manageStudentAccount(payload:Record<string,unknown>){
+ const {data,error}=await supabase.functions.invoke('training-accounts',{body:payload});
+ if(error){let message='Unable to manage the student account. Please retry.';try{if(error.context instanceof Response)message=(await error.context.json()).error||message;}catch{}throw new Error(message);}
+ if(!data||data.error)throw new Error(data?.error||'The account service returned no result.');return data;
+}
 function showError(form:HTMLFormElement|null,error:unknown){const message=error instanceof Error?error.message:'Something went wrong. Please retry.';const target=form?.querySelector('[data-form-error]');if(target)target.textContent=message;else notify(message);}
 function formData(form:HTMLFormElement){const f=new FormData(form);return {str:(key:string)=>String(f.get(key)||'').trim(),bool:(key:string)=>f.has(key),num:(key:string)=>Number(f.get(key)),url:(key:string)=>f.get(key)?safeUrl(f.get(key)):null};}
 async function saveSubmissionDraft(form:HTMLFormElement){const f=formData(form),e=myEnrollment(d);if(!e)throw new Error('Enrollment required.');await checkResult(supabase.from('training_drafts').upsert({enrollment_id:e.id,target_key:form.dataset.target,drive_url:f.str('drive_url'),note:f.str('note'),updated_at:new Date().toISOString()}));notify('Draft saved to your account.');}
@@ -102,17 +107,12 @@ document.addEventListener('submit',async event=>{
  const form=(event.target as Element).closest<HTMLFormElement>('form[data-form]');if(!form)return;event.preventDefault();const f=formData(form),type=form.dataset.form!;
  const buttons=[...form.querySelectorAll<HTMLButtonElement>('button')];buttons.forEach(b=>b.disabled=true);form.querySelector('[data-form-error]')?.replaceChildren();
  try{
-  if(type==='login'){
-   const redirect=new URL('/training/',location.origin);if(d.inviteToken)redirect.searchParams.set('invite',d.inviteToken);
-   await checkResult(supabase.auth.signInWithOtp({email:f.str('email'),options:{emailRedirectTo:redirect.href}}));sentEmail=f.str('email');render();notify('Sign-in link sent. Check your inbox and spam folder.');return;
-  }
   if(type==='password-login'){
    const account=f.str('account'),email=account.toLowerCase()==='sailresearch'?'sailresearch@admin.sail-research.com':account;
    await checkResult(supabase.auth.signInWithPassword({email,password:String(new FormData(form).get('password')||'')}));
    await load();closeDialog();route(isStaff(d)?'operations':'overview');render();return;
   }
   if(type==='verify'){verifyCode=f.str('code');certificate=(await checkResult(supabase.rpc('verify_training_certificate',{lookup_code:verifyCode})))?.[0]||null;verifyChecked=true;render();return;}
-  if(type==='enroll'){if(!f.bool('consent'))throw new Error('Confirm the program requirements before enrolling.');const enrolled=await checkResult(supabase.rpc('enroll_training',{invite_token:d.inviteToken,full_name:f.str('full_name'),affiliation:f.str('affiliation')}));try{sessionStorage.setItem(`sail-training-course-${enrolled.profile_id}`,enrolled.id);}catch{}await load();history.replaceState(null,'','/training/#overview');d.inviteToken='';render();notify('You are enrolled. Your research journey starts here.');return;}
   if(type==='profile'){if(f.str('full_name').length<2)throw new Error('Enter your full name.');await checkResult(supabase.from('training_profiles').update({full_name:f.str('full_name'),affiliation:f.str('affiliation')}).eq('id',d.profile!.id));await load();closeDialog();render();notify('Profile updated.');return;}
   if(type==='submission'){
    if(!f.bool('consent'))throw new Error('Confirm sharing permissions and reproduction instructions first.');const e=myEnrollment(d)!;
@@ -122,11 +122,21 @@ document.addEventListener('submit',async event=>{
   if(type==='choose-track'){route('curriculum',{track:f.str('track')});return;}
   if(type==='review'){requireStaff();await checkResult(supabase.rpc('review_training_submission',{target_submission_id:form.dataset.id,review_result:f.str('result'),review_comment:f.str('comment')}));await reload();notify('Feedback published. The student can now see this review.');return;}
   requireAdmin();
-  if(type==='module-details'){await checkResult(supabase.from('training_modules').update({outcomes:f.str('outcomes'),assignment_brief:f.str('assignment_brief'),material_url:f.url('material_url')}).eq('id',form.dataset.id));}
-  if(type==='invite'){
-   const expires=new Date(`${f.str('expires_at')}T23:59:59+07:00`);if(expires.getTime()<=Date.now())throw new Error('Choose a future invitation expiry.');if(!Number.isInteger(f.num('max_uses'))||f.num('max_uses')<1||f.num('max_uses')>50)throw new Error('Maximum uses must be between 1 and 50.');
-   const invite=await checkResult(supabase.from('training_invites').insert({track_id:f.str('track_id'),email_allowed:f.str('email_allowed').toLowerCase()||null,expires_at:expires.toISOString(),max_uses:f.num('max_uses'),role_default:'student',created_by_profile_id:d.profile!.id}).select().single());await reload();showInvite(invite);return;
+  if(type==='create-student'){
+   const password=String(new FormData(form).get('password')||'');
+   const result=await manageStudentAccount({action:'create_student',email:f.str('email'),full_name:f.str('full_name'),affiliation:f.str('affiliation'),password,track_id:f.str('track_id')});
+   await load();render();openDialog(signInDetails(result.email,password,true));return;
   }
+  if(type==='reset-student-password'){
+   const password=String(new FormData(form).get('password')||''),profile=d.profiles.find(p=>p.id===form.dataset.id);
+   if(!profile||profile.role!=='student')throw new Error('Choose a student account.');
+   await manageStudentAccount({action:'reset_password',profile_id:profile.id,password});openDialog(signInDetails(profile.email,password,false));return;
+  }
+  if(type==='enroll-student'){
+   const result=await manageStudentAccount({action:'enroll_student',profile_id:f.str('profile_id'),track_id:f.str('track_id')});
+   await load();closeDialog();route('student',{enrollment:result.enrollment.id});render();notify('Student enrollment is ready. Their password is unchanged.');return;
+  }
+  if(type==='module-details'){await checkResult(supabase.from('training_modules').update({outcomes:f.str('outcomes'),assignment_brief:f.str('assignment_brief'),material_url:f.url('material_url')}).eq('id',form.dataset.id));}
   if(type==='module'||type==='new-module'){
    const payload={title:f.str('title'),pillar:f.str('pillar'),description:f.str('description'),order_index:f.num('order_index'),is_required:type==='module'?f.str('is_required')==='true':f.bool('is_required'),is_active:f.bool('is_active'),...(type==='new-module'?{track_id:form.dataset.context!,slug:slug(f.str('title'))}:{})};
    if(type==='module')await checkResult(supabase.from('training_modules').update(payload).eq('id',form.dataset.id));else {const x=await checkResult(supabase.from('training_modules').insert(payload).select().single());route('curriculum',{module:x.id});}
@@ -154,7 +164,6 @@ document.addEventListener('submit',async event=>{
  }catch(error){showError(form,error);}finally{buttons.forEach(b=>b.disabled=false);}
 });
 
-function showInvite(i:Row){const url=new URL('/training/',location.origin);url.searchParams.set('invite',i.token);openDialog(`<h2 id="tp-dialog-title">Your private invitation.</h2><p>Share this link with ${h(i.email_allowed||'the intended student')}.</p>${field('Invitation link','invite_link',url.href,'text',{readonly:true})}<div class="ds-action-row">${button('Copy invitation link','copy-invite',`data-id="${i.id}"`)}${button('Close','close-dialog','',true)}</div>`);}
 
 document.addEventListener('click',async event=>{
  const anchor=(event.target as Element).closest<HTMLAnchorElement>('a[href^="#"]');if(anchor&&dialog.contains(anchor))closeDialog();
@@ -184,11 +193,15 @@ document.addEventListener('click',async event=>{
   if(action==='student-submissions'){requireStaff();const list=d.submissions.filter(s=>s.enrollment_id===id&&(!b.dataset.target||s.module_id===b.dataset.target||s.project_id===b.dataset.target));openDialog(`<h2 id="tp-dialog-title">Submission history</h2>${list.map(s=>`<div class="ds-panel"><p>${date(s.submitted_at)}</p>${external('Open submitted work',s.drive_url)}<p>${h(s.note)}</p><a class="tp-link" href="${href('review',{submission:s.id})}" data-action="close-then-review" data-id="${s.id}">Review this version</a></div>`).join('')||empty('No submissions yet.')}`);return;}
   if(action==='close-then-review'){closeDialog();route('review',{submission:id!});return;}
   requireAdmin();
+  if(action==='new-student'){openDialog(`<h2 id="tp-dialog-title">Create a student account.</h2>${studentAccountForm(d)}`);return;}
+  if(action==='student-account'){const p=d.profiles.find(p=>p.id===id&&p.role==='student');if(!p)throw new Error('Choose a student account.');openDialog(studentAccountDialog(p));return;}
+  if(action==='enroll-existing-student'){openDialog(enrollmentForm(d));return;}
+  if(action==='generate-password'){const input=b.closest('form')?.querySelector<HTMLInputElement>('[name="password"]');if(input){const random=crypto.getRandomValues(new Uint8Array(18));input.value=Array.from(random,x=>'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'[x&63]).join('');}return;}
+  if(action==='toggle-password'){const scope=b.closest('form')||dialogContent;const input=scope.querySelector<HTMLInputElement>('[name="password"],[name="issued_password"]');if(input){input.type=input.type==='password'?'text':'password';b.textContent=input.type==='password'?'Show password':'Hide password';}return;}
+  if(action==='copy-account-details'){const email=dialogContent.querySelector<HTMLInputElement>('[name="login_email"]')?.value,password=dialogContent.querySelector<HTMLInputElement>('[name="issued_password"]')?.value;if(email&&password){await navigator.clipboard.writeText(`SAIL Research Training\nhttps://www.sail-research.com/training/\nEmail: ${email}\nPassword: ${password}`);notify('Account details copied. Share them privately with the student.');}return;}
   if(action==='module-details-editor'){openDialog(admin.editorForm('module-details',d,d.modules.find(m=>m.id===id)!));return;}
   if(action==='preview-module'){const m=d.modules.find(m=>m.id===id)!,lessons=d.lessons.filter(l=>l.module_id===id&&l.is_active);openDialog(`<h2 id="tp-dialog-title">${h(m.title)}</h2><p class="ds-small">Course preview · Published learning content</p><img class="ds-module-art" src="${asset('atlas-network-illustration')}" alt="SAIL research network" /><p class="tp-paragraphs">${h(m.description)}</p><h3>Learning outcomes</h3><p class="tp-paragraphs">${h(m.outcomes)}</p><h3>Lessons & materials</h3>${lessons.map(l=>`<section class="ds-panel"><h3>${h(l.title)}</h3><p class="tp-paragraphs">${h(l.description)}</p><p class="tp-paragraphs">${h(l.content)}</p>${external('Open materials',l.material_url)}</section>`).join('')}<h3>Assignment brief</h3><p class="tp-paragraphs">${h(m.assignment_brief)}</p>${external('Assignment materials',m.material_url)}`);return;}
   if(action==='toggle-module'){const m=d.modules.find(m=>m.id===id)!;if(m.is_active){openDialog(`<h2 id="tp-dialog-title">Hide this module?</h2><p>Students will no longer see this module. Submitted work and reviews stay in the program record.</p><div class="ds-action-row">${button('Hide module','confirm-archive-module',`data-id="${id}"`)}${button('Cancel','close-dialog','',true)}</div>`);}else{await checkResult(supabase.from('training_modules').update({is_active:true}).eq('id',id));await reload();notify('Module is visible to students.');}return;}
-  if(action==='copy-invite'){const i=d.invites.find(i=>i.id===id);if(!i)throw new Error('Invitation not found.');const u=new URL('/training/',location.origin);u.searchParams.set('invite',i.token);try{await navigator.clipboard.writeText(u.href);notify('Invitation link copied.');}catch{showInvite(i);}return;}
-  if(action==='toggle-invite'){const i=d.invites.find(x=>x.id===id)!;await checkResult(supabase.from('training_invites').update({is_active:!i.is_active}).eq('id',id));await reload();return;}
   if(action==='staff-editor'){openDialog(admin.editorForm('staff',d));return;}
   if(action==='new-track'||action==='edit-track'){const t=action==='edit-track'?d.tracks.find(t=>t.id===params.get('track'))||d.tracks[0]:{};openDialog(admin.editorForm('track',d,t));return;}
   if(action==='new-module'){openDialog(admin.editorForm('new-module',d,{},b.dataset.track!));return;}
@@ -212,7 +225,6 @@ supabase.auth.onAuthStateChange((event,next)=>{
 async function init(){
  try{
   const url=new URL(location.href),authError=url.searchParams.get('error_description')||new URLSearchParams(location.hash.slice(1)).get('error_description');
-  if(d.inviteToken)d.invite=(await checkResult(supabase.rpc('get_training_invite',{invite_token:d.inviteToken})))?.[0]||null;
   const tokenHash=url.searchParams.get('token_hash');if(tokenHash){await checkResult(supabase.auth.verifyOtp({token_hash:tokenHash,type:'email'}));url.searchParams.delete('token_hash');url.searchParams.delete('type');history.replaceState(null,'',url.pathname+url.search);}
   const result=await supabase.auth.getSession();if(result.error)throw result.error;session=result.data.session;
   if(session)await load();

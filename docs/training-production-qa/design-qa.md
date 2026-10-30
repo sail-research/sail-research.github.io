@@ -1,7 +1,7 @@
 # Research Atlas production QA
 
-Desktop visual, local workflow and live-deployment QA: passed. Rollout is in
-progress; email-provider setup and actual email delivery remain pending.
+Desktop visual, local workflow and initial live-deployment QA: passed.
+The 2026-10-31 password-account update is undergoing its final live checks.
 
 ## Verification scope
 
@@ -99,12 +99,27 @@ admin password form is present; no real administrator password was changed.
 The disposable course, project, four profiles and Auth accounts were removed
 after the live checks. The refreshed `cleanup.json` records zero QA resources.
 
-## Remaining checks
+## Admin-issued accounts update, 2026-10-31
 
-- Production Auth routing is configured: the Site URL and both training
-  redirect patterns were saved successfully in the user's Chrome Dashboard.
-  The email page shows custom SMTP disabled. Provider setup and a real
-  student email delivery check remain pending. Generated QA tokens verify
-  Auth/session behavior; they do not verify SMTP delivery.
-- Resend Free is selected; the user is completing account/DNS access in
-  Chrome. Sender verification, SMTP connection and real delivery are pending.
+The user replaced email login with accounts created and issued by admins.
+Resend, SMTP and email-delivery work are no longer required. Public Auth signup
+is disabled, confirmed after reload and through Auth's settings endpoint.
+Admin-created accounts are confirmed individually without sending email.
+
+The deployed `training-accounts` function keeps JWT verification enabled and
+verifies both the live Auth identity and the current database role. Eight
+account integration groups pass, covering rejected callers/origins, public
+signup denial, validation, confirmed password-account creation, duplicate
+handling, existing/additional enrollment, student-only password reset and
+service-only RPC access. The original eight training integration groups
+also pass. See `account-results.json` and `integration-results.json`.
+
+The desktop release preview verifies a newly provisioned student signing in
+with the issued password, switching between two courses, and an admin signing
+in through the existing admin dialog and viewing the new account controls.
+TypeScript and the clean 16-route build pass. Build assertions confirm no
+Training link on the main site/CMS or in the sitemap, `noindex,nofollow` on
+Training/certificate pages, and the canonical vector logo. Its SVG contains
+23 paths, no embedded raster image and no font-dependent text.
+
+Final password-account deployment/live UI checks and fixture cleanup remain.

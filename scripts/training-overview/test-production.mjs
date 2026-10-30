@@ -47,7 +47,7 @@ for(const name of ['admin','student','outsider','reviewer']){
  const email=`atlas-qa-${name}-${suffix}@example.com`,password=randomBytes(30).toString('base64url');
  const {user}=await ok(service.auth.admin.createUser({email,password,email_confirm:true}));
  const profile=await ok(service.from('training_profiles').insert({auth_user_id:user.id,email,full_name:name==='student'?'Atlas QA Student':name==='admin'?'Atlas QA Admin':name==='reviewer'?'Atlas QA Reviewer':'Atlas QA Outsider',role:name==='outsider'?'student':name}).select().single());
- const api=client();await ok(api.auth.signInWithPassword({email,password}));users.push({name,id:user.id,email,profile});apis[name]=api;
+ const api=client();await ok(api.auth.signInWithPassword({email,password}));users.push({name,id:user.id,email,profile,password});apis[name]=api;
 }
 const a=apis.admin,s=apis.student,o=apis.outsider,r=apis.reviewer;
 const track=await ok(a.from('training_tracks').insert({slug:`atlas-qa-${suffix}`,title:'Atlas QA — disposable training course',description:'Isolated deployment verification. No real student records.',duration_weeks_min:4,duration_weeks_max:6,is_active:true}).select().single());

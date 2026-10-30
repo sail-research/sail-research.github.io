@@ -1,0 +1,21 @@
+import {type PortalData,type Row,escape as h,field,submit,button,empty,date} from './shared';
+
+export function studentAccountForm(d:PortalData) {
+ return `<form data-form="create-student">${field('Full name','full_name','','text',{required:true})}${field('Student email','email','','email',{required:true,placeholder:'student@vinuni.edu.vn',hint:'This is the student’s sign-in account. No email verification is needed.'})}${field('Initial password','password','','password',{required:true,hint:'At least 12 characters. Share the account details privately.',autocomplete:'new-password',minLength:12,maxLength:72})}<div class="ds-action-row">${button('Generate password','generate-password','',true)}${button('Show password','toggle-password','',true)}</div>${field('Affiliation','affiliation','VinUniversity')}${field('Training course','track_id',d.tracks.find(t=>t.is_active)?.id||'','select',{required:true,options:d.tracks.filter(t=>t.is_active).map(t=>[t.id,t.title])})}${submit('Create student account')}<p class="tp-form-error" data-form-error role="alert"></p></form>`;
+}
+
+export function studentAccountsPanel(d:PortalData) {
+ return `<p class="ds-overline">A new student account</p><h2>Open the next chapter.</h2>${d.tracks.some(t=>t.is_active)?studentAccountForm(d):empty('Add an active training course before creating a student account.')}<div class="ds-rule"></div>${button('Enroll existing student','enroll-existing-student','',true)}<p class="ds-overline ds-lower-heading">Recently added</p>${d.profiles.filter(p=>p.role==='student').sort((a,b)=>b.created_at.localeCompare(a.created_at)).slice(0,6).map(p=>`<div class="ds-activity"><p><span><strong>${h(p.full_name)}</strong><br />${h(p.email)} · ${date(p.created_at)}</span></p>${button('Manage account','student-account',`data-id="${p.id}"`,true)}</div>`).join('')||empty('Create the first student account to get started.')}`;
+}
+
+export function studentAccountDialog(p:Row) {
+ return `<h2 id="tp-dialog-title">Student account.</h2><p><strong>${h(p.full_name)}</strong><br />${h(p.email)}</p><p class="ds-small">Passwords cannot be viewed after creation. Set a new password when a student needs access restored.</p><form data-form="reset-student-password" data-id="${p.id}">${field('New password','password','','password',{required:true,autocomplete:'new-password',minLength:12,maxLength:72,hint:'At least 12 characters. The previous password will stop working.'})}<div class="ds-action-row">${button('Generate password','generate-password','',true)}${button('Show password','toggle-password','',true)}</div><div class="ds-action-row">${submit('Reset student password')}${button('Cancel','close-dialog','',true)}</div><p class="tp-form-error" data-form-error role="alert"></p></form>`;
+}
+
+export function enrollmentForm(d:PortalData) {
+ return `<h2 id="tp-dialog-title">Enroll an existing student.</h2><p class="ds-small">Keep the student’s current password and learning records. An existing enrollment keeps its deadline.</p><form data-form="enroll-student">${field('Student account','profile_id','','select',{required:true,options:[['','Choose a student'],...d.profiles.filter(p=>p.role==='student').map(p=>[p.id,`${p.full_name} · ${p.email}`] as [string,string])]})}${field('Training course','track_id','','select',{required:true,options:[['','Choose a course'],...d.tracks.filter(t=>t.is_active).map(t=>[t.id,t.title] as [string,string])]})}<div class="ds-action-row">${submit('Enroll student')}${button('Cancel','close-dialog','',true)}</div><p class="tp-form-error" data-form-error role="alert"></p></form>`;
+}
+
+export function signInDetails(email:string,password:string,created:boolean) {
+ return `<h2 id="tp-dialog-title">${created?'Student account ready.':'Student password updated.'}</h2><p>Share these details privately with the student. The password is only available in this dialog.</p>${field('Sign-in page','login_url','https://www.sail-research.com/training/','text',{readonly:true})}${field('Student email','login_email',email,'text',{readonly:true})}${field('Issued password','issued_password',password,'password',{readonly:true,autocomplete:'off'})}<div class="ds-action-row">${button('Show password','toggle-password','',true)}${button('Copy sign-in details','copy-account-details')}${button('Done','close-dialog','',true)}</div>`;
+}
