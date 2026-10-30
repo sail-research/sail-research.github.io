@@ -4,7 +4,7 @@
 .training-production .ds-canvas{min-height:100dvh}
 .ds-loading{padding:100px 0;color:#657088}
 .training-production .ds-input{color:#323b58}
-.training-production textarea.ds-input{resize:vertical;min-height:110px}
+.training-production textarea.ds-input{resize:none;min-height:105px}
 .training-production .ds-input:focus{outline:2px solid #7b6cde;outline-offset:2px}
 .training-production .ds-topbar{height:auto;min-height:76px;flex-wrap:wrap;padding-top:10px;padding-bottom:10px}
 .training-production .ds-topbar nav{min-height:54px}
@@ -20,6 +20,11 @@
 .tp-filters .ds-field{min-width:200px;margin:0;flex:1}
 .tp-paragraphs{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.8}
 .tp-link{color:#2918b4;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+.tp-title-button{font:inherit;letter-spacing:inherit;line-height:inherit;color:inherit;padding:0;text-align:left}
+.tp-badge-button{padding:0;font:inherit;border:0;background:none}
+.training-production .ds-editor-panel>form>.ds-section-heading{padding-bottom:20px;border-bottom:1px solid var(--ds-line);margin-bottom:25px}
+.training-production .ds-submit-card form .ds-action-row{margin-top:0;gap:0}
+.training-production .ds-submit-card form .ds-action.secondary{margin-top:10px}
 .training-production .ds-table a{color:#2918b4}
 .training-production .ds-table td{vertical-align:middle}
 .tp-form-check{display:flex;align-items:center;gap:10px;color:#657088;font-size:13px;margin:18px 0}

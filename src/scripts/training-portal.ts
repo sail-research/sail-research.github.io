@@ -11,14 +11,15 @@ const dialogContent=document.querySelector<HTMLElement>('[data-training-dialog-c
 const toast=document.querySelector<HTMLElement>('[data-training-toast]')!;
 const d:PortalData={profile:null,user:null,tracks:[],modules:[],lessons:[],projects:[],enrollments:[],profiles:[],submissions:[],reviews:[],certificates:[],progress:[],drafts:[],reviewDrafts:[],invites:[],invite:null,inviteToken:new URL(location.href).searchParams.get('invite')||''};
 const certificatePage=document.body.hasAttribute('data-certificate-page');
-let session:Session|null=null,ready=false,sentEmail='',view='',params=new URLSearchParams(),certificate:Row|null=null,verifyCode=new URL(location.href).searchParams.get('code')||'',verifyChecked=false,toastTimer:ReturnType<typeof setTimeout>,revision=0;
+let session:Session|null=null,ready=false,sentEmail='',view='',params=new URLSearchParams(),certificate:Row|null=null,verifyCode=new URL(location.href).searchParams.get('code')||'',verifyChecked=false,toastTimer:ReturnType<typeof setTimeout>,revision=0,navigationSequence=0;
 const staffViews=['operations','students','student','curriculum','projects','reviews','review'];
 const adminViews=['curriculum','projects'];
 const checkResult=async(result:any)=>{const r=await result;if(r.error)throw new Error(r.error.message);return r.data;};
 function notify(message:string){toast.textContent=message;toast.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.hidden=true,5500);}
-function openDialog(content:string){dialogContent.innerHTML=content;if(!dialog.open)dialog.showModal();dialog.querySelector<HTMLElement>('input,select,textarea,button')?.focus();}
+function sizeTextareas(scope:ParentNode){scope.querySelectorAll<HTMLTextAreaElement>('textarea.ds-input').forEach(el=>{el.style.height='auto';el.style.height=`${Math.max(105,el.scrollHeight+2)}px`;});}
+function openDialog(content:string){dialogContent.innerHTML=content;if(!dialog.open)dialog.showModal();sizeTextareas(dialog);dialog.querySelector<HTMLElement>('input,select,textarea,button')?.focus();}
 function closeDialog(){dialog.close();dialogContent.innerHTML='';}
-function route(next:string,p:Record<string,string>={}){const hash=href(next,p);if(location.hash===hash)render();else location.hash=hash;}
+function route(next:string,p:Record<string,string>={}){navigationSequence++;const hash=href(next,p);if(location.hash===hash)render();else location.hash=hash;}
 function selectedModule(){const e=myEnrollment(d);const tid=params.get('track')||e?.track_id||d.tracks[0]?.id;return d.modules.find(m=>m.id===params.get('module')&&(isStaff(d)||m.track_id===tid&&m.is_active))||d.modules.find(m=>m.track_id===tid&&(isStaff(d)||m.is_active)&&!['pass','excellent'].includes(e?moduleGrade(d,e,m):''))||d.modules.find(m=>m.track_id===tid&&(isStaff(d)||m.is_active));}
 async function load(){
  const current=++revision;
@@ -87,6 +88,7 @@ function render(){
  const profileMarkup=d.user&&view!=='verify'?`<button class="${isOverview?'profile-trigger':'ds-profile-trigger ds-top-profile'}" data-action="profile" aria-label="Open profile menu"><span class="${isOverview?'atlas-avatar':'ds-avatar'}">${initials(d.profile?.full_name||'Student')}</span><span>${h(d.profile?.full_name)}</span>${isOverview?`<img src="${asset('atlas-icon-profile-chevron')}" alt="" />`:''}</button>`:'<span>VinUniversity · SAIL</span>';
  root.innerHTML=`<div class="ds-canvas atlas screen-${h(view)} ${isStaff(d)?'ds-admin':''} ${publicView?'ds-public':''}" data-design-canvas data-family="atlas" data-screen="${h(view)}"><header class="${isOverview?'atlas-topbar':'ds-topbar'}"><a class="${isOverview?'atlas-brand':'ds-wordmark'}" href="/"><img src="${asset('atlas-logo')}" width="104" height="56" alt="SAIL — Security and AI Lab" /><span>Research Academy</span></a>${nav()}<div class="${isOverview?'profile-wrap atlas-profile':'ds-top-profile'}">${profileMarkup}</div></header>${isOverview?content:`<main class="ds-main" id="training-main" tabindex="-1">${!publicView&&heading?`<div class="ds-breadcrumb"><span>${isStaff(d)?'Training operations':'Research training'} <i>/</i> <strong>${heading[2]}</strong></span><time>${date(new Date(),true)}</time></div><header class="ds-page-heading"><div><p class="ds-overline">${isStaff(d)?'Program workspace':['module','lesson','assignment'].includes(view)?h(m?.title):'Your research journey'}</p><h1>${h(customHeading)}</h1><p class="ds-lead">${h(heading[1])}</p></div></header>`:''}${content}</main>`}</div>`;
  root.setAttribute('aria-busy','false');document.title=`${heading?.[2]||title(view)} · SAIL Research Academy`;
+ sizeTextareas(root);
 }
 
 function requireAdmin(){if(!isAdmin(d))throw new Error('Admin permission is required.');}
@@ -107,25 +109,26 @@ document.addEventListener('submit',async event=>{
   if(type==='password-login'){
    const account=f.str('account'),email=account.toLowerCase()==='sailresearch'?'sailresearch@admin.sail-research.com':account;
    await checkResult(supabase.auth.signInWithPassword({email,password:String(new FormData(form).get('password')||'')}));
-   closeDialog();await load();route(isStaff(d)?'operations':'overview');render();return;
+   await load();closeDialog();route(isStaff(d)?'operations':'overview');render();return;
   }
   if(type==='verify'){verifyCode=f.str('code');certificate=(await checkResult(supabase.rpc('verify_training_certificate',{lookup_code:verifyCode})))?.[0]||null;verifyChecked=true;render();return;}
   if(type==='enroll'){if(!f.bool('consent'))throw new Error('Confirm the program requirements before enrolling.');const enrolled=await checkResult(supabase.rpc('enroll_training',{invite_token:d.inviteToken,full_name:f.str('full_name'),affiliation:f.str('affiliation')}));try{sessionStorage.setItem(`sail-training-course-${enrolled.profile_id}`,enrolled.id);}catch{}await load();history.replaceState(null,'','/training/#overview');d.inviteToken='';render();notify('You are enrolled. Your research journey starts here.');return;}
-  if(type==='profile'){if(f.str('full_name').length<2)throw new Error('Enter your full name.');await checkResult(supabase.from('training_profiles').update({full_name:f.str('full_name'),affiliation:f.str('affiliation')}).eq('id',d.profile!.id));closeDialog();await reload();notify('Profile updated.');return;}
+  if(type==='profile'){if(f.str('full_name').length<2)throw new Error('Enter your full name.');await checkResult(supabase.from('training_profiles').update({full_name:f.str('full_name'),affiliation:f.str('affiliation')}).eq('id',d.profile!.id));await load();closeDialog();render();notify('Profile updated.');return;}
   if(type==='submission'){
    if(!f.bool('consent'))throw new Error('Confirm sharing permissions and reproduction instructions first.');const e=myEnrollment(d)!;
    await checkResult(supabase.rpc('submit_training_work',{target_enrollment_id:e.id,target_module_id:form.dataset.project==='true'?null:form.dataset.target,target_project_id:form.dataset.project==='true'?form.dataset.target:null,submission_drive_url:safeUrl(f.str('drive_url')),submission_note:f.str('note')}));await load();route('feedback',{target:form.dataset.target!});render();notify('Work submitted for review.');return;
   }
-  if(type==='queue-filter'){route('reviews',{status:f.str('status')});return;}
+  if(type==='queue-filter'){await load();route('reviews',{status:f.str('status')});return;}
   if(type==='choose-track'){route('curriculum',{track:f.str('track')});return;}
   if(type==='review'){requireStaff();await checkResult(supabase.rpc('review_training_submission',{target_submission_id:form.dataset.id,review_result:f.str('result'),review_comment:f.str('comment')}));await reload();notify('Feedback published. The student can now see this review.');return;}
   requireAdmin();
+  if(type==='module-details'){await checkResult(supabase.from('training_modules').update({outcomes:f.str('outcomes'),assignment_brief:f.str('assignment_brief'),material_url:f.url('material_url')}).eq('id',form.dataset.id));}
   if(type==='invite'){
    const expires=new Date(`${f.str('expires_at')}T23:59:59+07:00`);if(expires.getTime()<=Date.now())throw new Error('Choose a future invitation expiry.');if(!Number.isInteger(f.num('max_uses'))||f.num('max_uses')<1||f.num('max_uses')>50)throw new Error('Maximum uses must be between 1 and 50.');
    const invite=await checkResult(supabase.from('training_invites').insert({track_id:f.str('track_id'),email_allowed:f.str('email_allowed').toLowerCase()||null,expires_at:expires.toISOString(),max_uses:f.num('max_uses'),role_default:'student',created_by_profile_id:d.profile!.id}).select().single());await reload();showInvite(invite);return;
   }
   if(type==='module'||type==='new-module'){
-   const payload={title:f.str('title'),pillar:f.str('pillar'),description:f.str('description'),order_index:f.num('order_index'),is_required:type==='module'?f.str('is_required')==='true':f.bool('is_required'),is_active:f.bool('is_active'),outcomes:f.str('outcomes'),assignment_brief:f.str('assignment_brief'),material_url:f.url('material_url'),...(type==='new-module'?{track_id:form.dataset.context!,slug:slug(f.str('title'))}:{})};
+   const payload={title:f.str('title'),pillar:f.str('pillar'),description:f.str('description'),order_index:f.num('order_index'),is_required:type==='module'?f.str('is_required')==='true':f.bool('is_required'),is_active:f.bool('is_active'),...(type==='new-module'?{track_id:form.dataset.context!,slug:slug(f.str('title'))}:{})};
    if(type==='module')await checkResult(supabase.from('training_modules').update(payload).eq('id',form.dataset.id));else {const x=await checkResult(supabase.from('training_modules').insert(payload).select().single());route('curriculum',{module:x.id});}
   }
   if(type==='lesson'){
@@ -147,7 +150,7 @@ document.addEventListener('submit',async event=>{
    await checkResult(supabase.rpc('update_training_enrollment',{target_enrollment_id:e.id,new_deadline:new Date(`${f.str('deadline_at')}:00+07:00`).toISOString(),new_project_id:f.str('assigned_project_id')||null,new_reviewer_id:f.str('reviewer_profile_id')||null,new_result:f.str('final_result')||null}));
   }
   if(type==='staff'){if(f.str('profile_id')===d.profile!.id)throw new Error('Ask another admin to change your own role.');await checkResult(supabase.rpc('set_training_staff_role',{target_profile_id:f.str('profile_id'),new_role:f.str('role')}));}
-  closeDialog();await reload();notify('Changes saved to the training program.');
+  await load();closeDialog();render();notify('Changes saved to the training program.');
  }catch(error){showError(form,error);}finally{buttons.forEach(b=>b.disabled=false);}
 });
 
@@ -155,11 +158,17 @@ function showInvite(i:Row){const url=new URL('/training/',location.origin);url.s
 
 document.addEventListener('click',async event=>{
  const anchor=(event.target as Element).closest<HTMLAnchorElement>('a[href^="#"]');if(anchor&&dialog.contains(anchor))closeDialog();
+ const linkSequence=anchor?++navigationSequence:navigationSequence;
+ const [nextView,nextQuery='']=(anchor?.getAttribute('href')||'').slice(1).split('?');
+ if(anchor&&d.user&&['feedback','result','reviews'].includes(nextView)){
+  event.preventDefault();const sequence=linkSequence;
+  try{await load();if(sequence!==navigationSequence)return;const p:Record<string,string>={};new URLSearchParams(nextQuery).forEach((v,k)=>p[k]=v);route(nextView,p);render();}catch(error){showError(null,error);}return;
+ }
  const b=(event.target as Element).closest<HTMLElement>('[data-action]');if(!b)return;const action=b.dataset.action,id=b.dataset.id;event.preventDefault();
  try{
   if(action==='close-dialog'){closeDialog();return;}
   if(action==='admin-login'){openDialog(`<h2 id="tp-dialog-title">Program admin sign-in.</h2><p class="ds-small">Use your existing SAIL CMS account or a training account with a password.</p><form data-form="password-login">${field('Account or email','account','sailresearch','text',{required:true})}${field('Password','password','','password',{required:true})}<div class="ds-action-row">${submit('Sign in')}${button('Cancel','close-dialog','',true)}</div><p class="tp-form-error" data-form-error role="alert"></p></form>`);return;}
-  if(action==='refresh'){await reload();notify('Workspace refreshed.');return;}
+  if(action==='refresh'){await reload();closeDialog();notify('Workspace refreshed.');return;}
   if(action==='logout'){await checkResult(supabase.auth.signOut());session=null;await load();closeDialog();history.replaceState(null,'','/training/');render();return;}
   if(action==='profile'){openDialog(`<h2 id="tp-dialog-title">${h(d.profile?.full_name)}</h2><p>${h(d.user?.email)} · ${h(title(d.profile?.role))}</p><p class="ds-small">Your account permissions are managed by the SAIL program team.</p>${!isStaff(d)&&myEnrollment(d)?`<div class="ds-action-row"><a class="ds-action secondary" href="#project">My mini-project</a><a class="ds-action secondary" href="#result">My certificate & result</a></div>${d.enrollments.filter(e=>e.profile_id===d.profile?.id).length>1?`<h3 class="ds-lower-heading">Your courses</h3>${d.enrollments.filter(e=>e.profile_id===d.profile?.id).map(e=>`<p>${button(d.tracks.find(t=>t.id===e.track_id)?.title||'Training course','select-enrollment',`data-id="${e.id}"`,true)}</p>`).join('')}`:''}`:''}<div class="ds-action-row">${button('Edit profile','edit-profile','',true)}${button('Sign out','logout')}${button('Close','close-dialog','',true)}</div>`);return;}
   if(action==='edit-profile'){openDialog(`<h2 id="tp-dialog-title">Your profile.</h2><form data-form="profile">${field('Full name','full_name',d.profile?.full_name,'text',{required:true})}${field('Affiliation','affiliation',d.profile?.affiliation)}<div class="ds-action-row">${submit('Save profile')}${button('Cancel','close-dialog','',true)}</div><p class="tp-form-error" data-form-error role="alert"></p></form>`);return;}
@@ -175,6 +184,9 @@ document.addEventListener('click',async event=>{
   if(action==='student-submissions'){requireStaff();const list=d.submissions.filter(s=>s.enrollment_id===id&&(!b.dataset.target||s.module_id===b.dataset.target||s.project_id===b.dataset.target));openDialog(`<h2 id="tp-dialog-title">Submission history</h2>${list.map(s=>`<div class="ds-panel"><p>${date(s.submitted_at)}</p>${external('Open submitted work',s.drive_url)}<p>${h(s.note)}</p><a class="tp-link" href="${href('review',{submission:s.id})}" data-action="close-then-review" data-id="${s.id}">Review this version</a></div>`).join('')||empty('No submissions yet.')}`);return;}
   if(action==='close-then-review'){closeDialog();route('review',{submission:id!});return;}
   requireAdmin();
+  if(action==='module-details-editor'){openDialog(admin.editorForm('module-details',d,d.modules.find(m=>m.id===id)!));return;}
+  if(action==='preview-module'){const m=d.modules.find(m=>m.id===id)!,lessons=d.lessons.filter(l=>l.module_id===id&&l.is_active);openDialog(`<h2 id="tp-dialog-title">${h(m.title)}</h2><p class="ds-small">Course preview · Published learning content</p><img class="ds-module-art" src="${asset('atlas-network-illustration')}" alt="SAIL research network" /><p class="tp-paragraphs">${h(m.description)}</p><h3>Learning outcomes</h3><p class="tp-paragraphs">${h(m.outcomes)}</p><h3>Lessons & materials</h3>${lessons.map(l=>`<section class="ds-panel"><h3>${h(l.title)}</h3><p class="tp-paragraphs">${h(l.description)}</p><p class="tp-paragraphs">${h(l.content)}</p>${external('Open materials',l.material_url)}</section>`).join('')}<h3>Assignment brief</h3><p class="tp-paragraphs">${h(m.assignment_brief)}</p>${external('Assignment materials',m.material_url)}`);return;}
+  if(action==='toggle-module'){const m=d.modules.find(m=>m.id===id)!;if(m.is_active){openDialog(`<h2 id="tp-dialog-title">Hide this module?</h2><p>Students will no longer see this module. Submitted work and reviews stay in the program record.</p><div class="ds-action-row">${button('Hide module','confirm-archive-module',`data-id="${id}"`)}${button('Cancel','close-dialog','',true)}</div>`);}else{await checkResult(supabase.from('training_modules').update({is_active:true}).eq('id',id));await reload();notify('Module is visible to students.');}return;}
   if(action==='copy-invite'){const i=d.invites.find(i=>i.id===id);if(!i)throw new Error('Invitation not found.');const u=new URL('/training/',location.origin);u.searchParams.set('invite',i.token);try{await navigator.clipboard.writeText(u.href);notify('Invitation link copied.');}catch{showInvite(i);}return;}
   if(action==='toggle-invite'){const i=d.invites.find(x=>x.id===id)!;await checkResult(supabase.from('training_invites').update({is_active:!i.is_active}).eq('id',id));await reload();return;}
   if(action==='staff-editor'){openDialog(admin.editorForm('staff',d));return;}
@@ -190,6 +202,7 @@ document.addEventListener('click',async event=>{
  }catch(error){b.removeAttribute('disabled');showError(b.closest('form'),error);}
 });
 document.addEventListener('keydown',e=>{const target=e.target as HTMLElement;if(target.matches('[role="radio"]')&&['ArrowRight','ArrowLeft','ArrowUp','ArrowDown'].includes(e.key)){e.preventDefault();const list=[...target.parentElement!.querySelectorAll<HTMLElement>('[role="radio"]')],idx=(list.indexOf(target)+(['ArrowRight','ArrowDown'].includes(e.key)?1:-1)+list.length)%list.length;list[idx].click();list[idx].focus();}});
+document.addEventListener('input',event=>{const el=event.target as Element;if(el.matches('textarea.ds-input'))sizeTextareas(el.parentElement!);});
 window.addEventListener('hashchange',()=>{if(location.hash==='#training-main')return;if(dialog.open)closeDialog();render();window.scrollTo({top:0});});
 supabase.auth.onAuthStateChange((event,next)=>{
  session=next;

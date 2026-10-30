@@ -33,6 +33,11 @@ project briefs, invitations, enrollment deadlines and project/reviewer
 assignments. Archiving preserves submitted work. Existing project assignments
 are protected once the student has submitted that project.
 
+Use **Assignment & outcomes** in the module editor for learning outcomes,
+assignment instructions and the assignment material URL. This keeps the
+approved main course-editor layout. In Projects, click the brief title to
+edit its title or availability; the main editor saves the brief and materials.
+
 Reviewers save private drafts and publish Excellent, Pass, Revision or Fail
 with feedback. The latest submission version is the reviewable version.
 Students cannot resubmit work that is pending, accepted, failed, or overdue.
@@ -81,6 +86,8 @@ Curriculum; absent attachments are shown honestly as not attached.
 - `node scripts/training-overview/test-production.mjs links` generates fresh
   one-time QA sign-in tokens for browser testing, saved only under ignored
   `tmp/`. These do not send email and do not prove email delivery.
+- `node scripts/training-overview/test-production.mjs complete` completes only
+  the retained QA student's disposable work for certificate rendering checks.
 - `npm run build` builds the static site. Dependencies include pinned Astro
   7.4.4 and Supabase JS 2.118.0; the production dependency audit is clean.
 

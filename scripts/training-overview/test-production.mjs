@@ -14,6 +14,12 @@ const mode=process.argv[2]||'seed';
 const file='tmp/training-production-fixture.json';
 if(mode==='cleanup'){
  const x=JSON.parse(await fs.readFile(file,'utf8'));
+ if(x.cleaned){console.log('QA fixture already cleaned.');process.exit(0);}
+ assert.ok(x.track?.slug?.startsWith('atlas-qa-'),'Cleanup requires an isolated Atlas QA course.');
+ const actualTrack=await ok(service.from('training_tracks').select('slug').eq('id',x.track.id).maybeSingle());
+ assert.ok(!actualTrack||actualTrack.slug===x.track.slug,'Refusing to remove a different course.');
+ for(const u of x.users){assert.match(u.email,/^atlas-qa-(admin|student|outsider|reviewer)-[a-z0-9]{8}@example\.com$/);const {user}=await ok(service.auth.admin.getUserById(u.id));assert.equal(user.email,u.email,'Refusing to remove a different Auth identity.');}
+ if(x.project){const p=await ok(service.from('training_projects').select('slug').eq('id',x.project.id).maybeSingle());assert.ok(!p||p.slug===x.project.slug&&p.slug.startsWith('atlas-qa-'),'Refusing to remove a different project.');}
  if(x.track)await ok(service.from('training_enrollments').delete().eq('track_id',x.track.id));
  if(x.track)await ok(service.from('training_tracks').delete().eq('id',x.track.id));
  if(x.project)await ok(service.from('training_projects').delete().eq('id',x.project.id));
@@ -25,6 +31,16 @@ if(mode==='links'){
  const x=JSON.parse(await fs.readFile(file,'utf8'));x.login={};
  for(const u of x.users){const data=await ok(service.auth.admin.generateLink({type:'magiclink',email:u.email,options:{redirectTo:'https://www.sail-research.com/training/'}}));x.login[u.name]={email:u.email,tokenHash:data.properties.hashed_token};x.redirectTo=new URL(data.properties.action_link).searchParams.get('redirect_to');}
  await fs.writeFile(file,JSON.stringify(x,null,2));console.log('Fresh test sign-in links saved locally. Production email redirect:',x.redirectTo);process.exit(0);
+}
+if(mode==='complete'){
+ const x=JSON.parse(await fs.readFile(file,'utf8')),apis={};
+ for(const name of ['student','reviewer']){const u=x.users.find(u=>u.name===name),data=await ok(service.auth.admin.generateLink({type:'magiclink',email:u.email})),c=client();await ok(c.auth.verifyOtp({token_hash:data.properties.hashed_token,type:'email'}));apis[name]=c;}
+ for(const target of [...x.modules.filter(m=>m.pillar!=='project').map(m=>({module_id:m.id})),{project_id:x.project.id}]){
+  let sub=(await ok(service.from('training_submissions').select('*').eq('enrollment_id',x.enrollment.id).eq(target.module_id?'module_id':'project_id',target.module_id||target.project_id).order('submitted_at',{ascending:false}).order('id',{ascending:false}).limit(1)))[0];
+  if(!sub)sub=await ok(apis.student.rpc('submit_training_work',{target_enrollment_id:x.enrollment.id,target_module_id:target.module_id||null,target_project_id:target.project_id||null,submission_drive_url:'https://drive.google.com/',submission_note:'Disposable certificate rendering verification.'}));
+  await ok(apis.reviewer.rpc('review_training_submission',{target_submission_id:sub.id,review_result:'pass',review_comment:'Disposable QA completion: required artifacts accepted for certificate rendering verification.'}));
+ }
+ const cert=await ok(service.from('training_certificates').select('*').eq('enrollment_id',x.enrollment.id).single());x.certificateCode=cert.certificate_code;await fs.writeFile(file,JSON.stringify(x,null,2));console.log('Disposable QA student completed; certificate ready for browser verification.');process.exit(0);
 }
 const suffix=randomUUID().slice(0,8),users=[],apis={};
 for(const name of ['admin','student','outsider','reviewer']){

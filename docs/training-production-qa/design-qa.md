@@ -25,6 +25,9 @@ desktop document has no horizontal overflow.
   remain in the account menu and learning path.
 - P2, fixed: project management initially used a card library. Restored the
   approved library sidebar and project brief editor.
+- P2, fixed: extra course-authoring fields shifted the main module editor.
+  Assignment/outcome editing now uses a dialog; project title/availability
+  editing opens from the brief title. The approved resting editor is retained.
 - P2, fixed: certificate markup initially differed from the approved form.
   Restored the original certificate typography, frame and placement with
   real recipient, result, issue date and verification code.
@@ -35,6 +38,10 @@ desktop document has no horizontal overflow.
   and the actual configured duration.
 - Functional, fixed: course descriptions are escaped when inserted into the
   page heading. No stored course content is interpreted as HTML.
+- P2, fixed after side-by-side editor comparison: native form wrappers had
+  bypassed direct-child styles for editor heading dividers/spacing. Equivalent
+  selectors restore those exact rules. Textareas grow automatically while
+  retaining the approved 105 px minimum height and original resting controls.
 
 ## Verified behavior
 
@@ -50,14 +57,24 @@ lesson edits reaching a student, invitation creation, enrollment, lesson
 completion, saved submission drafts surviving reload, submission, reviewer
 draft persistence and publishing feedback.
 
+The clean-release sweep covers all student content/result screens and all
+seven admin/reviewer views. Every inspected view has no horizontal overflow,
+no broken image and no duplicate element ID. Browser QA also confirms revised
+submission history, a real issued certificate, the certificate dialog and
+public verification. Assignment materials survive a subsequent main module
+save. Final editor captures are `admin-curriculum-final.png` and
+`admin-projects-final.png`.
+
 The original preview collections are retained locally. The release exports
 only the production portal, its dependencies and the selected Atlas assets.
 A clean export of the staged release builds all 16 site routes successfully.
 The TypeScript check passes and npm reports zero dependency vulnerabilities.
+`curriculum-comparison-final.jpg` is the post-fix editor comparison at the
+same viewport; the source collection bar is cropped by its measured 52 px.
 
 ## Remaining checks
 
-- Browser sweep of the final production build and live deployment.
+- Final live-deployment sweep (the local release sweep passes).
 - Mobile/tablet verification: the in-app viewport capability acknowledges
   resize requests but the actual viewport remains 1280 × 720. A separate
   Playwright check has been requested and is pending the user's choice.
