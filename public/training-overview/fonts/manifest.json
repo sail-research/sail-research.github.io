@@ -1,0 +1,32 @@
+[
+  {
+    "file": "inter-variable.ttf",
+    "url": "https://raw.githubusercontent.com/google/fonts/main/ofl/inter/Inter%5Bopsz,wght%5D.ttf",
+    "bytes": 876576,
+    "sha256": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031"
+  },
+  {
+    "file": "newsreader-variable.ttf",
+    "url": "https://raw.githubusercontent.com/google/fonts/main/ofl/newsreader/Newsreader%5Bopsz,wght%5D.ttf",
+    "bytes": 451664,
+    "sha256": "8a08d13f8a6c0d51be379a60af84f945f65369a67e509ee3c3bdcc421254d7c1"
+  },
+  {
+    "file": "newsreader-italic-variable.ttf",
+    "url": "https://raw.githubusercontent.com/google/fonts/main/ofl/newsreader/Newsreader-Italic%5Bopsz,wght%5D.ttf",
+    "bytes": 495684,
+    "sha256": "796668611f80b64d5adf182fde3b6f29ed83b4e7cbec7b96937e84ac01364792"
+  },
+  {
+    "file": "inter-OFL.txt",
+    "url": "https://raw.githubusercontent.com/google/fonts/main/ofl/inter/OFL.txt",
+    "bytes": 4377,
+    "sha256": "5b9321a4298cfeb6b34354164a1c3afc3db114569984c502b9b35d988fd58c57"
+  },
+  {
+    "file": "newsreader-OFL.txt",
+    "url": "https://raw.githubusercontent.com/google/fonts/main/ofl/newsreader/OFL.txt",
+    "bytes": 4394,
+    "sha256": "fdfad38143ec470553cae82a1e45320bdd1b9ec70415d37bd0171051d8a4ded8"
+  }
+]

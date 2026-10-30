@@ -1,0 +1,40 @@
+/* Production-only behavior around the approved Research Atlas components. */
+.training-production{--ds-blue:#1a05a2;--ds-ink:#10101c;--ds-muted:#657088;--ds-line:#e7e8ee;--ds-heading:Newsreader,serif}
+.training-production [hidden]{display:none!important}
+.training-production .ds-canvas{min-height:100dvh}
+.ds-loading{padding:100px 0;color:#657088}
+.training-production .ds-input{color:#323b58}
+.training-production textarea.ds-input{resize:vertical;min-height:110px}
+.training-production .ds-input:focus{outline:2px solid #7b6cde;outline-offset:2px}
+.training-production .ds-topbar{height:auto;min-height:76px;flex-wrap:wrap;padding-top:10px;padding-bottom:10px}
+.training-production .ds-topbar nav{min-height:54px}
+.training-production .ds-top-profile button{font:inherit;padding:0}
+.training-production .ds-action:disabled{cursor:wait;opacity:.6}
+.training-production .ds-action-row{gap:14px}
+.training-production .ds-text-action{white-space:normal}
+.tp-empty{color:#657088;padding:28px 0;line-height:1.8}
+.tp-form-error{color:#a13c4d;font-size:13px;line-height:1.7;margin-top:12px}
+.tp-notice{background:#f4f2fc;border-left:3px solid #2815be;padding:16px 20px;margin-bottom:24px;color:#4d5770;font-size:14px}
+.tp-staff-tools{border-top:1px solid #e7e8ee;margin-top:32px;padding-top:24px}
+.tp-filters{display:flex;gap:16px;align-items:end;flex-wrap:wrap;margin-bottom:24px}
+.tp-filters .ds-field{min-width:200px;margin:0;flex:1}
+.tp-paragraphs{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.8}
+.tp-link{color:#2918b4;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+.training-production .ds-table a{color:#2918b4}
+.training-production .ds-table td{vertical-align:middle}
+.tp-form-check{display:flex;align-items:center;gap:10px;color:#657088;font-size:13px;margin:18px 0}
+.tp-form-check input{accent-color:#2815be;width:16px;height:16px}
+.tp-dialog form .ds-action-row{position:sticky;bottom:0;background:white;padding:12px 0}
+.training-production .ds-wordmark{color:inherit}
+.training-production .atlas-main{min-height:calc(100dvh - 76px)}
+.training-production .atlas-path-copy strong{overflow-wrap:anywhere}
+.training-production .atlas-path-copy>strong,.training-production .atlas-path-copy>small,.training-production .atlas-progress>small{white-space:normal}
+.training-production .atlas-lessons li>button:first-child{white-space:normal;text-align:left}
+.training-production .atlas-lessons li{gap:12px}
+.training-production .atlas-lessons li>button{min-width:0}
+.training-production .atlas-chapter .atlas-description{white-space:pre-line}
+.training-production .ds-certificate{overflow-wrap:anywhere}
+.training-production .ds-certificate h2{font-family:Newsreader,serif}
+@media(max-width:1050px){.training-production .ds-topbar nav{order:3;width:100%;justify-content:center;gap:24px;overflow-x:auto}.training-production .ds-topbar nav a{white-space:nowrap}.training-production .ds-topbar nav a.selected:after{bottom:4px}}
+@media(max-width:760px){.training-production .ds-topbar{gap:6px;padding:10px 20px}.training-production .ds-wordmark{gap:12px}.training-production .ds-wordmark>span{font-size:21px;padding-left:12px}.training-production .ds-top-profile>span:not(.ds-avatar){display:none}.training-production .ds-topbar nav{justify-content:flex-start;font-size:12px;gap:22px}.training-production .ds-top-profile{font-size:11px;gap:8px}.training-production .ds-topbar .ds-avatar{width:30px;height:30px}.training-production .atlas-main{min-height:0}.training-production .ds-table-wrap{max-width:100%;overflow:auto}.training-production .ds-table{min-width:650px}.tp-filters .ds-field{min-width:100%}}
+@media print{.training-production .ds-topbar,.training-production .ds-breadcrumb,.training-production .ds-page-heading,.training-production .ds-result-summary,.training-production .tp-toast,.training-production .skip-link,.training-production dialog,.training-production .ds-action-row{display:none!important}.training-production .ds-result-layout{display:block}.training-production .ds-main{padding:0!important}.training-production .ds-canvas{min-height:0}.training-production .ds-certificate{break-inside:avoid;border:1px solid #2815be;padding:45px!important}.training-production .ds-certificate a{color:black}}
