@@ -82,4 +82,5 @@ same viewport; the source collection bar is cropped by its measured 52 px.
   Dashboard session is pending the user's sign-in so production redirect
   URLs and email delivery can be configured and tested. Generated admin QA
   tokens verify Auth/session behavior; they do not verify SMTP delivery.
-- Remove disposable QA records and identities after the live checks.
+- Local QA cleanup is complete: no QA course, profile or Auth identity
+  remains. Recreate an isolated fixture for the post-deployment checks.

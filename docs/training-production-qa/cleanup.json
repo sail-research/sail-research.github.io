@@ -1,0 +1,8 @@
+{
+  "completed": true,
+  "qaTracksRemaining": 0,
+  "qaProfilesRemaining": 0,
+  "qaAuthUsersRemaining": 0,
+  "realEnrollmentsUnchanged": 0,
+  "note": "Disposable QA records and identities removed after local release verification. Recreate an isolated fixture for post-deployment tests."
+}
