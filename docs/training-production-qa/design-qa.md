@@ -1,7 +1,15 @@
 # Research Atlas production QA
 
-Current result: in progress. Final result: blocked until the remaining browser
-checks and production Auth configuration are verified.
+Desktop visual and local workflow QA: passed. Rollout final result: blocked
+until production Auth configuration and live-deployment checks are verified.
+
+## Verification scope
+
+On 2026-10-30 the user selected: “Chỉ kiểm tra desktop trong web preview hiện
+tại.” Browser verification for this rollout therefore uses the existing
+in-app desktop preview at its actual 1280 × 720 viewport. Mobile/tablet
+verification is outside the approved scope; retain this browser choice for
+the remaining live checks.
 
 ## Grounding
 
@@ -75,9 +83,6 @@ same viewport; the source collection bar is cropped by its measured 52 px.
 ## Remaining checks
 
 - Final live-deployment sweep (the local release sweep passes).
-- Mobile/tablet verification: the in-app viewport capability acknowledges
-  resize requests but the actual viewport remains 1280 × 720. A separate
-  Playwright check has been requested and is pending the user's choice.
 - Supabase Auth currently falls back to `http://localhost:3000`. The
   Dashboard session is pending the user's sign-in so production redirect
   URLs and email delivery can be configured and tested. Generated admin QA
