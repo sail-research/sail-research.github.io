@@ -64,12 +64,19 @@ triggers `.github/workflows/deploy.yml` and publishes GitHub Pages to
 Privileged implementations live in the unexposed `training_private` schema;
 public API wrappers use `SECURITY INVOKER` and explicit execution grants.
 
-Auth setup must use `https://www.sail-research.com/training/` as the Site URL,
+The production Site URL is configured as `https://www.sail-research.com/training/`,
 with both `https://www.sail-research.com/training/**` and
-`https://sail-research.com/training/**` in the allowed redirect URLs. Add local
+`https://sail-research.com/training/**` saved in the allowed redirect URLs. Add local
 development URLs only for development. Supabase must have a working email
 provider/custom SMTP for student email login. The default email service is
-not a production delivery setup for an arbitrary student cohort.
+not a production delivery setup for an arbitrary student cohort. The Dashboard
+currently shows custom SMTP disabled. Resend Free has been selected for Auth
+mail (3,000 emails/month, at most 100/day, as verified on 2026-10-30). Account
+setup, sender-domain verification, SMTP connection and a real email delivery
+check remain required before the student email rollout is complete. Use
+`SAIL Training <no-reply@auth.sail-research.com>` after verifying that subdomain;
+do not change the website's existing A/CNAME records. Resend's native Supabase
+integration can configure SMTP without manually copying its API key.
 
 The previously seeded real course has 6 modules and 11 lesson introductions.
 Its resource URLs are empty. Admins attach the lab's actual materials in

@@ -1,15 +1,15 @@
 # Research Atlas production QA
 
-Desktop visual and local workflow QA: passed. Rollout final result: blocked
-until production Auth configuration and live-deployment checks are verified.
+Desktop visual and local workflow QA: passed. Rollout is in progress;
+email-provider setup and live-deployment checks remain pending.
 
 ## Verification scope
 
 On 2026-10-30 the user selected: “Chỉ kiểm tra desktop trong web preview hiện
-tại.” Browser verification for this rollout therefore uses the existing
-in-app desktop preview at its actual 1280 × 720 viewport. Mobile/tablet
-verification is outside the approved scope; retain this browser choice for
-the remaining live checks.
+tại.” Initial browser verification used the in-app desktop preview at its
+actual 1280 × 720 viewport. The user subsequently requested the signed-in
+Chrome session for Supabase and the remaining desktop work. Mobile/tablet
+verification remains outside the approved scope.
 
 ## Grounding
 
@@ -83,9 +83,14 @@ same viewport; the source collection bar is cropped by its measured 52 px.
 ## Remaining checks
 
 - Final live-deployment sweep (the local release sweep passes).
-- Supabase Auth currently falls back to `http://localhost:3000`. The
-  Dashboard session is pending the user's sign-in so production redirect
-  URLs and email delivery can be configured and tested. Generated admin QA
-  tokens verify Auth/session behavior; they do not verify SMTP delivery.
-- Local QA cleanup is complete: no QA course, profile or Auth identity
-  remains. Recreate an isolated fixture for the post-deployment checks.
+- Production Auth routing is configured: the Site URL and both training
+  redirect patterns were saved successfully in the user's Chrome Dashboard.
+  The email page shows custom SMTP disabled. Provider setup and a real
+  student email delivery check remain pending. Generated QA tokens verify
+  Auth/session behavior; they do not verify SMTP delivery.
+- The isolated fixture was recreated on 2026-10-30 for the post-deployment
+  checks. All eight integration groups pass again, and generated Auth links
+  now resolve to the configured production Training URL. Remove the fixture
+  after the live checks; the previous cleanup report predates this run.
+- Resend Free is selected; the user is completing account/DNS access in
+  Chrome. Sender verification, SMTP connection and real delivery are pending.
