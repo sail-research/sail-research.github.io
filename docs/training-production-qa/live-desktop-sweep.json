@@ -1,0 +1,155 @@
+{
+  "at": "2026-10-30T11:50:51.827Z",
+  "site": "https://www.sail-research.com/training/",
+  "deployment": "https://github.com/sail-research/sail-research.github.io/actions/runs/41050287734",
+  "checks": [
+    {
+      "brokenImages": 0,
+      "duplicateIds": [],
+      "heading": "Learn the foundations.Think like a researcher.",
+      "height": 777,
+      "overflow": false,
+      "view": "overview",
+      "width": 1745
+    },
+    {
+      "brokenImages": 0,
+      "duplicateIds": [],
+      "heading": "Trustworthy AI",
+      "height": 777,
+      "overflow": false,
+      "view": "module",
+      "width": 1745
+    },
+    {
+      "brokenImages": 0,
+      "duplicateIds": [],
+      "heading": "Trustworthy AI",
+      "height": 777,
+      "overflow": false,
+      "view": "lesson",
+      "width": 1745
+    },
+    {
+      "brokenImages": 0,
+      "duplicateIds": [],
+      "heading": "A controlled robustness experiment",
+      "height": 777,
+      "overflow": false,
+      "view": "assignment",
+      "width": 1745
+    },
+    {
+      "brokenImages": 0,
+      "duplicateIds": [],
+      "heading": "Your work is ready for review.",
+      "height": 777,
+      "overflow": false,
+      "view": "feedback",
+      "width": 1745
+    },
+    {
+      "brokenImages": 0,
+      "duplicateIds": [],
+      "heading": "Put your research foundations to work.",
+      "height": 777,
+      "overflow": false,
+      "view": "project",
+      "width": 1745
+    },
+    {
+      "brokenImages": 0,
+      "duplicateIds": [],
+      "heading": "Your learning journey continues.",
+      "height": 777,
+      "overflow": false,
+      "view": "result",
+      "width": 1745
+    },
+    {
+      "brokenImages": 0,
+      "duplicateIds": [],
+      "heading": "A clear view of every research journey.",
+      "height": 777,
+      "overflow": false,
+      "view": "operations",
+      "width": 1745
+    },
+    {
+      "brokenImages": 0,
+      "duplicateIds": [],
+      "heading": "Every learner, at a glance.",
+      "height": 777,
+      "overflow": false,
+      "view": "students",
+      "width": 1745
+    },
+    {
+      "brokenImages": 0,
+      "duplicateIds": [],
+      "heading": "Atlas QA Student",
+      "height": 777,
+      "overflow": false,
+      "view": "student",
+      "width": 1745
+    },
+    {
+      "brokenImages": 0,
+      "duplicateIds": [],
+      "heading": "Build a thoughtful learning path.",
+      "height": 777,
+      "overflow": false,
+      "view": "curriculum",
+      "width": 1745
+    },
+    {
+      "brokenImages": 0,
+      "duplicateIds": [],
+      "heading": "Small projects. Real research habits.",
+      "height": 777,
+      "overflow": false,
+      "view": "projects",
+      "width": 1745
+    },
+    {
+      "brokenImages": 0,
+      "duplicateIds": [],
+      "heading": "A clear outcome. A useful next step.",
+      "height": 777,
+      "overflow": false,
+      "view": "reviews",
+      "width": 1745
+    },
+    {
+      "brokenImages": 0,
+      "duplicateIds": [],
+      "heading": "Give feedback that moves research forward.",
+      "height": 777,
+      "overflow": false,
+      "view": "review",
+      "width": 1745
+    },
+    {
+      "brokenImages": 0,
+      "duplicateIds": [],
+      "heading": "A record ofresearch readiness.",
+      "height": 777,
+      "overflow": false,
+      "view": "verify",
+      "width": 1745
+    }
+  ],
+  "workflows": {
+    "studentLogin": true,
+    "persistedDraft": true,
+    "revisedSubmission": true,
+    "lessonCompletion": true,
+    "adminLogin": true,
+    "persistedModuleEdit": true,
+    "persistedReviewDraft": true,
+    "publishedReview": true,
+    "certificateIssued": true,
+    "publicVerificationWithoutSession": true,
+    "emailDelivery": false
+  }
+}
