@@ -1,0 +1,12 @@
+{
+  "verifiedAt": "2026-10-30T19:38:32.249Z",
+  "url": "https://www.sail-research.com/training/",
+  "workflow": "https://github.com/sail-research/sail-research.github.io/actions/runs/41116779075",
+  "commit": "3456d1b27938b45c216b70bde09f030046ce5d3e",
+  "bundleBytes": 266232,
+  "bundleSha256": "b5ad082c7514e500a06bd545e80bf73cd1ee5c598beab0062c741c948f158c97",
+  "liveRichRenderer": true,
+  "trainingHiddenFromPublicNavigation": true,
+  "trainingExcludedFromSitemap": true,
+  "noindex": true
+}

@@ -31,10 +31,10 @@ Assessment: five module assignments and one assigned capstone, visible rubrics, 
 - [x] Run labs, validate mathematics and check exercise answers.
 - [x] Add safe rich lesson rendering (code, tables, formulas, links) and mini-project lesson access.
 - [x] Validate content completeness and security-sensitive rendering.
-- [ ] Back up exact production content; publish preserving IDs and learner records.
-- [ ] Deploy frontend; desktop Chrome verification of real lesson content/admin editing/downloads.
-- [ ] Verify deployed content counts, links, code artifacts and no public Training navigation.
-- [ ] Record handoff and mark goal complete.
+- [x] Back up exact production content; publish preserving IDs and learner records.
+- [x] Deploy frontend; desktop Chrome verification of real lesson content/admin editing/downloads.
+- [x] Verify deployed content counts, links, code artifacts and no public Training navigation.
+- [x] Record handoff and mark goal complete.
 
 ## Production mapping
 

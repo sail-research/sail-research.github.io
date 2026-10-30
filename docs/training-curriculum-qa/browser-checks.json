@@ -1,0 +1,85 @@
+{
+  "date": "2026-10-31",
+  "browser": "Chrome desktop",
+  "viewportWidth": 1536,
+  "studentSurface": "Local production build connected to live Supabase using the existing student session",
+  "adminSurface": "https://www.sail-research.com/training/",
+  "studentMath": {
+    "lessons": 7,
+    "formulas": 1,
+    "codeBlocks": 1,
+    "mathErrors": 0,
+    "horizontalOverflow": false
+  },
+  "adminEditor": {
+    "contentCharacters": 7611,
+    "editable": true,
+    "textareaHeight": 599,
+    "scrollHeight": 3108,
+    "closedWithoutSaving": true,
+    "sameContentSaveVerified": true
+  },
+  "modulePreviews": [
+    {
+      "module": "Math Foundations",
+      "lessons": 7,
+      "formulas": 9,
+      "tables": 1,
+      "mathErrors": 0
+    },
+    {
+      "module": "Machine Learning and Deep Learning",
+      "lessons": 8,
+      "formulas": 5,
+      "tables": 2,
+      "mathErrors": 0
+    },
+    {
+      "module": "Trustworthy AI",
+      "lessons": 7,
+      "formulas": 4,
+      "tables": 3,
+      "mathErrors": 0
+    },
+    {
+      "module": "Distributed and Federated Learning",
+      "lessons": 7,
+      "formulas": 3,
+      "tables": 1,
+      "mathErrors": 0
+    },
+    {
+      "module": "Efficient Machine Learning",
+      "lessons": 7,
+      "formulas": 4,
+      "tables": 1,
+      "mathErrors": 0
+    },
+    {
+      "module": "Mini-project",
+      "lessons": 6,
+      "formulas": 0,
+      "tables": 4,
+      "mathErrors": 0
+    }
+  ],
+  "nextLessonNavigation": "Tensors lesson to Least squares/SVD lesson passed",
+  "download": "Rendered download link verified; live HTTPS archive retrieved and SHA-256 matched in deployment.json. Browser download-event watcher timed out, so no claim is made about that watcher.",
+  "mobileTesting": "Not run, as requested",
+  "learnerMutations": "No lesson completion, submission or grade changes made",
+  "studentAssignment": {
+    "rubricPoints": 100,
+    "tableRendered": true,
+    "horizontalOverflow": false
+  },
+  "unassignedProjectHandbook": {
+    "accessibleLessons": 6,
+    "pendingAssignmentExplained": true,
+    "firstLessonOpened": true
+  },
+  "screenshots": [
+    "screens/student-code.png",
+    "screens/student-rubric.png",
+    "screens/project-handbook.png"
+  ]
+}

@@ -57,7 +57,10 @@ def main():
             reference_section=content.split('## Primary reading')[-1]
             primary=re.findall(r'\]\((https://[^)]+)\)',reference_section)[0]
             metadata=next((line for line in content.splitlines() if line.startswith('**Core time:') or line.startswith('**Estimated project effort:')),'')
-            description=re.sub(r'\*\*','',metadata)
+            # Keep the card/deck concise; time, prerequisites and full outcomes stay in the reading.
+            outcome=metadata.split('**Outcomes:**')[-1].strip()
+            description=outcome.split(';')[0].rstrip('.')+'.'
+            description=description[0].upper()+description[1:]
             lessons.append({'id':lesson_id,'module_id':module_id,'title':lesson_title,
                 'file':path.relative_to(COURSE).as_posix(),'description':description,
                 'order_index':i*10,'is_active':True,'lesson_type':'Practical' if i==len(paths) or folder=='06-project' and i in [3,4,5] else 'Reading',
