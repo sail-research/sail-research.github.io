@@ -1,0 +1,2 @@
+[functions.training-accounts]
+verify_jwt = true

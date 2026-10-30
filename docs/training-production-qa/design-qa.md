@@ -1,7 +1,7 @@
 # Research Atlas production QA
 
-Desktop visual and local workflow QA: passed. Rollout is in progress;
-email-provider setup and live-deployment checks remain pending.
+Desktop visual, local workflow and initial live-deployment QA: passed.
+The 2026-10-31 password-account update is undergoing its final live checks.
 
 ## Verification scope
 
@@ -80,17 +80,46 @@ The TypeScript check passes and npm reports zero dependency vulnerabilities.
 `curriculum-comparison-final.jpg` is the post-fix editor comparison at the
 same viewport; the source collection bar is cropped by its measured 52 px.
 
-## Remaining checks
+## Live deployment
 
-- Final live-deployment sweep (the local release sweep passes).
-- Production Auth routing is configured: the Site URL and both training
-  redirect patterns were saved successfully in the user's Chrome Dashboard.
-  The email page shows custom SMTP disabled. Provider setup and a real
-  student email delivery check remain pending. Generated QA tokens verify
-  Auth/session behavior; they do not verify SMTP delivery.
-- The isolated fixture was recreated on 2026-10-30 for the post-deployment
-  checks. All eight integration groups pass again, and generated Auth links
-  now resolve to the configured production Training URL. Remove the fixture
-  after the live checks; the previous cleanup report predates this run.
-- Resend Free is selected; the user is completing account/DNS access in
-  Chrome. Sender verification, SMTP connection and real delivery are pending.
+PR #1 merged as `4fb2e3354cff555fcd7f4756ab47229858ba807b`. GitHub Pages
+run `41050287734` built and deployed successfully on 2026-10-30. The selected
+Atlas portal is live at `https://www.sail-research.com/training/`.
+
+Desktop Chrome at its actual 1745 × 777 viewport verified student/admin
+sign-in using generated QA tokens, a saved submission draft after reload,
+revision submission/history, lesson completion, a module edit after reload,
+a private review draft after reload, published feedback, certificate issuance
+and certificate verification with no signed-in session. Fifteen inspected
+student/admin/public views have no horizontal overflow, broken images or
+duplicate IDs; see `live-desktop-sweep.json` and `screens/live-*.png`.
+Generated QA sign-in tokens do not prove email delivery. The existing shared
+admin password form is present; no real administrator password was changed.
+
+The disposable course, project, four profiles and Auth accounts were removed
+after the live checks. The refreshed `cleanup.json` records zero QA resources.
+
+## Admin-issued accounts update, 2026-10-31
+
+The user replaced email login with accounts created and issued by admins.
+Resend, SMTP and email-delivery work are no longer required. Public Auth signup
+is disabled, confirmed after reload and through Auth's settings endpoint.
+Admin-created accounts are confirmed individually without sending email.
+
+The deployed `training-accounts` function keeps JWT verification enabled and
+verifies both the live Auth identity and the current database role. Eight
+account integration groups pass, covering rejected callers/origins, public
+signup denial, validation, confirmed password-account creation, duplicate
+handling, existing/additional enrollment, student-only password reset and
+service-only RPC access. The original eight training integration groups
+also pass. See `account-results.json` and `integration-results.json`.
+
+The desktop release preview verifies a newly provisioned student signing in
+with the issued password, switching between two courses, and an admin signing
+in through the existing admin dialog and viewing the new account controls.
+TypeScript and the clean 16-route build pass. Build assertions confirm no
+Training link on the main site/CMS or in the sitemap, `noindex,nofollow` on
+Training/certificate pages, and the canonical vector logo. Its SVG contains
+23 paths, no embedded raster image and no font-dependent text.
+
+Final password-account deployment/live UI checks and fixture cleanup remain.

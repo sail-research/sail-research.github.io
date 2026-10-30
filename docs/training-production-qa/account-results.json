@@ -1,0 +1,37 @@
+{
+  "at": "2026-10-30T17:44:05.310Z",
+  "tests": [
+    {
+      "name": "Public self-signup is disabled while admin-issued accounts need no confirmation email",
+      "passed": true
+    },
+    {
+      "name": "Endpoint rejects missing/forged JWTs, student/reviewer callers and a foreign browser origin",
+      "passed": true
+    },
+    {
+      "name": "Student provisioning rejects role injection, invalid passwords and inactive or missing courses",
+      "passed": true
+    },
+    {
+      "name": "An admin issues a confirmed password account and enrollment without sending email",
+      "passed": true
+    },
+    {
+      "name": "Duplicate creation preserves the original password and enrollment",
+      "passed": true
+    },
+    {
+      "name": "Existing enrollment is idempotent; additional course uses the same account and password",
+      "passed": true
+    },
+    {
+      "name": "Admin can reset a student password; old password stops working and staff accounts are protected",
+      "passed": true
+    },
+    {
+      "name": "Direct provisioning RPC and editable user metadata cannot bypass admin authorization",
+      "passed": true
+    }
+  ]
+}
