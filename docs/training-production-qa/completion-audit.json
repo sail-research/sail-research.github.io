@@ -1,0 +1,80 @@
+{
+  "at": "2026-10-30T18:14:57.999Z",
+  "clientDate": "2026-10-31",
+  "verifiedRuntimeCommit": "f18858b7184b357bede06b625599e47ad9bbd53b",
+  "trainingIntegrationGroups": 8,
+  "accountIntegrationGroups": 8,
+  "releaseViews": 15,
+  "requirements": [
+    {
+      "id": "atlas_design",
+      "evidence": [
+        "overview-comparison.jpg",
+        "curriculum-comparison-final.jpg",
+        "password-release-sweep.json"
+      ],
+      "result": "passed; original fonts/illustrations retained, requested canonical SVG logos applied"
+    },
+    {
+      "id": "admin_auth_and_editing",
+      "evidence": [
+        "integration-results.json",
+        "live-password-checks.json",
+        "screens/live-password-admin.png"
+      ],
+      "result": "passed; password login, persisted module editing, course/lesson/project/staff and enrollment controls verified"
+    },
+    {
+      "id": "admin_issued_student_accounts",
+      "evidence": [
+        "account-results.json",
+        "account-security-audit.json",
+        "screens/live-create-student.png"
+      ],
+      "result": "passed; create, enroll, additional course, reset, duplicate and permission checks; no email service required"
+    },
+    {
+      "id": "student_learning_and_assessment",
+      "evidence": [
+        "integration-results.json",
+        "live-password-checks.json",
+        "screens/live-issued-feedback.png"
+      ],
+      "result": "passed; progress, persisted drafts, submissions/revisions, reviewer feedback, deadlines and certificate rules"
+    },
+    {
+      "id": "production_deployment",
+      "evidence": [
+        "https://github.com/sail-research/sail-research.github.io/actions/runs/41101420510",
+        "live-public-audit.json"
+      ],
+      "result": "passed; runtime commit f18858b7184b357bede06b625599e47ad9bbd53b and active account function version 2"
+    },
+    {
+      "id": "hidden_entry_and_vector_branding",
+      "evidence": [
+        "live-public-audit.json",
+        "private-entry-audit.json",
+        "live-password-checks.json",
+        "screens/live-hidden-home.png"
+      ],
+      "result": "passed; no public/CMS links, excluded sitemap, noindex, direct apex URL, canonical SVG paths with no raster images"
+    },
+    {
+      "id": "desktop_scope",
+      "evidence": [
+        "password-release-sweep.json",
+        "live-password-checks.json"
+      ],
+      "result": "passed in Chrome at actual desktop viewports; mobile/tablet not requested"
+    },
+    {
+      "id": "disposable_resource_cleanup",
+      "evidence": [
+        "cleanup.json"
+      ],
+      "result": "passed; zero QA courses, projects, profiles and Auth users remain"
+    }
+  ],
+  "remainingRequiredWork": []
+}

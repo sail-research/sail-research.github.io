@@ -1,0 +1,91 @@
+{
+  "at": "2026-10-30T18:08:17.086Z",
+  "pages": [
+    {
+      "path": "/404.html",
+      "status": 200,
+      "trainingLink": false
+    },
+    {
+      "path": "/",
+      "status": 200,
+      "trainingLink": false
+    },
+    {
+      "path": "/team-preview-b38dada44e3cd455da7bad1b739df3ea4de09002ba67e859/",
+      "status": 200,
+      "trainingLink": false
+    },
+    {
+      "path": "/team-legacy-b38dada44e3cd455da7bad1b739df3ea4de09002ba67e859/",
+      "status": 200,
+      "trainingLink": false
+    },
+    {
+      "path": "/team/",
+      "status": 200,
+      "trainingLink": false
+    },
+    {
+      "path": "/teaching/",
+      "status": 200,
+      "trainingLink": false
+    },
+    {
+      "path": "/research/",
+      "status": 200,
+      "trainingLink": false
+    },
+    {
+      "path": "/register/",
+      "status": 200,
+      "trainingLink": false
+    },
+    {
+      "path": "/publications/",
+      "status": 200,
+      "trainingLink": false
+    },
+    {
+      "path": "/projects/",
+      "status": 200,
+      "trainingLink": false
+    },
+    {
+      "path": "/news/",
+      "status": 200,
+      "trainingLink": false
+    },
+    {
+      "path": "/gallery/",
+      "status": 200,
+      "trainingLink": false
+    },
+    {
+      "path": "/admin/",
+      "status": 200,
+      "trainingLink": false
+    },
+    {
+      "path": "/admin/visual/",
+      "status": 200,
+      "trainingLink": false
+    }
+  ],
+  "directTraining": {
+    "requested": "https://sail-research.com/training",
+    "resolved": "https://www.sail-research.com/training/",
+    "status": 200,
+    "noindex": true
+  },
+  "clientAccountControls": true,
+  "noServiceKeyInBundle": true,
+  "noEmailLoginHandler": true,
+  "sitemapExcludesTraining": true,
+  "brandSvg": {
+    "contentType": "image/svg+xml",
+    "paths": 23,
+    "rasterImages": 0,
+    "fontDependentText": 0
+  }
+}

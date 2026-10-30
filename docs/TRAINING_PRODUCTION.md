@@ -16,7 +16,7 @@ student records live in Supabase; the former browser-local demo is separate.
 - Reviewers use their own account/password. An admin can assign a reviewer role to
   an existing training profile in **Overview → Manage staff access**.
 
-No credentials, service-role keys or simulated role switches are shipped to the
+No preconfigured passwords, service-role keys or simulated role switches are shipped to the
 client. Authenticated API access is restricted by RLS and checked database RPCs.
 
 In **Overview** or **Students → Add student**, enter the student's name, email,

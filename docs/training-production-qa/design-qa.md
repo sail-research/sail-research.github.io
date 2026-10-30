@@ -1,7 +1,8 @@
 # Research Atlas production QA
 
-Desktop visual, local workflow and initial live-deployment QA: passed.
-The 2026-10-31 password-account update is undergoing its final live checks.
+Desktop visual, workflow, password-account and live-deployment QA: passed.
+The 2026-10-31 rollout is complete, including the user's revised account,
+private-entry and vector-logo requirements.
 
 ## Verification scope
 
@@ -122,4 +123,38 @@ Training link on the main site/CMS or in the sitemap, `noindex,nofollow` on
 Training/certificate pages, and the canonical vector logo. Its SVG contains
 23 paths, no embedded raster image and no font-dependent text.
 
-Final password-account deployment/live UI checks and fixture cleanup remain.
+PR #2 merged as `f18858b7184b357bede06b625599e47ad9bbd53b`. Run
+`41101420510` completed successfully and GitHub's deployment status is success.
+The live portal signs in with passwords and the main site's six navigation
+links no longer include Training. Live HTTP checks cover all 14 non-Training
+routes, sitemap exclusion, noindex, the apex `/training` redirect, SVG delivery
+and absence of the service key from the public client bundle. See
+`live-public-audit.json` and `private-entry-audit.json`.
+
+Desktop Chrome verifies the newly issued student's password login, switching
+between courses, completed lesson, a saved draft after reload, submission,
+published review and feedback received. Admin password login, a module edit
+after reload, account controls and a duplicate account rejection through the
+live form also pass. A real disposable certificate was verified publicly
+without a session before its fixture was removed. Evidence is in
+`live-password-checks.json` and `screens/live-*.png`.
+
+The 15-view release sweep retains the approved Newsreader heading typography;
+all inspected brand images resolve to the canonical SVG. Two initial live
+image reads counted pending document images immediately after navigation,
+including browser-extension UI. Targeted follow-up after network idle confirms
+the portal logo and illustrations load with nonzero natural dimensions. Raw
+initial measurements and the stable follow-up are preserved in the live report.
+No portal image failure, horizontal overflow or duplicate ID remains.
+
+The account endpoint is active at version 2 with JWT verification enabled.
+The service-only RPC rejects anon/authenticated callers, database-role checks
+reject metadata-based escalation, and the security advisor has no Training
+findings. The two existing admin identities remain confirmed, have passwords
+configured, and are not banned. `account-security-audit.json` records the
+password-hash/ACL checks without credentials.
+
+QA sessions were signed out and all disposable courses, projects, profiles,
+enrollments, submissions, certificates and Auth users were removed. The refreshed
+`cleanup.json` records zero remaining QA resources, including the targeted
+image-readiness fixture. No existing course or administrator password changed.

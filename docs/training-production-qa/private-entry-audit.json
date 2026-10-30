@@ -1,0 +1,62 @@
+{
+  "at": "2026-10-30T17:48:20.952Z",
+  "pages": [
+    {
+      "page": "404.html",
+      "trainingLink": false
+    },
+    {
+      "page": "index.html",
+      "trainingLink": false
+    },
+    {
+      "page": "team-preview-b38dada44e3cd455da7bad1b739df3ea4de09002ba67e859\\index.html",
+      "trainingLink": false
+    },
+    {
+      "page": "team-legacy-b38dada44e3cd455da7bad1b739df3ea4de09002ba67e859\\index.html",
+      "trainingLink": false
+    },
+    {
+      "page": "team\\index.html",
+      "trainingLink": false
+    },
+    {
+      "page": "teaching\\index.html",
+      "trainingLink": false
+    },
+    {
+      "page": "research\\index.html",
+      "trainingLink": false
+    },
+    {
+      "page": "register\\index.html",
+      "trainingLink": false
+    },
+    {
+      "page": "publications\\index.html",
+      "trainingLink": false
+    },
+    {
+      "page": "projects\\index.html",
+      "trainingLink": false
+    },
+    {
+      "page": "news\\index.html",
+      "trainingLink": false
+    },
+    {
+      "page": "gallery\\index.html",
+      "trainingLink": false
+    },
+    {
+      "page": "admin\\index.html",
+      "trainingLink": false
+    },
+    {
+      "page": "admin\\visual\\index.html",
+      "trainingLink": false
+    }
+  ],
+  "sitemapExcludesTraining": true
+}

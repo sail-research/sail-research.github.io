@@ -14,7 +14,7 @@ if(process.argv[2]==='cleanup'){
  if(f.cleaned){console.log('Account QA already cleaned.');process.exit(0);}
  assert.match(f.email,/^atlas-qa-provisioned-[a-z0-9]{8}@example\.com$/);
  const users=await ok(service.auth.admin.listUsers({page:1,perPage:1000}));
- for(const user of users.users.filter(u=>u.email===f.email))await ok(service.auth.admin.deleteUser(user.id));
+ for(const user of users.users.filter(u=>u.email===f.email)){const api=client();await ok(api.auth.signInWithPassword({email:f.email,password:f.password}));await ok(api.auth.signOut({scope:'global'}));await ok(service.auth.admin.deleteUser(user.id));}
  if(f.extraTrack){const track=await ok(service.from('training_tracks').select('slug').eq('id',f.extraTrack.id).maybeSingle());assert.ok(!track||track.slug===f.extraTrack.slug&&track.slug.startsWith('atlas-qa-'));if(track)await ok(service.from('training_tracks').delete().eq('id',f.extraTrack.id));}
  await fs.writeFile(fixturePath,JSON.stringify({cleaned:true,at:new Date().toISOString()}));console.log('Removed isolated account QA resources.');process.exit(0);
 }

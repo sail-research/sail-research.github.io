@@ -23,7 +23,7 @@ if(mode==='cleanup'){
  if(x.track)await ok(service.from('training_enrollments').delete().eq('track_id',x.track.id));
  if(x.track)await ok(service.from('training_tracks').delete().eq('id',x.track.id));
  if(x.project)await ok(service.from('training_projects').delete().eq('id',x.project.id));
- for(const u of x.users)await ok(service.auth.admin.deleteUser(u.id));
+ for(const u of x.users){if(u.password){const api=client();await ok(api.auth.signInWithPassword({email:u.email,password:u.password}));await ok(api.auth.signOut({scope:'global'}));}await ok(service.auth.admin.deleteUser(u.id));}
  await fs.writeFile(file,JSON.stringify({cleaned:true,at:new Date().toISOString()}));
  console.log('Disposed of the isolated Atlas QA course and test identities.');process.exit(0);
 }
