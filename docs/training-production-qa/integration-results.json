@@ -1,0 +1,37 @@
+{
+  "at": "2026-10-30T11:40:42.858Z",
+  "tests": [
+    {
+      "name": "Anonymous access cannot read training records or submit work",
+      "passed": true
+    },
+    {
+      "name": "Invite binds verified email; wrong student cannot enroll",
+      "passed": true
+    },
+    {
+      "name": "Student cannot edit curriculum, escalate roles or see another student",
+      "passed": true
+    },
+    {
+      "name": "Admin edits courses and lessons; reviewer cannot edit curriculum",
+      "passed": true
+    },
+    {
+      "name": "Lesson progress and submission drafts persist behind ownership policies",
+      "passed": true
+    },
+    {
+      "name": "Server enforces HTTPS, target assignment, pending review and revision-only resubmission",
+      "passed": true
+    },
+    {
+      "name": "Hard deadline is enforced by database, including lesson progress",
+      "passed": true
+    },
+    {
+      "name": "Certificate requires all required modules and assigned project; issue and revoke follow real reviews",
+      "passed": true
+    }
+  ]
+}

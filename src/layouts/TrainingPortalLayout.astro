@@ -1,0 +1,17 @@
+---
+import '../styles/training-overview.css';
+import '../styles/training-designs.css';
+import '../styles/training-interactive.css';
+import '../styles/training-portal.css';
+import PreviewOverlay from '../components/training-designs/PreviewOverlay.astro';
+interface Props { certificate?: boolean; }
+const { certificate = false } = Astro.props;
+---
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="robots" content="noindex,nofollow" /><title>{certificate ? 'Certificate verification' : 'Research Academy'} · SAIL</title><link rel="icon" href="/favicon.svg" /><link rel="preload" href="/training-overview/fonts/inter-variable.ttf" as="font" type="font/ttf" crossorigin /><link rel="preload" href="/training-overview/fonts/newsreader-variable.ttf" as="font" type="font/ttf" crossorigin /></head>
+<body class="overview-app design-page family-atlas training-production" data-certificate-page={certificate || undefined}>
+  <a class="skip-link" href="#training-main">Skip to content</a>
+  <div id="training-root" aria-busy="true"><div class="ds-canvas atlas ds-public"><header class="ds-topbar"><a class="ds-wordmark" href="/"><img src="/training-overview/assets/atlas-logo.png" alt="SAIL — Security and AI Lab" /><span>Research Academy</span></a></header><main class="ds-main" id="training-main"><p class="ds-loading" role="status">Opening your research workspace…</p><noscript>Please enable JavaScript to sign in and use the training portal.</noscript></main></div></div>
+  <PreviewOverlay />
+  <script>import '../scripts/training-portal';</script>
+</body></html>

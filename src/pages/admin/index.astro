@@ -52,6 +52,7 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
         <div class="cms-toolbar-actions">
           <a class="cms-button" href={withBase('/')} target="_blank" rel="noreferrer">View website</a>
           <a class="cms-button" href={withBase('/admin/visual/')}>Visual editor</a>
+          <a class="cms-button" href={withBase('/training/#operations')}>Training courses</a>
           <button class="cms-button" type="button" data-cms-signout>Sign out</button>
         </div>
       </div>
@@ -62,6 +63,7 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
         <button class="cms-tab" type="button" data-cms-tab="people">People</button>
         <button class="cms-tab" type="button" data-cms-tab="teaching">Teaching</button>
         <a class="cms-tab" href={withBase('/admin/visual/')}>Visual editor</a>
+        <a class="cms-tab" href={withBase('/training/#curriculum')}>Training</a>
       </nav>
 
       <section class="cms-view" data-cms-view="news">

@@ -1,0 +1,51 @@
+[
+  {
+    "brokenImages": 0,
+    "duplicateIds": [],
+    "heading": "A clear view of every research journey.",
+    "overflow": false,
+    "view": "operations"
+  },
+  {
+    "brokenImages": 0,
+    "duplicateIds": [],
+    "heading": "Every learner, at a glance.",
+    "overflow": false,
+    "view": "students"
+  },
+  {
+    "brokenImages": 0,
+    "duplicateIds": [],
+    "heading": "Atlas QA Student",
+    "overflow": false,
+    "view": "student"
+  },
+  {
+    "brokenImages": 0,
+    "duplicateIds": [],
+    "heading": "Build a thoughtful learning path.",
+    "overflow": false,
+    "view": "curriculum"
+  },
+  {
+    "brokenImages": 0,
+    "duplicateIds": [],
+    "heading": "Small projects. Real research habits.",
+    "overflow": false,
+    "view": "projects"
+  },
+  {
+    "brokenImages": 0,
+    "duplicateIds": [],
+    "heading": "A clear outcome. A useful next step.",
+    "overflow": false,
+    "view": "reviews"
+  },
+  {
+    "brokenImages": 0,
+    "duplicateIds": [],
+    "heading": "Give feedback that moves research forward.",
+    "overflow": false,
+    "view": "review"
+  }
+]

@@ -7,6 +7,9 @@ export default defineConfig({
   output: 'static',
   vite: {
     plugins: [tailwindcss()],
+    server: {
+      watch: { ignored: ['**/tmp/**', '**/docs/training-*-qa/**'] },
+    },
   },
   integrations: [
     sitemap({
