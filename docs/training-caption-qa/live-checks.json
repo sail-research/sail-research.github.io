@@ -1,0 +1,75 @@
+{
+  "date": "2026-10-31",
+  "browser": "Chrome desktop",
+  "url": "https://www.sail-research.com/training/#lesson?module=b037f5b9-888b-416b-acb5-bec8b7f247dc&lesson=866a107c-0e6b-5f40-9d5a-ab58bc063cac",
+  "workflow": "https://github.com/sail-research/sail-research.github.io/actions/runs/41174765154",
+  "commit": "5ec3ff163ee6ae2d52c55cb9e5d9fb7b3baf4c0f",
+  "captions": [
+    {
+      "bodyMathErrors": 0,
+      "deck": {
+        "boldLabels": 2,
+        "text": "Estimated project effort: 12–20 hours after the Trustworthy AI module. Prerequisites: the clean/poisoned local experiment, metric eligibility and a written protocol. Complete this capstone only if assigned by your administrator."
+      },
+      "horizontalOverflow": false,
+      "lead": {
+        "bold": [
+          {
+            "fontWeight": "700",
+            "text": "Estimated project effort:"
+          },
+          {
+            "fontWeight": "700",
+            "text": "Prerequisites:"
+          }
+        ],
+        "text": "Estimated project effort: 12–20 hours after the Trustworthy AI module. Prerequisites: the clean/poisoned local experiment, metric eligibility and a written protocol. Complete this capstone only if assigned by your administrator."
+      },
+      "title": "Capstone brief: Backdoor Robustness Reproduction"
+    },
+    {
+      "bodyMathErrors": 0,
+      "deck": {
+        "boldLabels": 2,
+        "text": "Estimated project effort: 12–20 hours after the FL module. Prerequisites: a checked FedAvg simulator, partition auditing and budget accounting. Complete this capstone if assigned."
+      },
+      "horizontalOverflow": false,
+      "lead": {
+        "bold": [
+          {
+            "fontWeight": "700",
+            "text": "Estimated project effort:"
+          },
+          {
+            "fontWeight": "700",
+            "text": "Prerequisites:"
+          }
+        ],
+        "text": "Estimated project effort: 12–20 hours after the FL module. Prerequisites: a checked FedAvg simulator, partition auditing and budget accounting. Complete this capstone if assigned."
+      },
+      "title": "Capstone brief: Federated Learning Under Non-IID Data"
+    },
+    {
+      "bodyMathErrors": 0,
+      "deck": {
+        "boldLabels": 2,
+        "text": "Estimated project effort: 12–20 hours after Efficient ML. Prerequisites: a trained baseline, measurement protocol and one compression/adaptation technique. Complete this capstone if assigned."
+      },
+      "horizontalOverflow": false,
+      "lead": {
+        "bold": [
+          {
+            "fontWeight": "700",
+            "text": "Estimated project effort:"
+          },
+          {
+            "fontWeight": "700",
+            "text": "Prerequisites:"
+          }
+        ],
+        "text": "Estimated project effort: 12–20 hours after Efficient ML. Prerequisites: a trained baseline, measurement protocol and one compression/adaptation technique. Complete this capstone if assigned."
+      },
+      "title": "Capstone brief: Efficient Model Trade-off Study"
+    }
+  ]
+}
