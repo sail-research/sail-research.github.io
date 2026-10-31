@@ -20,6 +20,15 @@ const markdown = new Marked({gfm:true, breaks:true, renderer:{
   },
 }});
 
+/** Short staff-authored captions support inline Markdown without introducing block layout. */
+export function inlineContent(value: unknown): string {
+  const safe=DOMPurify.sanitize(markdown.parseInline(String(value??''),{async:false}) as string, {
+    ALLOWED_TAGS:['strong','em','del','code','a','br'],
+    ALLOWED_ATTR:['href','target','rel'], ALLOW_DATA_ATTR:false, ALLOW_ARIA_ATTR:false,
+  });
+  return `<span class="tp-inline-content">${safe}</span>`;
+}
+
 /** Content is editable by staff. Raw HTML, event attributes and action routing are never accepted. */
 export function lessonContent(value: unknown): string {
   const safe=DOMPurify.sanitize(markdown.parse(String(value??''),{async:false}) as string, {
