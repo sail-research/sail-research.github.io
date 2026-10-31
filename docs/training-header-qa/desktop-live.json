@@ -1,0 +1,223 @@
+{
+  "date": "2026-10-31",
+  "url": "https://www.sail-research.com/training/",
+  "workflow": "https://github.com/sail-research/sail-research.github.io/actions/runs/41171646016",
+  "commit": "a19cf1f251fddb14e60626dc876a26c5c2557edf",
+  "browser": "Chrome desktop",
+  "after": {
+    "overview": {
+      "brand": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "height": 56,
+        "lineHeight": "24px",
+        "width": 316.7159118652344,
+        "x": 40,
+        "y": 9.136363983154297
+      },
+      "header": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "height": 75,
+        "lineHeight": "24px",
+        "width": 1396.3636474609375,
+        "x": 0,
+        "y": 0
+      },
+      "links": [
+        {
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "height": 74.2727279663086,
+          "lineHeight": "24px",
+          "text": "Overview",
+          "width": 70.86363983154297,
+          "x": 638.4204711914062,
+          "y": 0
+        },
+        {
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "height": 74.2727279663086,
+          "lineHeight": "24px",
+          "text": "Curriculum",
+          "width": 82.68182373046875,
+          "x": 736.2841186523438,
+          "y": 0
+        },
+        {
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "height": 74.2727279663086,
+          "lineHeight": "24px",
+          "text": "My submissions",
+          "width": 120.76136779785156,
+          "x": 845.9659423828125,
+          "y": 0
+        }
+      ],
+      "logo": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "height": 56,
+        "lineHeight": "24px",
+        "width": 104,
+        "x": 33,
+        "y": 9.136363983154297
+      },
+      "profile": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "height": 44,
+        "lineHeight": "21px",
+        "width": 132.93182373046875,
+        "x": 1223.431884765625,
+        "y": 15.136363983154297
+      },
+      "viewport": 1396
+    },
+    "module": {
+      "brand": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "height": 56,
+        "lineHeight": "24px",
+        "width": 316.7159118652344,
+        "x": 40,
+        "y": 9.136363983154297
+      },
+      "header": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "height": 75,
+        "lineHeight": "24px",
+        "width": 1396.3636474609375,
+        "x": 0,
+        "y": 0
+      },
+      "links": [
+        {
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "height": 74.2727279663086,
+          "lineHeight": "24px",
+          "text": "Overview",
+          "width": 70.86363983154297,
+          "x": 638.4204711914062,
+          "y": 0
+        },
+        {
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "height": 74.2727279663086,
+          "lineHeight": "24px",
+          "text": "Curriculum",
+          "width": 82.68182373046875,
+          "x": 736.2841186523438,
+          "y": 0
+        },
+        {
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "height": 74.2727279663086,
+          "lineHeight": "24px",
+          "text": "My submissions",
+          "width": 120.76136779785156,
+          "x": 845.9659423828125,
+          "y": 0
+        }
+      ],
+      "logo": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "height": 56,
+        "lineHeight": "24px",
+        "width": 104,
+        "x": 33,
+        "y": 9.136363983154297
+      },
+      "profile": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "height": 44,
+        "lineHeight": "21px",
+        "width": 132.93182373046875,
+        "x": 1223.431884765625,
+        "y": 15.136363983154297
+      },
+      "viewport": 1396
+    },
+    "feedback": {
+      "brand": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "height": 56,
+        "lineHeight": "24px",
+        "width": 316.7159118652344,
+        "x": 40,
+        "y": 9.136363983154297
+      },
+      "header": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "height": 75,
+        "lineHeight": "24px",
+        "width": 1396.3636474609375,
+        "x": 0,
+        "y": 0
+      },
+      "links": [
+        {
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "height": 74.2727279663086,
+          "lineHeight": "24px",
+          "text": "Overview",
+          "width": 70.86363983154297,
+          "x": 638.4204711914062,
+          "y": 0
+        },
+        {
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "height": 74.2727279663086,
+          "lineHeight": "24px",
+          "text": "Curriculum",
+          "width": 82.68182373046875,
+          "x": 736.2841186523438,
+          "y": 0
+        },
+        {
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "height": 74.2727279663086,
+          "lineHeight": "24px",
+          "text": "My submissions",
+          "width": 120.76136779785156,
+          "x": 845.9659423828125,
+          "y": 0
+        }
+      ],
+      "logo": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "height": 56,
+        "lineHeight": "24px",
+        "width": 104,
+        "x": 33,
+        "y": 9.136363983154297
+      },
+      "profile": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "height": 44,
+        "lineHeight": "21px",
+        "width": 132.93182373046875,
+        "x": 1223.431884765625,
+        "y": 15.136363983154297
+      },
+      "viewport": 1396
+    }
+  },
+  "identicalGeometry": true
+}
