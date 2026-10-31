@@ -57,3 +57,5 @@
 .tp-table-scroll{overflow:auto;margin:24px 0}.tp-lesson-content table{border-collapse:collapse;width:100%;font-size:13px}.tp-lesson-content th,.tp-lesson-content td{border-bottom:1px solid #dce3ee;padding:12px 14px;text-align:left;vertical-align:top}.tp-lesson-content th{background:#eef3fa;color:#1f3c69;font-weight:600}
 .tp-lesson-content hr{border:0;border-top:1px solid #dce3ee;margin:32px 0}.tp-project-learning{margin-bottom:32px}
 .tp-lesson-content pre:focus-visible,.tp-table-scroll:focus-visible{outline:2px solid #315fbc;outline-offset:3px}
+.tp-inline-content code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.88em;background:#edf2fa;padding:2px 5px;border-radius:4px;color:#213a65}
+.tp-inline-content a{color:#2155b2;text-decoration:underline;text-underline-offset:3px}

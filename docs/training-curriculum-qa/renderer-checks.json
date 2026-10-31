@@ -1,5 +1,349 @@
 {
   "security_payloads": "passed; raw HTML is literal text, unsafe URLs are removed, no action attributes survive",
+  "captions": [
+    {
+      "id": "d264a22b-5740-4406-9282-57a10ec2d593",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "4ad3b6bf-8ba5-58ab-b3de-95afc76fc8d2",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "e99e29fe-85fa-5c38-989b-b8869c04440e",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "dc448454-f65e-437b-b402-a5625b17b8d0",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "676c7092-9c08-5d9d-9585-286c9771f2cb",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "c333150f-6cca-51e6-a21a-224ae525c6ed",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "53c4f1a6-1657-548a-b436-a6c7691464ab",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "fecdd8ea-6a87-54cb-9089-5ab18ea5d5f8",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "23fe0c18-708c-5d59-aa68-456256d55b50",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "e34bf65c-7009-4012-8bae-6f51a671e76e",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "7842b035-81aa-43cd-a763-733d37d4f4a5",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "f8808bc3-013e-5b61-af32-6470d30eba5b",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "f352b6a3-e36b-57a5-bb05-7d4c7e834bfa",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "b2a42ac8-946c-507c-81af-c9cbb40f3d2b",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "2ac7ef95-8476-53c4-97ab-eef9649552f2",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "53797745-8903-4f83-9c3d-2798e58aa4d8",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "2f49b6d8-594a-5366-8733-dbdae5683faa",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "c67c541f-8551-4180-9e88-a311c54e6915",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "7a93d5a5-30a5-5adf-a74c-cf105f70d84f",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "20a59440-cb18-5e6f-b44b-4cafb1e809d2",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "de301b2c-5441-574e-989e-b39fdfc57fc9",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "449790be-53fe-5155-9fc0-be656192b3f4",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "6ff5b579-8b88-4771-a9ee-4943943dd0ab",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "98f0912d-2718-58b2-8295-11b786c2cacf",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "9c8d66d9-b077-5f5b-8f19-8f90fc68c87b",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "f1e71cd4-943f-5892-94b7-64960fe13f5a",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "b912a1b9-db8a-490f-a1b3-54f6756af0f8",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "5942f2ad-ef12-5810-9adc-b844b13640b0",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "e866557c-9de0-5774-80dc-74aa0cac4048",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "1375a3b3-4f1c-4101-a570-154337794b39",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "a9bae6d0-fcb6-4c12-ae32-ffef7c4cec00",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "83cead9d-39f0-5c1d-af19-2a8127abdaa3",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "a339c10e-4538-56b4-b62b-545861606b64",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "045fb2a7-e60a-5f5a-be72-d976e2edbaad",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "df2c95d4-2591-5e6c-9ab0-80b56961727c",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "1a4bbd30-36a4-5248-8662-5a69430239c7",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "309dbaa7-f425-5a6a-89a8-3be1c1945344",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "d61a5c13-18f7-53c7-9440-3cd4083dd4cd",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "8cde2dc9-8b85-55e7-9825-9bf9c8bdeada",
+      "field": "description",
+      "bold": 2,
+      "status": "passed"
+    },
+    {
+      "id": "6df785e1-75e2-50fb-95a3-768f17b9aca7",
+      "field": "description",
+      "bold": 2,
+      "status": "passed"
+    },
+    {
+      "id": "866a107c-0e6b-5f40-9d5a-ab58bc063cac",
+      "field": "description",
+      "bold": 2,
+      "status": "passed"
+    },
+    {
+      "id": "aff0fb38-082d-4f4d-b654-60adaea7a261",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "1935f47b-6ca7-4b6d-ab42-f1a4dc2c5f44",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "1935f47b-6ca7-4b6d-ab42-f1a4dc2c5f44",
+      "field": "outcomes",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "ad443309-80cd-4329-a69f-abdf8179e053",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "ad443309-80cd-4329-a69f-abdf8179e053",
+      "field": "outcomes",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "f1bca7aa-02ed-45f5-a6f8-fe4a65c35370",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "f1bca7aa-02ed-45f5-a6f8-fe4a65c35370",
+      "field": "outcomes",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "52acad61-2d9d-40b3-8b2c-765e4ff87b28",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "52acad61-2d9d-40b3-8b2c-765e4ff87b28",
+      "field": "outcomes",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "c8044d48-b97b-46a4-b789-bc50f608c6c1",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "c8044d48-b97b-46a4-b789-bc50f608c6c1",
+      "field": "outcomes",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "b037f5b9-888b-416b-acb5-bec8b7f247dc",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "b037f5b9-888b-416b-acb5-bec8b7f247dc",
+      "field": "outcomes",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "4c47943f-36c4-4712-abc6-45015d2698ca",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "e7553040-5fbc-49b0-860b-e97605030ae2",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    },
+    {
+      "id": "1bc03bef-42ca-4c2c-b6fe-dc44f584d413",
+      "field": "description",
+      "bold": 0,
+      "status": "passed"
+    }
+  ],
   "lessons": [
     {
       "file": "lessons/01-math/01-tensors-linear-maps.md",
